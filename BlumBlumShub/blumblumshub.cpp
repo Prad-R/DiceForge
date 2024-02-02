@@ -13,10 +13,29 @@ class BlumBlumShub{
             return std::ceil(std::log2(i));
         }
 
-        int generate_bit(){
+        int generate_bit_lsb(){
             x = (x*x) % n;  // Step propagation
             return x % 2;
         }
+
+        int find_parity(data num) {
+            int count = 0;
+
+            // Counting set bits
+            while (num) {
+                count += num & 1;  // Add 1 if the least significant bit is set
+                num >>= 1;        // Right shift to check the next bit
+            }
+
+            // Parity is even if the count is even
+            return (count % 2 == 0) ? 0 : 1;  // 0 for even parity, 1 for odd parity
+        }
+
+        int generate_bit_parity(){
+            x = (x*x) % n;
+            return find_parity(x);
+        }
+
 
     public:
         BlumBlumShub(data p, data q, data seed): p(p), q(q), n(p*q), x(seed){
@@ -47,7 +66,7 @@ class BlumBlumShub{
             // iteration done for no of bits required for given range
             data number = 0;
             for(int i = 0; i < find_bitlen(range); i++){
-                number = (number << 1) | generate_bit();
+                number = (number << 1) | generate_bit_lsb();
             }
 
             // Tailoring the number to fit range
