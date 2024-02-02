@@ -55,3 +55,22 @@ class BlumBlumShub{
             return number;
         }
 };
+
+int main(){
+    int ITERATIONS = 10;
+
+    // Choose two large prime numbers congruent to 3 (mod 4)
+    data p = 7451, q = 8231;
+    // Choose a seed value
+    data seed = 123456;
+
+    // Creating the PRNG object
+    // BlumBlumShub blum(11, 19, 3);
+    BlumBlumShub blum(p, q, seed);
+
+    
+    // Test loop
+    for(int i =0; i < ITERATIONS; i++){
+        std::cout << blum.generate_random_number(1, 10) << std::endl;
+    }
+}
