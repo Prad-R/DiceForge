@@ -2,43 +2,55 @@
 #include <numeric>
 #include <cmath>
 
+// For ease of use, defining `data` to represent unsigned long long
 #define data unsigned long long
 
+enum BitGenType{
+    // Enum for types of bit generation
+    LSB,
+    PARITY
+};
+
+int get_lsb(data x){
+    // Gets least significant bit of `x`
+    return x % 2;
+}
+
+int get_parity_bit(data num) {
+    // Gets the parity bit for `x`
+    int count = 0;
+
+    // Counting set bits
+    while (num) {
+        count += num & 1;  // Add 1 if the least significant bit is set
+        num >>= 1;        // Right shift to check the next bit
+    }
+
+    // Parity is even if the count is even
+    return (count % 2 == 0) ? 0 : 1;  // 0 for even parity, 1 for odd parity
+}
+
+
 class BlumBlumShub{
+    // A Pseudo-Random Number Generator using the BlumBlumShub algorithm
     private:
         data x, p, q, n;
+        int (*get_bit)(data);
 
         int find_bitlen(data i){
-            // To find no of bits required to represent `i`
+            // Utility function to find no of bits required to represent `i`
             return std::ceil(std::log2(i));
         }
 
-        int generate_bit_lsb(){
-            x = (x*x) % n;  // Step propagation
-            return x % 2;
-        }
-
-        int find_parity(data num) {
-            int count = 0;
-
-            // Counting set bits
-            while (num) {
-                count += num & 1;  // Add 1 if the least significant bit is set
-                num >>= 1;        // Right shift to check the next bit
-            }
-
-            // Parity is even if the count is even
-            return (count % 2 == 0) ? 0 : 1;  // 0 for even parity, 1 for odd parity
-        }
-
-        int generate_bit_parity(){
+        int generate_bit(){
+            // Propagates the seed and returns bit extracted from current seed
             x = (x*x) % n;
-            return find_parity(x);
+            return get_bit(x);
         }
 
 
     public:
-        BlumBlumShub(data p, data q, data seed): p(p), q(q), n(p*q), x(seed){
+        BlumBlumShub(data p, data q, data seed, BitGenType type = LSB): p(p), q(q), n(p*q), x(seed){
             // Validating that p and q are both congruent to 3 (mod 4)
             if ((p % 4 != 3) || (q % 4 != 3)) {
                 std::cerr << "Error: p and q must be congruent to 3 (mod 4)" << std::endl;
@@ -49,6 +61,21 @@ class BlumBlumShub{
             if (std::gcd(p, q) != 1) {
                 std::cerr << "Error: p and q must be co-prime" << std::endl;
                 exit(1);
+            }
+
+            // Validating and assigning the bit generation method according to choice
+            switch (type) {
+                case LSB:
+                    get_bit = *get_lsb;
+                    break;
+
+                case PARITY:
+                    get_bit = *get_parity_bit;
+                    break;
+                
+                default:
+                    std::cerr << "Error: Invalid bit generator type given" << std::endl;
+                    exit(1);
             }
         };
 
@@ -66,7 +93,7 @@ class BlumBlumShub{
             // iteration done for no of bits required for given range
             data number = 0;
             for(int i = 0; i < find_bitlen(range); i++){
-                number = (number << 1) | generate_bit_lsb();
+                number = (number << 1) | generate_bit();
             }
 
             // Tailoring the number to fit range
@@ -78,14 +105,15 @@ class BlumBlumShub{
 int main(){
     int ITERATIONS = 10;
 
-    // Choose two large prime numbers congruent to 3 (mod 4)
+    // Choosing two large prime numbers congruent to 3 (mod 4)
     data p = 7451, q = 8231;
     // Choose a seed value
     data seed = 123456;
 
     // Creating the PRNG object
     // BlumBlumShub blum(11, 19, 3);
-    BlumBlumShub blum(p, q, seed);
+    // BlumBlumShub blum(p, q, seed, BitGenType::LSB);
+    BlumBlumShub blum(p, q, seed, BitGenType::PARITY);
 
     
     // Test loop
