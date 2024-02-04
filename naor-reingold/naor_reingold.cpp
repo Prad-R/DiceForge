@@ -28,7 +28,6 @@ int NaorReingold::generate() { return get().p_generate(); }
 void NaorReingold::p_set_seed(int p_seed) { seed = p_seed; }
 
 int NaorReingold::p_generate() {
-  int b[32];
   long long res = remainders[0];
   for (int i = 0; i < 32; i++) {
     int to_multiply = seed & (1 << i);
