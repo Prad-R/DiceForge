@@ -17,7 +17,7 @@ namespace DiceForge
         /* ~XORShift() - default destructor */
         ~XORShift();   
         /* uint32/uint64 XORShift::next() - returns the next generated random number */                     
-        T next() const;
+        T next();
     };
 
     typedef XORShift<u_int32_t> XORShift32;      // A 32-bit XORShift RNG
@@ -34,24 +34,24 @@ namespace DiceForge
     {
     }
 
-    template <typename T>
-    inline T XORShift<T>::next() const
+    template <>
+    inline u_int32_t XORShift<u_int32_t>::next()
     {
-        if constexpr (std::is_same<T, int>)
-        {
-            m_state ^= m_state << 13;
-            m_state ^= m_state >> 17;
-            m_state ^= m_state << 5;
-        }
-        else if constexpr (std::is_same<T, long>)
-        {
-            m_state ^= m_state << 13;
-            m_state ^= m_state >> 7;
-            m_state ^= m_state << 17;
-        }
-
+        m_state ^= m_state << 13;
+        m_state ^= m_state >> 17;
+        m_state ^= m_state << 5;
         return m_state;
     }
+            
+    template <>
+    inline u_int64_t XORShift<u_int64_t>::next()
+    {
+        m_state ^= m_state << 13;
+        m_state ^= m_state >> 7;
+        m_state ^= m_state << 17;
+        return m_state;
+    }
+            
 
     /* Can be implemented - xorshiro, xorshift+ */
 }
