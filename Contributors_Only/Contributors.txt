@@ -5,11 +5,11 @@ Kailash Gopal D CS22B098
 Advik Kabra CS23B004
 S Kevin Kinsey EP23B027
 Parijat Mukherjee CS23B049
-Madhav Bhardwaj
+Madhav Bhardwaj CS23B035
 Navinkumar L EE23B047
 Achintya Raghavan EE23B189
-Astha Chand
-DV Anantha Padmanabh
-Aditya Sawant 
+Astha Chand EE23B013
+D V Anantha Padmanabh ME23B012
+Aditya Sawant CS23B003
 Aditi Vaidya ME23B248
-Shanddhoshkumar Senthilkumar
+Shanddhoshkumar Senthilkumar EE23B116
