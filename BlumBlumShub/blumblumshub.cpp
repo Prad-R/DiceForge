@@ -63,6 +63,22 @@ class BlumBlumShub{
                 exit(1);
             }
 
+            // Performing check on seed
+            // Co-prime check
+            if(std::gcd(x, n) != 1) {
+                std::cerr << "Error: Seed is not coprime with `n = p * q`" << std::endl;
+                exit(1);
+            }
+            // Check for specific unviable seeds
+            if(x == 1) {
+                std::cerr << "Error: Seed cannot be 1" << std::endl;
+                exit(1);
+            }
+            if(x == 0) {
+                std::cerr << "Error: Seed cannot be 0" << std::endl;
+                exit(1);
+            }
+
             // Validating and assigning the bit generation method according to choice
             switch (type) {
                 case LSB:
