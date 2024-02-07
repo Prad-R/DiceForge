@@ -5,29 +5,31 @@
 // For ease of use, defining `data` to represent unsigned long long
 #define data unsigned long long
 
-enum BitGenType{
-    // Enum for types of bit generation
-    LSB,
-    PARITY
-};
+namespace BitGen{
+    enum BitGenType{
+        // Enum for types of bit generation
+        LSB,
+        PARITY
+    };
 
-int get_lsb(data x){
-    // Gets least significant bit of `x`
-    return x % 2;
-}
-
-int get_parity_bit(data num) {
-    // Gets the parity bit for `x`
-    int count = 0;
-
-    // Counting set bits
-    while (num) {
-        count += num & 1;  // Add 1 if the least significant bit is set
-        num >>= 1;        // Right shift to check the next bit
+    int get_lsb(data x){
+        // Gets least significant bit of `x`
+        return x % 2;
     }
 
-    // Parity is even if the count is even
-    return (count % 2 == 0) ? 0 : 1;  // 0 for even parity, 1 for odd parity
+    int get_parity_bit(data num) {
+        // Gets the parity bit for `x`
+        int count = 0;
+
+        // Counting set bits
+        while (num) {
+            count += num & 1;  // Add 1 if the least significant bit is set
+            num >>= 1;        // Right shift to check the next bit
+        }
+
+        // Parity is even if the count is even
+        return (count % 2 == 0) ? 0 : 1;  // 0 for even parity, 1 for odd parity
+    }
 }
 
 
@@ -50,7 +52,9 @@ class BlumBlumShub{
 
 
     public:
-        BlumBlumShub(data p, data q, data seed, BitGenType type = LSB): p(p), q(q), n(p*q), x(seed){
+        BlumBlumShub(
+                data p, data q, data seed,
+                BitGen::BitGenType type = BitGen::LSB): p(p), q(q), n(p*q), x(seed){
             // Validating that p and q are both congruent to 3 (mod 4)
             if ((p % 4 != 3) || (q % 4 != 3)) {
                 std::cerr << "Error: p and q must be congruent to 3 (mod 4)" << std::endl;
@@ -81,12 +85,12 @@ class BlumBlumShub{
 
             // Validating and assigning the bit generation method according to choice
             switch (type) {
-                case LSB:
-                    get_bit = *get_lsb;
+                case BitGen::LSB:
+                    get_bit = *BitGen::get_lsb;
                     break;
 
-                case PARITY:
-                    get_bit = *get_parity_bit;
+                case BitGen::PARITY:
+                    get_bit = *BitGen::get_parity_bit;
                     break;
                 
                 default:
@@ -128,8 +132,8 @@ int main(){
 
     // Creating the PRNG object
     // BlumBlumShub blum(11, 19, 3);
-    // BlumBlumShub blum(p, q, seed, BitGenType::LSB);
-    BlumBlumShub blum(p, q, seed, BitGenType::PARITY);
+    // BlumBlumShub blum(p, q, seed, BitGen::BitGenType::LSB);
+    BlumBlumShub blum(p, q, seed, BitGen::BitGenType::PARITY);
 
     
     // Test loop
