@@ -1,7 +1,6 @@
 #pragma once
 #include <math.h>
 #include <type_traits>
-
 namespace DiceForge
 {   
     /* DiceForge::XORShift - A RNG utilizing the XORShift algorithm 
