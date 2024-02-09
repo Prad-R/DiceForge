@@ -2,11 +2,9 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Helo?" << std::endl;
-
     DiceForge::XORShift32 rng = DiceForge::XORShift32(1234);
 
-    std::cout << "\n\nRandom integers" << std::endl;
+    std::cout << "Random integers" << std::endl;
     for (int i = 0; i < 100; i++)
     {
         std::cout << rng.next() << ", ";
