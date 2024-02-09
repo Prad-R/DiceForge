@@ -1,27 +1,17 @@
-#ifndef NAOR_REINGOLD
-#define NAOR_REINGOLD
+#ifndef NAOR_REINGOLD_H
+#define NAOR_REINGOLD_H
+#include "generator.h"
 
-// Singleton class, meant to be used without constructing
-// NaorReingold::generate()
-// NaorReingold::set_seed()
-class NaorReingold {
-public:
-  // Function to set the seed
-  static void set_seed(int seed);
-
-  // Function to generate a random number (between 0 and ~10,000,000)
-  static int generate();
-
+namespace DiceForge {
+template <typename T> class NaorReingold : public Generator<T> {
 private:
-  // Returns a static instance of the class
-  static NaorReingold &get();
+  T m_state;
+  T generate() override;
+  void reseed(T seed) override;
 
-  // Private generate function
-  int p_generate();
-
-  // Private set seed function
-  void p_set_seed(int p_seed);
-  int seed;
-  NaorReingold();
+public:
+  NaorReingold(T seed);
+  ~NaorReingold();
 };
+
 #endif
