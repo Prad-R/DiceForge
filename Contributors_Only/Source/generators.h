@@ -2,5 +2,6 @@
 #define DF_GENERATORS_H
 
 #include "Generators/xorshift.h"
+#include "Generators/MT.h"
 
 #endif
