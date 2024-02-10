@@ -2,7 +2,6 @@
 #define DF_GENERATOR_H
 
 #include <limits>
-#include "basicfxn.h"
 
 namespace DiceForge
 {
