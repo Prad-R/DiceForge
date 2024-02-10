@@ -1,6 +1,7 @@
 #ifndef RNG_TESTER_H
 #define RNG_TESTER_H
 
+#include <math.h>
 #include <vector>
 #include "../Source/generators.h"
 
