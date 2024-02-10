@@ -4,8 +4,8 @@
 (w,n,m,r)=(64,312,156,31)
 */
 
-#ifndef DF_XORSHIFT_H
-#define DF_XORSHIFT_H
+#ifndef DF_MT_H
+#define DF_MT_H
 
 #pragma once
 #include <cstdlib>
