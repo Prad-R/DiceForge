@@ -1,56 +1,65 @@
 #pragma once
 #include <math.h>
 #include <type_traits>
+=======
+#ifndef DF_XORSHIFT_H
+#define DF_XORSHIFT_H
+
+#include "generator.h"
+
 namespace DiceForge
 {   
-    /* DiceForge::XORShift - A RNG utilizing the XORShift algorithm 
+    /* DiceForge::XORShift - A RNG utilizing Marsgalia's XORShift algorithm 
     * Supports 32 and 64 bit unsigned integers */
     template <typename T>
-    class XORShift
+    class XORShift : public Generator<T>
     {
     private:
         T m_state;
+        T generate() override;
+        void reseed(T seed) override;
     public:
-        /* XORShift(uint32/uint64 seed) - sets up the RNG with 'seed' as the inital state */
         XORShift(T seed);
-        /* ~XORShift() - default destructor */
-        ~XORShift();   
-        /* uint32/uint64 XORShift::next() - returns the next generated random number */                     
-        T next();
+        ~XORShift();
     };
 
-    typedef XORShift<u_int32_t> XORShift32;      // A 32-bit XORShift RNG
-    typedef XORShift<u_int64_t> XORShift64;      // A 64-bit XORShift RNG
-
     template <typename T>
-    inline XORShift<T>::XORShift(T seed)
+    XORShift<T>::XORShift(T seed)
         : m_state(seed)
     {
     }
-    
+
     template <typename T>
-    inline XORShift<T>::~XORShift()
+    XORShift<T>::~XORShift()
     {
     }
 
+    template <typename T>
+    void XORShift<T>::reseed(T seed)
+    {
+        m_state = seed;
+    }
+
     template <>
-    inline u_int32_t XORShift<u_int32_t>::next()
+    uint32_t XORShift<uint32_t>::generate()
     {
         m_state ^= m_state << 13;
         m_state ^= m_state >> 17;
         m_state ^= m_state << 5;
         return m_state;
     }
-            
+
     template <>
-    inline u_int64_t XORShift<u_int64_t>::next()
+    uint64_t XORShift<uint64_t>::generate()
     {
         m_state ^= m_state << 13;
         m_state ^= m_state >> 7;
         m_state ^= m_state << 17;
         return m_state;
     }
-            
 
-    /* Can be implemented - xorshiro, xorshift+ */
+    typedef XORShift<uint32_t> XORShift32;
+    typedef XORShift<uint64_t> XORShift64;
 }
+
+#endif
