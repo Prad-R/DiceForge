@@ -1,7 +1,7 @@
 #pragma once
 #include <math.h>
 #include <type_traits>
-=======
+
 #ifndef DF_XORSHIFT_H
 #define DF_XORSHIFT_H
 
