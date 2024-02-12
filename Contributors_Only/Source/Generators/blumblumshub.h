@@ -14,10 +14,8 @@ namespace DiceForge
         static_assert(std::is_unsigned<T>::value, "T must be an unsigned type");
     
         private:
-            T state;
-
-            static const uint64_t p = 491;
-            static const uint64_t q = 503;
+            static const uint64_t p = 60539;
+            static const uint64_t q = 50147;
             static const uint64_t n = p * q;
 
             T generate override()
