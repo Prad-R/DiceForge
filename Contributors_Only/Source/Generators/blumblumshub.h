@@ -2,7 +2,7 @@
 #define DF_BLUMBLUMSHUB_H
 
 #include "generator.h"
-#include <cmath>
+#include <numeric>
 
 namespace DiceForge
 {
@@ -51,7 +51,7 @@ namespace DiceForge
              * @param seed - The seed value
              */
             void check_seed(T seed){
-                if (gcd(seed, n) != 1)
+                if (std::gcd(seed, n) != 1)
                 {
                     std::cerr << "Error: Seed is not coprime with `n = p * q`" << std::endl;
                     exit(1);
