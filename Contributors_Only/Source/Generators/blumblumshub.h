@@ -18,11 +18,23 @@ namespace DiceForge
             static const uint64_t q = 50147;
             static const uint64_t n = p * q;
 
-            T generate override()
-            {
-                // state = (state * state) % n;
+            uint64_t state;
+            int _genlen;
+
+            inline void propagate(){
                 state = (state * state) % n;
-                return state;
+                if(state == 0 || state == 1){
+                    state += 4294967387ULL;
+                }
+            }
+
+            T generate() override {
+                T num = 0;
+                for(int i = 0; i < _genlen; i++){
+                    propagate();
+                    num = (num << 1) | (state%2);
+                }
+                return num;
             }
 
             bool check_seed(T seed){
@@ -37,8 +49,9 @@ namespace DiceForge
             }
         
         public:
-            template <typename T>
-            BlumBlumShub(T seed) : state(seed) {}
+            BlumBlumShub(T seed) : state(seed) {
+                _genlen = sizeof(T)*8;
+            }
 
             ~BlumBlumShub() {}
     };
