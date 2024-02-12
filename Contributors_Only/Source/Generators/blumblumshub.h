@@ -38,10 +38,10 @@ namespace DiceForge
             }
 
             bool check_seed(T seed){
-                if(seed == 1 || seed == 0 || gcd(seed, n) != 1){
-                    return false;
+                if(gcd(seed, n) != 1){
+                    std::cerr << "Error: Seed is not coprime with `n = p * q`" << std::endl;
+                    exit(1);
                 }
-                return true;
             }
 
             void reseed(T seed) override{
@@ -51,6 +51,7 @@ namespace DiceForge
         public:
             BlumBlumShub(T seed) : state(seed) {
                 _genlen = sizeof(T)*8;
+                check_seed(seed);
             }
 
             ~BlumBlumShub() {}
