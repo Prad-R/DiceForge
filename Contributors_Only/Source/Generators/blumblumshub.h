@@ -11,8 +11,6 @@ namespace DiceForge
     template <typename T>
     class BlumBlumShub : public Generator<T>
     {
-        static_assert(std::is_unsigned<T>::value, "T must be an unsigned type");
-    
         private:
             static const uint64_t p = 60539;
             static const uint64_t q = 50147;
