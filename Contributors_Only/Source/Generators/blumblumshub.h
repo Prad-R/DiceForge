@@ -34,7 +34,6 @@ namespace DiceForge
                 return true;
             }
 
-            template <typename T>
             void reseed(T seed) override{
                 state = seed;
             }
@@ -43,8 +42,7 @@ namespace DiceForge
             template <typename T>
             BlumBlumShub(T seed) : state(seed) {}
 
-            template <typename T>
-            BlumBlumShub<T>::~BlumBlumShub() {}
+            ~BlumBlumShub() {}
     };
 
     typedef BlumBlumShub<uint32_t> BlumBlumShub32;
