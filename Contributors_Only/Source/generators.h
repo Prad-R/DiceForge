@@ -3,5 +3,6 @@
 
 #include "Generators/xorshift.h"
 #include "Generators/MT.h"
+#include "Generators/blumblumshub.h"
 
 #endif
