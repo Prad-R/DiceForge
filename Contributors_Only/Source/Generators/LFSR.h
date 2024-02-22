@@ -13,4 +13,4 @@ namespace DiceForge {
 }
 
 
-#endif //DICEFORGE_LFSR_H
+#endif
