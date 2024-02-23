@@ -3,6 +3,7 @@
 
 #include <limits>
 #include <cmath>
+#include <iostream>
 
 namespace DiceForge
 {
@@ -22,10 +23,14 @@ namespace DiceForge
         {
             return generate(); 
         };
-        /* next_unit() [Real] - Returns a random real between 0 and 1 */
+        /* next_unit() [Real] - Returns a random real between 0 (inclusive) and 1 (exclusive) */
         real_t next_unit()
         {
-            return generate() / real_t(std::numeric_limits<T>().max());
+            real_t x = 1.0;
+            while (x == 1.0) {
+                x = generate() / real_t(std::numeric_limits<T>().max());
+            }
+            return x;
         }
         /* next_in_range(min, max) [Integer] - Returns a random integer in the specified range
         * min = minimum value of random number (inclusive)
@@ -36,11 +41,15 @@ namespace DiceForge
         };
 
         /* next_in_crange(min, max) [Real] - Returns a random real number in the specified range
-        * min = minimum value of random number
-        * max = maximum value of random number */
+        * min = minimum value of random number (inclusive)
+        * max = maximum value of random number (exclusive) */
         real_t next_in_crange(real_t min, real_t max)
-        { 
-            return (max - min) * generate() / real_t(std::numeric_limits<T>().max()) + min;
+        {
+            real_t x = (real_t)max;
+            while (x == max) {
+                x = (max - min) * next_unit() + min;
+            }
+            return x;
         };
         /* set_seed(Number seed) [Function] - Initializes the RNG with specified seed */
         void reset_seed(T seed)
