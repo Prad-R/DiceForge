@@ -5,12 +5,10 @@
 #include <cmath>
 #include <iostream>
 
+#include "types.h"
+
 namespace DiceForge
 {
-    typedef double real_t;
-    typedef unsigned int uint32_t;
-    typedef unsigned long uint64_t;
-    
     /* DiceForge::Generator<T> - A generic class for RNGs
     T = datatype of random number generated (depends on RNG) */
     template <typename T>

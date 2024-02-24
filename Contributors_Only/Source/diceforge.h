@@ -2,6 +2,6 @@
 #define DICEFORGE
 
 #include "generators.h"
-#include "basicfxn.h"
+#include "distributions.h"
 
 #endif
