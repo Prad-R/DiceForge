@@ -45,7 +45,7 @@ namespace DiceForge
     void BlumBlumShub<T>::reseed(T seed) {
         state = seed;
     }
-
+    
     template class BlumBlumShub<uint32_t>;
     template class BlumBlumShub<uint64_t>;
 }
