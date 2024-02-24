@@ -1,7 +1,7 @@
 #ifndef DICEFORGE_GIBBS_H
 #define DICEFORGE_GIBBS_H
 
-#include "distribution.h"
+#include "../distribution.h"
 
 namespace DiceForge {
     class Gibbs : public DiceForge::Discrete {

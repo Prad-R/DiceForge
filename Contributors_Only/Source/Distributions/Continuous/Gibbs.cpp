@@ -36,13 +36,17 @@ void DiceForge::Gibbs::specify(real_t x_arr[], real_t func_arr[], int len, real_
         prefixSum[i] = prev + probabilities[i];
         prev = prefixSum[i];
     }
+    for (int i = 0; i < n; i++){
+        probabilities[i] /= prefixSum[n - 1];
+        prefixSum[i] /= prefixSum[n - 1];
+    }
     cumulative = prefixSum;
     prob = probabilities;
 }
 
 
 double DiceForge::Gibbs::next(real_t r){
-    return x_array[(std::upper_bound(cumulative, cumulative + n, r * cumulative[n - 1]) - cumulative)];
+    return x_array[(std::upper_bound(cumulative, cumulative + n, r) - cumulative)];
 }
 
 
@@ -89,10 +93,10 @@ double DiceForge::Gibbs::maxValue(){
 
 double DiceForge::Gibbs::pmf(double x){
     double *ptr = std::upper_bound(x_array, x_array + n, x);
-    if (ptr == x_array + n or *ptr != x){
+    if (ptr == x_array or *(ptr-1) != x){
         return 0;
     }
-    return prob[ptr - x_array];
+    return prob[ptr - x_array - 1];
 }
 
 
