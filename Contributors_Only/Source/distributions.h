@@ -1,8 +1,8 @@
 #ifndef DF_DISTRIBUTIONS_H
 #define DF_DISTRIBUTIONS_H
 
-#include "distribution.h"
-#include "Continuous/Cauchy.h"
-#include "Continuous/Gibbs.h"
+#include "Distributions/distribution.h"
+#include "Distributions/Continuous/Cauchy.h"
+#include "Distributions/Continuous/Gibbs.h"
 
 #endif
