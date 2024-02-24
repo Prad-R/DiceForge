@@ -37,4 +37,6 @@ namespace DiceForge
         return m_state;
     }
 
+    template class XORShift<uint32_t>;
+    template class XORShift<uint64_t>;
 }
