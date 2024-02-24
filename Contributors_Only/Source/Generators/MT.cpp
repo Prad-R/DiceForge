@@ -136,4 +136,7 @@ namespace DiceForge
         tempering_shift_L = 18;
         mt.resize(N);
     }
+
+    template class MT<uint32_t>;
+    template class MT<uint64_t>;
 }
