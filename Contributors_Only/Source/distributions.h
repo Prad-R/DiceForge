@@ -4,5 +4,6 @@
 #include "Distributions/distribution.h"
 #include "Distributions/Continuous/Cauchy.h"
 #include "Distributions/Continuous/Gibbs.h"
+#include "Distributions/Discrete/NegHypergeometric.h"
 
 #endif

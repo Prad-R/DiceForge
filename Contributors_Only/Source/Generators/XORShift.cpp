@@ -1,4 +1,5 @@
 #include "XORShift.h"
+#include <chrono>
 
 namespace DiceForge
 {
@@ -6,6 +7,9 @@ namespace DiceForge
     XORShift<T>::XORShift(T seed)
         : m_state(seed)
     {
+        if (seed == 0){
+            m_state = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        }
     }
 
     template <typename T>
@@ -25,7 +29,7 @@ namespace DiceForge
         m_state ^= m_state << 13;
         m_state ^= m_state >> 17;
         m_state ^= m_state << 5;
-        return m_state;
+        return m_state * 0x2545F4914F6CDD1DULL;
     }
 
     template <>
@@ -34,7 +38,7 @@ namespace DiceForge
         m_state ^= m_state << 13;
         m_state ^= m_state >> 7;
         m_state ^= m_state << 17;
-        return m_state;
+        return m_state * 0x2545F4914F6CDD1DULL;
     }
 
     template class XORShift<uint32_t>;
