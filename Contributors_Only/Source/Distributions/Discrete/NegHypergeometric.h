@@ -16,7 +16,7 @@ namespace DiceForge {
             /// @note 0 <= K <= N, 0 <= r <= N - K for a valid distribution
             NegHypergeometric(uint_t N, uint_t K, uint_t r);
             /// @brief Returns the next value of the random variable described by the distribution
-            /// @param r A uniformly distributed random real number
+            /// @param r A random real number uniformly distributed between 0 and 1
             int_t next(real_t r) override final;
             /// @brief Returns the theoretical variance of the distribution
             real_t variance() const override final;

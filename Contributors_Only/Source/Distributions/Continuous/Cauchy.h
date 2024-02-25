@@ -15,7 +15,7 @@ namespace DiceForge {
             /// @note gamma > 0
             Cauchy(real_t x0 = 0, real_t gamma = 1);
             /// @brief Returns the next value of the random variable described by the distribution
-            /// @param r A uniformly distributed random real number
+            /// @param r A random real number uniformly distributed between 0 and 1
             real_t next(real_t r) override final;
             /// @brief Returns the theoretical variance of the distribution
             /// @note The variation of a Cauchy distribution is undefined

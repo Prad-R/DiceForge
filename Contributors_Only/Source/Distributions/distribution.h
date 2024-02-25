@@ -6,43 +6,49 @@
 
 namespace DiceForge
 {    
+    /// @brief DiceForge::Continuous - A generic class for distributions describing continuous random variables
     class Continuous
     {
     public:
-        /* next(r) [Real] - Returns a random real following the distribution given a 'r'
-        * r is a uniformly distributed unit random variable */
+        /// @brief Returns the next value (real) of the random variable described by the distribution
+        /// @param r A random real number uniformly distributed between 0 and 1
         virtual real_t next(real_t r) = 0;
-        /* variance() [Real] - Returns the variance of the distribution */
+        /// @brief Returns the theoretical variance of the distribution
         virtual real_t variance() const = 0;
-        /* expectation() [Real] - Returns the expectation value of the distribution */
+        /// @brief Returns the theoretical expectation value of the distribution
         virtual real_t expectation() const = 0;
-        /* minValue() [Real] - Smallest number that can be generated in the distribution */
+        /// @brief Returns the minimum possible value of the random variable described by the distribution
         virtual real_t minValue() const = 0;
-        /* maxValue() [Real] - Largest number that can be generated in the distribution */
+        /// @brief Returns the maximum possible value of the random variable described by the distribution
         virtual real_t maxValue() const = 0;
-        /* pdf(x) [Real] - Probability density function */
+        /// @brief Probabiliity density function (pdf) of the distribution
+        /// @param x location where the pdf is to be evaluated
         virtual real_t pdf(real_t x) const = 0;
-        /* cdf(x) [Real] - Cumulative distribution function */
+        /// @brief Cumulative distribution function (cdf) of the distribution
+        /// @param x location where the cdf is to be evaluated [P(X <= x)]
         virtual real_t cdf(real_t x) const = 0;
     };
 
+    /// @brief DiceForge::Discrete - A generic class for distributions describing discrete random variables
     class Discrete
     {
     public:
-        /* next(r) [Integer] - Returns a random integer following the distribution given a 'r'
-        * r is a uniformly distributed unit random variable */
+        /// @brief Returns the next value (integer) of the random variable described by the distribution
+        /// @param r A random real number uniformly distributed between 0 and 1
         virtual int_t next(real_t r) = 0;
-        /* variance() [Real] - Returns the variance of the distribution */
+        /// @brief Returns the theoretical variance of the distribution
         virtual real_t variance() const = 0;
-        /* expectation() [Real] - Returns the expectation value of the distribution */
+        /// @brief Returns the theoretical expectation value of the distribution
         virtual real_t expectation() const = 0;
-        /* minValue() [Integer] - Smallest number that can be generated in the distribution */
+        /// @brief Returns the minimum possible value of the random variable described by the distribution
         virtual int_t minValue() const = 0;
-        /* maxValue() [Integer] - Largest number that can be generated in the distribution */
+        /// @brief Returns the maximum possible value of the random variable described by the distribution
         virtual int_t maxValue() const = 0;
-        /* pdf(x) [Real] - Probability mass function */
+        /// @brief Probabiliity mass function (pmf) of the distribution
+        /// @param x location where the pdf is to be evaluated [P(X = x)]
         virtual real_t pmf(int_t x) const = 0;
-        /* cdf(x) [Real] - Cumulative distribution function */
+        /// @brief Cumulative distribution function (cdf) of the distribution
+        /// @param x location where the cdf is to be evaluated [P(X <= x)]
         virtual real_t cdf(int_t x) const = 0;
     };
 }
