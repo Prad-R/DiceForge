@@ -2,13 +2,13 @@
 #include <algorithm>
 
 
-void DiceForge::Gibbs::specify(real_t x_arr[], real_t func_arr[], int len, real_t beta){
+void DiceForge::Gibbs::specify(int_t x_arr[], real_t func_arr[], int len, real_t beta){
     n = len;
     free(cumulative);
     free(prob);
     free(x_array);
 
-    std::pair<double,double> xy_arr[n];
+    std::pair<int,double> xy_arr[n];
     for (int i = 0; i < n; i++){
         xy_arr[i].first = x_arr[i];
         xy_arr[i].second = func_arr[i];
@@ -24,7 +24,7 @@ void DiceForge::Gibbs::specify(real_t x_arr[], real_t func_arr[], int len, real_
         }
     }
 
-    x_array = (double *)malloc(n * sizeof(double));
+    x_array = (int *)malloc(n * sizeof(int));
     for (int i = 0; i < n; i++){
         x_array[i] = xy_arr[i].first;
     }
@@ -45,12 +45,12 @@ void DiceForge::Gibbs::specify(real_t x_arr[], real_t func_arr[], int len, real_
 }
 
 
-double DiceForge::Gibbs::next(real_t r){
+int DiceForge::Gibbs::next(real_t r){
     return x_array[(std::upper_bound(cumulative, cumulative + n, r) - cumulative)];
 }
 
 
-double DiceForge::Gibbs::variance(){
+double DiceForge::Gibbs::variance() const{
     double exp = expectation();
     double s = 0;
     for (int i = 0; i < n; i++){
@@ -60,7 +60,7 @@ double DiceForge::Gibbs::variance(){
 }
 
 
-double DiceForge::Gibbs::expectation(){
+double DiceForge::Gibbs::expectation() const{
     double s = 0;
     for (int i = 0; i < n; i++){
         s += prob[i] * x_array[i];
@@ -69,8 +69,8 @@ double DiceForge::Gibbs::expectation(){
 }
 
 
-double DiceForge::Gibbs::minValue(){
-    double minV = std::numeric_limits<double>::max();
+int DiceForge::Gibbs::minValue() const{
+    int minV = std::numeric_limits<int>::max();
     for (int i = 0; i < n; i++){
         if (x_array[i] < minV){
             minV = x_array[i];
@@ -80,8 +80,8 @@ double DiceForge::Gibbs::minValue(){
 }
 
 
-double DiceForge::Gibbs::maxValue(){
-    double maxV = std::numeric_limits<double>::min();
+int DiceForge::Gibbs::maxValue() const{
+    int maxV = std::numeric_limits<int>::min();
     for (int i = 0; i < n; i++){
         if (x_array[i] > maxV){
             maxV = x_array[i];
@@ -91,8 +91,8 @@ double DiceForge::Gibbs::maxValue(){
 }
 
 
-double DiceForge::Gibbs::pmf(double x){
-    double *ptr = std::upper_bound(x_array, x_array + n, x);
+double DiceForge::Gibbs::pmf(int x) const{
+    int *ptr = std::upper_bound(x_array, x_array + n, x);
     if (ptr == x_array or *(ptr-1) != x){
         return 0;
     }
@@ -100,8 +100,8 @@ double DiceForge::Gibbs::pmf(double x){
 }
 
 
-double DiceForge::Gibbs::cdf(double x){
-    double *ptr = std::upper_bound(x_array, x_array + n, x);
+double DiceForge::Gibbs::cdf(int x) const{
+    int *ptr = std::upper_bound(x_array, x_array + n, x);
     if (ptr == x_array){
         return 0;
     }

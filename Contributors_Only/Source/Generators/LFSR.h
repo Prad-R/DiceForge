@@ -6,7 +6,7 @@
 namespace DiceForge {
     class LFSR : public DiceForge::Generator<unsigned long long int> {
         private:
-            unsigned long long int curr_seed = 0;
+            unsigned long long int curr_seed1 = 0, curr_seed2 = 0;
             unsigned long long int generate() override;
             void reseed(unsigned long long int seed) override;
     };
