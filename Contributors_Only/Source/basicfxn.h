@@ -15,7 +15,7 @@ namespace DiceForge
         for (uint_t i = n; i > n - r; i--)
             p *= i;
 
-        return p;  
+        return p;
     }
 
     /* k-combinations of n */
@@ -24,12 +24,38 @@ namespace DiceForge
         uint_t nr = 1;
         for (uint_t i = n; i > n - r; i--)
             nr *= i;
-        
-        uint dr = 1;    
-        for (uint i = 2; i <= r; i++)
+
+        uint_t dr = 1;
+        for (uint_t i = 2; i <= r; i++)
             dr *= i;
-        
+
         return nr / dr;
+    }
+
+    // BETTER FUNCTION TO REPLACE THE ABOVE
+    /* 
+        uint_t returns a 'long' value which is around 32-bits...
+        uint128_t returns a 128-bit value
+    */
+    /* 
+        Moreover, this reduces the chance of overflow by applying division at each step
+        instead of at the last.
+    */
+    static inline uint128_t ncr(uint128_t n, uint128_t r)
+    {
+        if (r > n - r)
+            r = n - r; // because C(n, r) == C(n, n - r)
+
+        uint128_t ans = 1;
+        uint128_t i;
+
+        for (i = 1; i <= r; i++)
+        {
+            ans *= (uint128_t)(n - r + i);
+            ans /= i;
+        }
+
+        return ans;
     }
 
     real_t simpson(std::function<real_t(real_t)> f, real_t a, real_t b)
@@ -40,7 +66,7 @@ namespace DiceForge
         b = end point on x axis
         h = step size, taken as a millionth of the diff btw a and b
         n = number of partitions, taken as a million here
-        area = numerical area approximation using simpson's 1/3rd rule 
+        area = numerical area approximation using simpson's 1/3rd rule
         */
         real_t h, area, sum1, sum2, sum3, n;
         n = 1000000;
