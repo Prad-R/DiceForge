@@ -8,6 +8,7 @@ namespace DiceForge {
     class NegHypergeometric : public Discrete {
         private:
             uint_t N, K, r;
+            real_t* pmfs;
         public:
             /// @brief Initializes the Negative Hypergeometric Distribution with (N, K, r)
             /// @param N size of the population 
@@ -15,6 +16,8 @@ namespace DiceForge {
             /// @param r number of "failure" elements to be encountered before experiment is stopped
             /// @note 0 <= K <= N, 0 <= r <= N - K for a valid distribution
             NegHypergeometric(uint_t N, uint_t K, uint_t r);
+            /// @brief Default destuctor
+            ~NegHypergeometric();
             /// @brief Returns the next value of the random variable described by the distribution
             /// @param r A random real number uniformly distributed between 0 and 1
             int_t next(real_t r) override final;
