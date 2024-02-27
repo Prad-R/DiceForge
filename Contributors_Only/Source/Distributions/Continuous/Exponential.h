@@ -13,7 +13,7 @@ namespace DiceForge
     public:
         Exponential(real_t k);
 
-        real_t next(real_t r) override final;
+        real_t next(real_t r);
         real_t variance() const override final;
         real_t expectation() const override final;
         real_t minValue() const override final;

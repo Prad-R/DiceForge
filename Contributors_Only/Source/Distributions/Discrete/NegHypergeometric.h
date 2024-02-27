@@ -20,7 +20,7 @@ namespace DiceForge {
             ~NegHypergeometric();
             /// @brief Returns the next value of the random variable described by the distribution
             /// @param r A random real number uniformly distributed between 0 and 1
-            int_t next(real_t r) override final;
+            int_t next(real_t r);
             /// @brief Returns the theoretical variance of the distribution
             real_t variance() const override final;
             /// @brief Returns the theoretical expectation value of the distribution
