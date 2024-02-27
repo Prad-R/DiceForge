@@ -10,9 +10,6 @@ namespace DiceForge
     class Continuous
     {
     public:
-        /// @brief Returns the next value (real) of the random variable described by the distribution
-        /// @param r A random real number uniformly distributed between 0 and 1
-        virtual real_t next(real_t r) = 0;
         /// @brief Returns the theoretical variance of the distribution
         virtual real_t variance() const = 0;
         /// @brief Returns the theoretical expectation value of the distribution
@@ -33,9 +30,6 @@ namespace DiceForge
     class Discrete
     {
     public:
-        /// @brief Returns the next value (integer) of the random variable described by the distribution
-        /// @param r A random real number uniformly distributed between 0 and 1
-        virtual int_t next(real_t r) = 0;
         /// @brief Returns the theoretical variance of the distribution
         virtual real_t variance() const = 0;
         /// @brief Returns the theoretical expectation value of the distribution

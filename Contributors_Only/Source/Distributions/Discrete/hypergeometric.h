@@ -28,7 +28,7 @@ namespace DiceForge
         // constraints-(n<=N and k<=N and n>=0 and k>=0)
     public:
         Hypergeometric(int32_t N, int32_t K, int32_t n); // constructor for hypergeometric class
-        int_t next(real_t r) override;
+        int_t next(real_t r);
         real_t variance() const override;
         real_t expectation() const override;
         int_t minValue() const override;
