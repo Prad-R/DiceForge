@@ -14,4 +14,7 @@ public:
   ~NaorReingold();
 };
 
+typedef NaorReingold<uint32_t> NaorReingold32;
+} // namespace DiceForge
+
 #endif

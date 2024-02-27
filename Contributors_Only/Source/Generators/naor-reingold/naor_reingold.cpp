@@ -42,5 +42,6 @@ template <> uint32_t NaorReingold<uint32_t>::generate() {
   return res;
 }
 
-typedef NaorReingold<uint32_t> NaorReingold32;
+typedef class NaorReingold<uint32_t>;
+
 } // namespace DiceForge
