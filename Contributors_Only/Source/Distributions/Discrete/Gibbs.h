@@ -1,11 +1,11 @@
 #ifndef DICEFORGE_GIBBS_H
 #define DICEFORGE_GIBBS_H
 
-#include "distribution.h"
+#include "../distribution.h"
 
 namespace DiceForge {
     // Gibbs distribution class (derived from Discrete)
-    class Gibbs : public DiceForge::Discrete {
+    class Gibbs : public Discrete {
         private:
             // Array to store cdf
             real_t *cdf_array = nullptr;

@@ -28,9 +28,9 @@ namespace DiceForge
         }
         int start = std::max(n + K - N, (int32_t)0);
 
-        real_t ta = (real_t)ncr(K, start);
-        real_t tb = (real_t)ncr(N - K, n - start);
-        real_t tc = (real_t)ncr(N, n);
+        real_t ta = (real_t)nCr(K, start);
+        real_t tb = (real_t)nCr(N - K, n - start);
+        real_t tc = (real_t)nCr(N, n);
 
         pmfs[start] = (tb / tc) * ta;
 

@@ -13,6 +13,18 @@ namespace DiceForge {
                         "\n\t\tReceived invalid parameters (N, K, r)\n" << std::endl;
             exit(EXIT_FAILURE);
         }
+
+        // precalculate pmfs for faster random number generation
+        pmfs = new real_t[K+1];
+        for (int k = 0; k <= K; k++)
+        {
+            pmfs[k] = nCr(k + r - 1, k) * nCr(N - r - k, K - k) / real_t(nCr(N, K));    
+        }
+    }
+
+    NegHypergeometric::~NegHypergeometric()
+    {
+        delete[] pmfs;
     }
 
     int_t NegHypergeometric::next(real_t r) 
@@ -20,15 +32,14 @@ namespace DiceForge {
         real_t s = 0;
         for (int i = 0; i <= K; i++)
         {
-            real_t pi = pmf(i);
-            if (s < r < s + pi)
+            if (s < r <= s + pmfs[i])
             {
                 return i;
             }
-            s += pi;
+            s += pmfs[i];
         }
 
-        return 0;
+        return K;
     }
 
     real_t NegHypergeometric::variance() const
@@ -54,7 +65,11 @@ namespace DiceForge {
 
     real_t NegHypergeometric::pmf(int_t k) const 
     {
-        return nCr(k + r - 1, k) * nCr(N - r - k, K - k) / real_t(nCr(N, K));
+        if (k > K || k < 0)
+        {
+            return 0;
+        }
+        return pmfs[k];
     }
 
     real_t NegHypergeometric::cdf(int_t k) const 
