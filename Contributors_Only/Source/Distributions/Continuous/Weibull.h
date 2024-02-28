@@ -20,7 +20,7 @@ namespace DiceForge {
         
             /// @brief Returns the next value of the random variable described by the distribution
             /// @param r A random real number uniformly distributed between 0 and 1
-            real_t next(real_t r) override final;
+            real_t next(real_t r);
         
             /// @brief Returns the theoretical variance of the distribution
             /// @note The variation of a Weibull distribution is undefined
