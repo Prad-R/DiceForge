@@ -5,7 +5,6 @@
 #include "Distributions/Continuous/Cauchy.h"
 #include "Distributions/Continuous/Exponential.h"
 #include "Distributions/Discrete/hypergeometric.h"
-#include "Distributions/Continuous/Gibbs.h"
 #include "Distributions/Continuous/Weibull.h"
 #include "Distributions/Discrete/NegHypergeometric.h"
 #include "Distributions/Discrete/Gibbs.h"
