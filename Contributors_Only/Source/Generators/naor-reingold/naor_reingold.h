@@ -1,6 +1,6 @@
 #ifndef NAOR_REINGOLD_H
 #define NAOR_REINGOLD_H
-#include "generator.h"
+#include "../generator.h"
 
 namespace DiceForge {
 template <typename T> class NaorReingold : public Generator<T> {
