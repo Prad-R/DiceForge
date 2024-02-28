@@ -22,7 +22,7 @@ namespace DiceForge {
             ~Gibbs();
             /* next(r) [Integer] - Returns a random integer following the distribution given a 'r'
              * r is a uniformly distributed unit random variable */
-            int_t next(real_t r) override;
+            int_t next(real_t r);
             /* variance() [Real] - Returns the variance of the distribution */
             real_t variance() const override;
             /* expectation() [Real] - Returns the expectation value of the distribution */
