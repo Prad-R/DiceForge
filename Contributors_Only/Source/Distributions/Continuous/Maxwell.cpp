@@ -31,7 +31,7 @@ namespace DiceForge
         return 0;
     }
 
-    real_t Maxwel::maxValue() const 
+    real_t Maxwell::maxValue() const 
     {
         return std::numeric_limits<real_t>().max();
     }
