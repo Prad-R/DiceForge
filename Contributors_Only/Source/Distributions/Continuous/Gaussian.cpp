@@ -1,10 +1,8 @@
 #include "Gaussian.h"
-#include <math.h>
-#include <cmath>
 
 namespace DiceForge
 {            
-    Gaussian::Gausssian(real_t mu, real_t sigma)
+    Gaussian::Gaussian(real_t mu, real_t sigma)
     : mu(mu), sigma(sigma)
     {
         if (sigma < std::numeric_limits<real_t>().epsilon())
@@ -47,7 +45,13 @@ namespace DiceForge
     }
 
     real_t Gaussian::cdf(real_t x) const 
-    {        
-        return M_1_PI * atan((x - x0) * inv_gamma) + 0.5;
+    {   
+        std::vector<int> factorial = {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800};
+        real_t sum = 0; 
+        for(int i = 0; i <= 10; i++)
+        {
+            sum += (pow(-1, i) * pow(x, 2 * i + 1))/((2 * i + 1) * pow(2, i) * factorial[i] );
+        }
+        return 0.5 + ( sum )/ sqrt(2.0 * M_PI);
     }
 } 

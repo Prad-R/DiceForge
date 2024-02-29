@@ -12,7 +12,7 @@ namespace DiceForge {
             /// @brief Initializes the Gaussian distribution about location x = mu with standard deviation sigma
             /// @param mu mean of the distribution
             /// @param sigma standard deviation of the distribution
-            Cauchy(real_t mu = 0, real_t sigma = 1);
+            Gaussian(real_t mu = 0, real_t sigma = 1);
             /// @brief Returns the next value of the random variable described by the distribution
             /// @param r1 A random real number uniformly distributed between 0 and 1
             /// @param r2 A random real number uniformly distributed between 0 and 1
