@@ -1,9 +1,9 @@
 #ifndef DF_GENERATORS_H
 #define DF_GENERATORS_H
 
-#include "Generators/XORShift.cpp"
-#include "Generators/MT.cpp"
-#include "Generators/blumblumshub.cpp"
-#include "Generators/LFSR.cpp"
+#include "Generators/XORShift.h"
+#include "Generators/MT.h"
+#include "Generators/blumblumshub.h"
+#include "Generators/LFSR.h"
 
 #endif
