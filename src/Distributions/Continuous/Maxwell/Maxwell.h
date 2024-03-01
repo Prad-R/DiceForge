@@ -11,7 +11,7 @@ namespace DiceForge {
             real_t a;
         public:
             /// @brief Initializes the Maxwell distribution with scale "a"
-            /// @param "a" scale factor of the distribution
+            /// @param a scale factor of the distribution
             /// @note a > 0
             Maxwell(real_t a = 1);
             /// @brief Generates a random number from the Maxwell Distribution
