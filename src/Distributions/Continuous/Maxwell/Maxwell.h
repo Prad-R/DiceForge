@@ -1,7 +1,7 @@
 #ifndef DF_MAXWELL_H
 #define DF_MAXWELL_H
 
-#include "../distribution.h"
+#include "distribution.h"
 
 namespace DiceForge {
     /// @brief DiceForge::Maxwell - A Continuous Probability Distribution (Maxwell) 

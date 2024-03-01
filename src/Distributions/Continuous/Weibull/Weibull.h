@@ -1,7 +1,7 @@
 #ifndef DF_WEIBULL_H
 #define DF_WEIBULL_H
 
-#include "../distribution.h"
+#include "distribution.h"
 
 namespace DiceForge {
 

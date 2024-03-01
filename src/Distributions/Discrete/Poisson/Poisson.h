@@ -1,8 +1,8 @@
-#ifndef DICEFORGE_POISSON_H
-#define DICEFORGE_POISSON_H
+#ifndef DF_POISSON_H
+#define DF_POISSON_H
 
-#include "../distribution.h"
-#include "../../generators.h"
+#include "distribution.h"
+#include "generator.h"
 
 namespace DiceForge {
     

@@ -1,6 +1,6 @@
 #include "Poisson.h"
 #include <algorithm>
-#include "../../basicfxn.h"
+#include "basicfxn.h"
 
 
 

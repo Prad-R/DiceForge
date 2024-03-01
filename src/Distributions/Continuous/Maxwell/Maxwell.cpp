@@ -1,5 +1,5 @@
 #include "Maxwell.h"
-#include "boost/math/special_functions/gamma.hpp"
+//#include "boost/math/special_functions/gamma.hpp"
 
 namespace DiceForge
 {            
@@ -13,7 +13,7 @@ namespace DiceForge
 
     real_t Maxwell::next(real_t r) 
     {
-        return a * sqrt(2 * boost::math::gamma_p_inv(1.5 , r));
+        return 0;//a * sqrt(2 * boost::math::gamma_p_inv(1.5 , r));
     }
 
     real_t Maxwell::variance() const 
@@ -43,6 +43,6 @@ namespace DiceForge
 
     real_t Maxwell::cdf(real_t x) const 
     {        
-        return boost::math::gamma_p(1.5 , x * x/ 2 * a * a);
+        return 0;//boost::math::gamma_p(1.5 , x * x/ 2 * a * a);
     }
 } 
