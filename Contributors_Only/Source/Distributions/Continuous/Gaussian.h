@@ -8,6 +8,7 @@ namespace DiceForge {
     class Gaussian : public Continuous {
         private:
             real_t mu, sigma;
+            real_t myerf(real_t x) const;
         public:
             /// @brief Initializes the Gaussian distribution about location x = mu with standard deviation sigma
             /// @param mu mean of the distribution
