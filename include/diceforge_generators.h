@@ -111,7 +111,7 @@ namespace DiceForge
 
     /// @brief DiceForge::LFSR64 - Linear Feedback Shift Register class (derived from Generator)
     /// for generating 64-bit unsigned integers
-    class LFSR64 : public DiceForge::Generator<uint64_t> {
+    class LFSR64 : public Generator<uint64_t> {
     private:
         // Two curr_seeds, together forming a 128-bit seed
         uint64_t curr_seed1 = 0, curr_seed2 = 0;
@@ -129,7 +129,7 @@ namespace DiceForge
 
     /// @brief DiceForge::LFSR32 - Linear Feedback Shift Register class (derived from Generator)
     /// for generating 32-bit unsigned integers
-    class LFSR32 : public DiceForge::Generator<uint32_t> {
+    class LFSR32 : public Generator<uint32_t> {
     private:
         // Two curr_seeds, together forming a 128-bit seed
         uint64_t curr_seed1 = 0, curr_seed2 = 0;
