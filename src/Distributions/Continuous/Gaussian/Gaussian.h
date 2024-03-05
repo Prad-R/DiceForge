@@ -1,7 +1,7 @@
 #ifndef DF_GAUSSIAN_H
 #define DF_GAUSSIAN_H
 
-#include "../distribution.h"
+#include "distribution.h"
 
 namespace DiceForge {
     /// @brief DiceForge::Gaussian - A Continuous Probability Distribution (Gaussian) 
