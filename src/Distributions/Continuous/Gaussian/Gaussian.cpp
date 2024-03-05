@@ -51,17 +51,10 @@ namespace DiceForge
         return 0.5 * (1 + erf );
     }
 
-      real_t Gaussian::myerf(real_t x) const
+    real_t Gaussian::myerf(real_t x) const
     {
         real_t erf; 
         erf = tanh((2/sqrt(M_PI)) *(x + (11 / 123) * pow(x, 3)));
         return erf;
-        static const std::vector<int> factorial = {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800};
-        real_t sum = 0; 
-        for(int i = 0; i <= 10; i++)
-        {
-            sum += (pow(-1, i) * pow(x, 2 * i + 1))/((2 * i + 1) * pow(2, i) * factorial[i] );
-        }
-        return 0.5 + ( sum )/ sqrt(2.0 * M_PI);
     }
 } 
