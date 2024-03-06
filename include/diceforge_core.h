@@ -8,16 +8,45 @@
 
 namespace DiceForge
 {
-    typedef int int32_t;                 // A signed integer (32 bit)
-    typedef __int64_t int64_t;           // A signed integer (64 bit)
-    typedef unsigned int uint32_t;       // An unsigned integer (32 bit)
-    typedef __uint64_t uint64_t;         // An unsigned integer (64 bit)
-    typedef __int128_t int128_t;         // A signed integer (128 bit)
-    typedef __uint128_t uint128_t;       // An unsigned integer (128 bit)
+#if defined(___linux__)
 
-    typedef uint64_t uint_t;             // An unsigned integer (64 bit)
-    typedef int64_t int_t;               // A signed integer (64 bit)
-    typedef double real_t;               // A signed floating point real number (64 bit)
+    typedef int int32_t;           // A signed integer (32 bit)
+    typedef __int64_t int64_t;     // A signed integer (64 bit)
+    typedef unsigned int uint32_t; // An unsigned integer (32 bit)
+    typedef __uint64_t uint64_t;   // An unsigned integer (64 bit)
+    typedef __int128_t int128_t;   // A signed integer (128 bit)
+    typedef __uint128_t uint128_t; // An unsigned integer (128 bit)
+
+    typedef uint64_t uint_t; // An unsigned integer (64 bit)
+    typedef int64_t int_t;   // A signed integer (64 bit)
+    typedef double real_t;   // A signed floating point real number (64 bit)
+
+#elif __APPLE__
+    typedef int int32_t;                // A signed integer (32 bit)
+    typedef long int int64_t;           // A signed integer (64 bit)
+    typedef unsigned int uint32_t;      // An unsigned integer (32 bit)
+    typedef unsigned long int uint64_t; // An unsigned integer (64 bit)
+    typedef __int128_t int128_t;        // A signed integer (128 bit)
+    typedef __uint128_t uint128_t;      // An unsigned integer (128 bit)
+
+    typedef uint64_t uint_t; // An unsigned integer (64 bit)
+    typedef int64_t int_t;   // A signed integer (64 bit)
+    typedef double real_t;   // A signed floating point real number (64 bit)
+
+#else
+
+    typedef int int32_t;                     // A signed integer (32 bit)
+    typedef long long int int64_t;           // A signed integer (64 bit)
+    typedef unsigned int uint32_t;           // An unsigned integer (32 bit)
+    typedef unsigned long long int uint64_t; // An unsigned integer (64 bit)
+    typedef __int128_t int128_t;             // A signed integer (128 bit)
+    typedef __uint128_t uint128_t;           // An unsigned integer (128 bit)
+
+    typedef uint64_t uint_t; // An unsigned integer (64 bit)
+    typedef int64_t int_t;   // A signed integer (64 bit)
+    typedef double real_t;   // A signed floating point real number (64 bit)
+
+#endif
 
     /// @brief DiceForge::Generator<T> - A generic class for RNGs
     /// @tparam T datatype of random number generated (RNG implementation specific)
@@ -38,7 +67,8 @@ namespace DiceForge
         real_t next_unit()
         {
             real_t x = 1.0;
-            while (x == 1.0) {
+            while (x == 1.0)
+            {
                 x = generate() / real_t(std::numeric_limits<T>().max());
             }
             return x;
@@ -58,7 +88,8 @@ namespace DiceForge
         real_t next_in_crange(real_t min, real_t max)
         {
             real_t x = (real_t)max;
-            while (x == max) {
+            while (x == max)
+            {
                 x = (max - min) * next_unit() + min;
             }
             return x;
@@ -85,26 +116,32 @@ namespace DiceForge
         void shuffle(RandomAccessIterator first, RandomAccessIterator last)
         {
             auto temp = (decltype(&(*first)))malloc(sizeof(*first) * (last - first));
-            for (auto it = first; it != last; it++){
+            for (auto it = first; it != last; it++)
+            {
                 temp[it - first] = *it;
             }
             shuffle_array(temp, last - first);
-            for (auto it = first; it!= last; it++){
+            for (auto it = first; it != last; it++)
+            {
                 *it = temp[it - first];
             }
         };
+
     private:
         /// @brief Shuffles the array in place
         /// @param arr Pointer to the first element
         /// @param len Length of the array
         template <typename other_T>
-        void shuffle_array(other_T arr[], T len) {
+        void shuffle_array(other_T arr[], T len)
+        {
             T ind;
             std::vector<other_T> v;
-            for (int i = 0; i < len; i++) {
+            for (int i = 0; i < len; i++)
+            {
                 v.push_back(arr[i]);
             }
-            for (int i = 0; i < len; i++) {
+            for (int i = 0; i < len; i++)
+            {
                 ind = next_in_range(0, len - i - 1);
                 arr[i] = v[ind];
                 v.erase(v.begin() + ind);
