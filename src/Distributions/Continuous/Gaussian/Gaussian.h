@@ -33,6 +33,10 @@ namespace DiceForge {
             real_t pdf(real_t x) const override final;
             /// @brief Cumulative distribution function of the Gaussian distribution
             real_t cdf(real_t x) const override final;
+            /// @brief Returns mean of the distribution
+            real_t get_mu() const;
+            /// @brief Returns standard deviation of the distribution
+            real_t get_sigma() const;
     };
 }
 

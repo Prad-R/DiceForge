@@ -9,7 +9,6 @@ namespace DiceForge {
     class Weibull : public Continuous {
         private:
             real_t shift, k, lambda;
-
         public:
             /// @brief Initializes the Weibull distribution about location x = x0 with scale gamma
             /// @param shift shift parameter of distribution
@@ -45,6 +44,15 @@ namespace DiceForge {
         
             /// @brief Cumulative distribution function of the Weibull distribution
             real_t cdf(real_t x) const override final;
+
+            /// @brief Returns shift parameter of distribution
+            real_t get_shift() const;
+
+            /// @brief Returns scale factor of the distribution
+            real_t get_lambda() const;
+
+            /// @brief Returns shape factor of the distribution
+            real_t get_k() const;
     };
 }
 

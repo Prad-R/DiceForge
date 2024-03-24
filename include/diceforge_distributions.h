@@ -99,12 +99,15 @@ namespace DiceForge {
          * @return CDF value at point x.
          */
         real_t cdf(real_t x) const override final;
+        /// @brief Returns the rate parameter of the distribution 
+        real_t get_k() const;
     };
 
     /// @brief DiceForge::Gaussian - A Continuous Probability Distribution (Gaussian) 
     class Gaussian : public Continuous {
         private:
             real_t mu, sigma;
+            real_t myerf(real_t x) const;
         public:
             /// @brief Initializes the Gaussian distribution about location x = mu with standard deviation sigma
             /// @param mu mean of the distribution
@@ -129,6 +132,10 @@ namespace DiceForge {
             real_t pdf(real_t x) const override final;
             /// @brief Cumulative distribution function of the Gaussian distribution
             real_t cdf(real_t x) const override final;
+            /// @brief Returns mean of the distribution
+            real_t get_mu() const;
+            /// @brief Returns standard deviation of the distribution
+            real_t get_sigma() const;
     };
 
     /// @brief DiceForge::Maxwell - A Continuous Probability Distribution (Maxwell) 
@@ -142,8 +149,10 @@ namespace DiceForge {
             /// @note a > 0
             Maxwell(real_t a = 1);
             /// @brief Generates a random number from the Maxwell Distribution
-            /// @param r A random real number uniformly distributed between 0 and 1
-            real_t next(real_t r);
+            /// @param r1 A random real number uniformly distributed between 0 and 1
+            /// @param r2 A random real number uniformly distributed between 0 and 1
+            /// @param r3 A random real number uniformly distributed between 0 and 1
+            real_t next(real_t r1, real_t r2, real_t r3);
             /// @brief Returns the theoretical variance of the distribution
             real_t variance() const override final;
             /// @brief Returns the theoretical expectation value of the distribution
@@ -158,13 +167,14 @@ namespace DiceForge {
             real_t pdf(real_t x) const override final;
             /// @brief Cumulative distribution function of the Maxwell distribution
             real_t cdf(real_t x) const override final;
+            /// @brief Returns the scale factor of the distribution 
+            real_t get_a() const;
     };
 
-    /// @brief DiceForge::WEIBULL - A Continuous Probability Distribution (WEIBULL) 
+    /// @brief DiceForge::Weibull - A Continuous Probability Distribution (Weibull) 
     class Weibull : public Continuous {
         private:
             real_t shift, k, lambda;
-
         public:
             /// @brief Initializes the Weibull distribution about location x = x0 with scale gamma
             /// @param shift shift parameter of distribution
@@ -200,6 +210,15 @@ namespace DiceForge {
         
             /// @brief Cumulative distribution function of the Weibull distribution
             real_t cdf(real_t x) const override final;
+
+            /// @brief Returns shift parameter of distribution
+            real_t get_shift() const;
+
+            /// @brief Returns scale factor of the distribution
+            real_t get_lambda() const;
+
+            /// @brief Returns shape factor of the distribution
+            real_t get_k() const;
     };
 
     /// @brief DiceForge::Bernoulli - A Discrete Probability Distribution (Bernoulli) 

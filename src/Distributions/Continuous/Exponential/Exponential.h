@@ -54,6 +54,9 @@ namespace DiceForge
          * @return CDF value at point x.
          */
         real_t cdf(real_t x) const override final;
+
+        /// @brief Returns the rate parameter of the distribution 
+        real_t get_k() const;
     };
 }
 
