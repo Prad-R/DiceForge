@@ -1,4 +1,5 @@
 #include "Cauchy.h"
+#include "basicfxn.h"
 
 namespace DiceForge
 {            
@@ -47,5 +48,117 @@ namespace DiceForge
     real_t Cauchy::cdf(real_t x) const 
     {        
         return M_1_PI * atan((x - x0) * inv_gamma) + 0.5;
+    }
+
+    real_t Cauchy::get_x0() const 
+    {
+        return x0;
+    }
+
+    real_t Cauchy::get_gamma() const 
+    {        
+        return gamma;
+    }
+
+    Cauchy fitToCauchy(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter, real_t epsilon)
+    {
+        if (x.size() != y.size())
+        {
+            throw "Number of x-coordinates and y-coordinates provided in the data do not match!";
+        }
+
+        const int N = x.size();
+
+        // initial guessing of x0, gamma
+        real_t x0 = 0, gamma = 1;
+
+        real_t ysum = 0;
+        real_t y2sum = 0;
+        for (size_t i = 0; i < N; i++)
+        {
+            ysum += y[i];
+            y2sum += y[i] * y[i];
+        }
+        real_t mu = ysum / N;
+        real_t stdev = sqrt((y2sum / N) - mu*mu);
+
+        real_t ymax = -INFINITY;
+        for (size_t i = 0; i < N; i++)
+        {
+            // check for outliers
+            if (y[i] > ymax && y[i] - mu < 3 * stdev) 
+            {
+                ymax = y[i];
+
+                // guess x0 as the x value corresponding to maximum y
+                x0 = x[i];
+            }
+        }
+
+        // guess works reasonably well for gamma
+        gamma = 2 * ymax / stdev;
+        
+        std::cout << mu << std::endl;
+        std::cout << stdev << std::endl;
+        std::cout << mu/stdev << std::endl;
+
+        // start iterative updation
+        for (size_t i = 0; i < max_iter; i++)
+        {
+            real_t inv_gamma = 1 / gamma;
+
+            // r_i = y[i] - pdf(x0, gamma, x[i])
+            // we try to minimize sum (r_i)^2 and iteratively update x0, inv_gamma
+
+            matrix_t J = matrix_t(N, 2);    // Jacobian matrix
+            matrix_t R = matrix_t(N, 1);    // Error vector R = (r_0, r_1, ..., r_N)
+
+            for (size_t i = 0; i < N; i++)
+            {
+                real_t q1 = (x[i] - x0) * inv_gamma;
+                real_t q2 = (1 + q1 * q1) * (1 + q1 * q1);      
+                real_t dpdf_dx0 = 2 * M_1_PI * q1 * inv_gamma * inv_gamma / q2; 
+                real_t dpdf_dgamma = - M_1_PI * (1 + 3 * q1 * q1) * inv_gamma * inv_gamma / q2;
+
+                J[i][0] = -dpdf_dx0;
+                J[i][1] = -dpdf_dgamma;
+
+                R[i][0] = y[i] - M_1_PI * inv_gamma / (1 + (x[i] - x0) * (x[i] - x0) * inv_gamma * inv_gamma);
+            }
+
+            matrix_t JT = J.transpose();
+
+            // move direction
+            matrix_t d = inverse2x2(JT * J) * JT * R;
+
+            // stop when error minimization is too little
+            if (fabs(d[0][0]) < epsilon && fabs(d[1][0]) < epsilon)
+                break;
+
+            // make finer refinements later on
+            // c/sqrt(i) works as a reasonable good learning rate for a cauchy fit
+            real_t alpha = 0.001/sqrt(i+1); 
+            
+            real_t pred_x0, pred_gamma;
+            pred_x0 = x0 - alpha * d[0][0];
+            pred_gamma = gamma - alpha * d[1][0];
+
+            // prevent possible incorrect jumping
+            if ((pred_x0 / x0 > 10 || pred_gamma / gamma > 10 || pred_x0 / x0 < 0.1 || pred_gamma / gamma < 0.1))
+            {
+                alpha = alpha * 0.0001;
+            }
+
+            // Gauss-Newton method
+            x0 = x0 - alpha * d[0][0];
+            gamma = gamma - alpha * d[1][0];
+        }
+
+        if (gamma < 0)
+        {
+            throw "Could not fit data to Cauchy!";
+        }
+
+        return Cauchy(x0, gamma);
     }
 } 

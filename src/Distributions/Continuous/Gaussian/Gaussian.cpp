@@ -57,4 +57,14 @@ namespace DiceForge
         erf = tanh((2/sqrt(M_PI)) *(x + (11 / 123) * pow(x, 3)));
         return erf;
     }
+
+    real_t Gaussian::get_mu() const
+    {
+        return mu;
+    }
+
+    real_t Gaussian::get_sigma() const
+    {
+        return sigma;
+    }
 } 

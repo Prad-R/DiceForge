@@ -52,4 +52,19 @@ namespace DiceForge{
         x = (x - shift) / lambda;
         return 1 - exp( - std::pow(x, k));
     }
-} 
+
+    real_t Weibull::get_shift() const
+    {
+        return shift;
+    }
+
+    real_t Weibull::get_lambda() const
+    {
+        return lambda;
+    }
+
+    real_t Weibull::get_k() const
+    {
+        return k;
+    }
+}

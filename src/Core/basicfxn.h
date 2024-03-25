@@ -8,6 +8,33 @@
 
 namespace DiceForge
 {
+    /* Helper strucure for matrix operations */
+
+    /* It is assumed that you are aware of contraints on the number of rows 
+    * and columns while performing binary operations on two matrices and 
+    * you will not abuse this poor struct*/
+
+    struct matrix_t
+    {
+        matrix_t(int r, int c);
+        matrix_t(matrix_t& other);
+        ~matrix_t();
+
+        const real_t* operator[](int i) const;
+        real_t* operator[](int i);
+
+        matrix_t operator*(const matrix_t& other) const;
+        matrix_t operator+(const matrix_t& other) const;
+        matrix_t operator-(const matrix_t& other) const;
+        matrix_t operator-() const;        
+        matrix_t transpose() const;
+
+        real_t** m;
+
+        const int r; // rows
+        const int c; // cols
+    };
+
     /* k-permutations of n */
     static inline uint_t nPr(uint_t n, uint_t r)
     {
@@ -19,10 +46,7 @@ namespace DiceForge
     }
 
     /* 
-        uint_t returns a 'long' value which is around 32-bits...
         uint128_t returns a 128-bit value
-    */
-    /* 
         Moreover, this reduces the chance of overflow by applying division at each step
         instead of at the last.
     */
@@ -45,6 +69,19 @@ namespace DiceForge
         return ans;
     }
 
+    /* inverse of a 2x2 matrix */
+    static matrix_t inverse2x2(const matrix_t& M)
+    {
+        real_t inv_det = 1 / (M[0][0] * M[1][1] - M[1][0] * M[0][1]);
+        matrix_t inv = matrix_t(2, 2);
+        inv.m[0][0] = M.m[1][1] * inv_det;
+        inv.m[0][1] = -M.m[0][1] * inv_det;
+        inv.m[1][0] = -M.m[1][0] * inv_det;
+        inv.m[1][1] = M.m[0][0] * inv_det;
+        
+        return inv;
+    }
+    
     static real_t simpson(std::function<real_t(real_t)> f, real_t a, real_t b)
     {
         /*
