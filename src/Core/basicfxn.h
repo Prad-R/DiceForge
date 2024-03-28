@@ -45,16 +45,13 @@ namespace DiceForge
         return p;
     }
 
-<<<<<<< HEAD
     /*
         uint_t returns a 'long' value which is around 32-bits...
         uint128_t returns a 128-bit value
     */
     /*
-=======
     /* 
         uint128_t returns a 128-bit value
->>>>>>> origin/main
         Moreover, this reduces the chance of overflow by applying division at each step
         instead of at the last.
     */
