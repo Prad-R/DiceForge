@@ -18,6 +18,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/Core)
 # Files to be compiled
 
 set(SRC
+"src/Core/basicfxn.cpp"
 "src/Generators/BBS/blumblumshub.cpp"
 "src/Generators/LFSR/LFSR.cpp"
 "src/Generators/MT/MT.cpp"

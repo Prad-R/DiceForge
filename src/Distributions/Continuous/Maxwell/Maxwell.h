@@ -15,8 +15,10 @@ namespace DiceForge {
             /// @note a > 0
             Maxwell(real_t a = 1);
             /// @brief Generates a random number from the Maxwell Distribution
-            /// @param r A random real number uniformly distributed between 0 and 1
-            real_t next(real_t r);
+            /// @param r1 A random real number uniformly distributed between 0 and 1
+            /// @param r2 A random real number uniformly distributed between 0 and 1
+            /// @param r3 A random real number uniformly distributed between 0 and 1
+            real_t next(real_t r1, real_t r2, real_t r3);
             /// @brief Returns the theoretical variance of the distribution
             real_t variance() const override final;
             /// @brief Returns the theoretical expectation value of the distribution
@@ -31,6 +33,8 @@ namespace DiceForge {
             real_t pdf(real_t x) const override final;
             /// @brief Cumulative distribution function of the Maxwell distribution
             real_t cdf(real_t x) const override final;
+            /// @brief Returns the scale factor of the distribution 
+            real_t get_a() const;
     };
 }
 

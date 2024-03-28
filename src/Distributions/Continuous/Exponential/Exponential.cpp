@@ -97,4 +97,9 @@ namespace DiceForge
         return (1 - exp(-k * x));
     }
 
+
+    real_t Exponential::get_k() const
+    {
+        return k;
+    }
 }
