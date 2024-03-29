@@ -7,7 +7,8 @@ DiceForge::LFSR64::LFSR64(uint64_t seed)
 }
 
 uint64_t DiceForge::LFSR64::generate() {
-    uint64_t rand_num = 0, new_bit;
+    uint64_t rand_num = 0;
+    uint64_t new_bit;
 
     // For each bit to generate in rand_num,
     for (int i = 0; i < 64; i++) {
@@ -28,7 +29,7 @@ void DiceForge::LFSR64::reseed(uint64_t seed) {
         curr_seed1 = std::chrono::high_resolution_clock::now().time_since_epoch().count();
         curr_seed2 = std::chrono::high_resolution_clock::now().time_since_epoch().count();
     }
-        // If non-zero seed given, set both parts of curr_seed to that value
+    // If non-zero seed given, set both parts of curr_seed to that value
     else {
         curr_seed1 = seed;
         curr_seed2 = seed;
@@ -37,6 +38,9 @@ void DiceForge::LFSR64::reseed(uint64_t seed) {
     // Get them out of the way while reseeding
     generate();
     generate();
+    for (int i = 0; i < 100; i++){
+        generate();
+    }
 }
 
 DiceForge::LFSR32::LFSR32(uint32_t seed)
@@ -45,7 +49,8 @@ DiceForge::LFSR32::LFSR32(uint32_t seed)
 }
 
 uint32_t DiceForge::LFSR32::generate() {
-    uint64_t rand_num = 0, new_bit;
+    uint32_t rand_num = 0;
+    uint64_t new_bit;
 
     // For each bit to generate in rand_num,
     for (int i = 0; i < 32; i++) {
@@ -78,4 +83,7 @@ void DiceForge::LFSR32::reseed(uint32_t seed) {
     generate();
     generate();
     generate();
+    for (int i = 0; i < 200; i++){
+        generate();
+    }
 }
