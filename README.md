@@ -1,27 +1,27 @@
 # DiceForge
 
 ## Overview
-This is a simple C++ library for *Pseudo Random Number Generation (PRNG)*. It provides a functionality similar to that of the python std library *random*. 
+This is a simple C++ library for *Pseudo Random Number Generation*. It provides a functionality similar to that of the python standard library *random*. 
 
 ## Features
 
 - **Ease of Use**: Straightforward API for quick integration into your C++ projects.
 - **Versatility**: Supports different PRNG algorithms, allowing you to choose based on your requirements.
-- **Seed Control**: Easily set and manipulate the seed for reproducibility.
+- **Convenience**: Provides various standard distributions used in scientific computation and also has rudimentary support for custom probability distributions. 
 
 ### Upcoming Features
-- Applying distributions to uniform random generators to make biased generators
 - Detailed documentation on distrbutions
 
-## Supported PRNG Algorithms
+## Available PRNGs and Distributions
 
+**Pseudorandom Number Generators**
 1. Mersenne Twister (MT)
-2. Linear Congruential Generator (LCG)
+2. Linear Feedback Shift Register (LFSR)
 3. XOR-Shift (XOR)
-4. Blum Blum Shub (B.B.S.)
+4. Blum Blum Shub (BBS)
 5. Naor-Reingold (NR)
 
-## Supported Distrbutions
+**Distrbutions**
 
 1. Cauchy
 2. Exponential
@@ -37,9 +37,15 @@ This is a simple C++ library for *Pseudo Random Number Generation (PRNG)*. It pr
 
 ## Benchmarks
 
-### Statistical Analysis
+### Diehard Tests
 
-| Generator | mean | variance |
+Add results here
+
+### Uniformity Analysis
+
+Using DiceForge's pseudo random number generators to create a uniformly distributed random variable in [0,1), the statistical analysis for 100000000 random samples is:
+
+| Generator | Mean | Variance |
 | --------- | ---- | -------- |
 | BBS32  | 0.500189 | 0.0834384 |
 | BBS64  | 0.499066 | 0.0834061 |
@@ -51,8 +57,12 @@ This is a simple C++ library for *Pseudo Random Number Generation (PRNG)*. It pr
 | LFSR64 | 0.49994, | 0.0833352 |
 | NR     | 0.341687 | 0.0498607 |
 
-### Time Performance
-Generating *100000000* random numbers:
+The theoretical mean and variance for a uniformly distributed random variable in [0,1) are \
+mean = 1/2 (0.5) \
+variance = 1/12 (0.08333...)
+
+### Performance
+Time taken for generating *100000000* random numbers:
 
 #### DiceForge:
 | Generator | Time Taken |
@@ -64,37 +74,38 @@ Generating *100000000* random numbers:
 | MT32 | 1738.91ms |
 | MT64 | 1811.27ms |
 | LFSR | 18540.7ms |
-| Naor Reingold | 7143ms|
+| Naor Reingold | 7143ms |
 
 For comparison, benchmarking other existing standard libraries for the same test.
 
 | Generator | Time Taken |
 | --------- | ---------- |
-| C++ MT| 4032.7ms |
-| C++ rand()| 1388.03ms |
-| python randint | 51171.51641845703  ms |
-| numpy randint | 194015.43641090393 ms |
+| C++'s Mersenne Twister | 4032.7ms |
+| C rand() function| 1388.03ms |
+| python's random | 51171.51 ms |
+| numpy's randint | 194015.44 ms |
 
 
 ## Documentation
+
 Check out the [Documentation](https://www.overleaf.com/project/65d9eea60dbb4690fe6ff8be) for detailed information on library usage, supported algorithms, and more!
 
 ## Getting Started
 
 ### Prerequisites
 
-- C++ compiler (supporting C++11 or later)
+- C++ compiler (minimum C++17 or later, note that C++20 is required for using 2D probability functions)
 - CMake (>=3.28) [If building library]
 
 ### Installation
 
-#### Using a  prebuilt library
-1. Download the library file from [out](out) folder and add to PATH
-2. Make sure the [include](include) folder is PATH
+#### Using a prebuilt library
+1. Download the compiled binaries from [out](out) folder along with the include files [include](include)
+2. If you want compact compilation commands later on, add the path to *include/* and *out/* to the system environment variable PATH
 3. Start generating pseudo-random numbers!
 
 #### Building it yourself
-1. Clone the repository: `git clone https://github.com/yourusername/prng-library.git`
+1. Clone the repository: `git clone https://github.com/yourusername/diceforge-library-clone.git`
 2. Create the build folder by using the CMakeLists.txt
 2. Build library using the given CMake configurations (```cmake --build <build-folder>```)
 3. After the build is sucessful, follow the steps mentioned in [Using a prebuilt library](#using-a-prebuilt-library)
@@ -103,6 +114,7 @@ Check out the [Documentation](https://www.overleaf.com/project/65d9eea60dbb4690f
 
 Here's a quick example to get you started:
 
+*example.cpp*
 ```cpp
 #include "diceforge.h"
 
@@ -117,11 +129,23 @@ int main() {
 }
 ```
 
+Now to compile it with a compiler of your choice (we use g++ in the following example), enter the following command in your terminal
+
+1. If you added diceforge to PATH
+```bash
+g++ example.cpp libdiceforge_s.a -o example.out
+```
+
+2. If you do not with to include diceforge to PATH
+```bash
+g++ example.cpp "out/libdiceforge_s.a" -I "include" -o example.out
+```
+
 Feel free to explore the library and experiment with different algorithms!
 
 ## Contributing
 
-Currently, this is an IIT-M Maths CLub exclusive project and we aren't accepting outside contributions.
+Currently, this is an IIT-M Math CLub exclusive project and we aren't accepting outside contributions.
 
 ### For Project Members
 - View the [Tasks folder](Contributors_Only/Tasks) to view the tasks to be done.
@@ -131,6 +155,6 @@ Currently, this is an IIT-M Maths CLub exclusive project and we aren't accepting
 Current TODO
 - [ ] Custom pdf
 - [ ] Exception handling
-- [ ] 2d rv
+- [+] 2d rv
 - [ ] Documentation
-- [ ] Testing the RNGs
+- [+] Testing the RNGs
