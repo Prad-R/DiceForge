@@ -155,6 +155,6 @@ Currently, this is an IIT-M Math CLub exclusive project and we aren't accepting 
 Current TODO
 - [ ] Custom pdf
 - [ ] Exception handling
-- [+] 2d rv
+- [x] 2d rv
 - [ ] Documentation
-- [+] Testing the RNGs
+- [x] Testing the RNGs
