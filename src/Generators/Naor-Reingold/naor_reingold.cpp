@@ -13,37 +13,38 @@ static constexpr uint32_t a[] = {
     7087659, 796099,  8383655, 7638286, 1390415, 7899225, 5628976,
     1472292, 4284966, 9708041, 4179835, 3635954};
 
-// Precalculated exponents and remainders (i.e. g ^ a[i] % p)
-static constexpr uint32_t remainders[] = {
-    2737981618, 1080320388, 1723072060, 4228301455, 4149129801, 3571453456,
-    2502499170, 2645177746, 1174113779, 460790047,  2432060459, 3642283025,
-    2171537408, 1964923279, 167928637,  764994146,  33580906,   152749582,
-    3155509836, 1068833496, 3292407144, 686219412,  550755449,  1072869831,
-    2507702675, 2920217274, 2456957004, 3987169726, 3828720855, 2539518588,
-    420287618,  2009403111, 1732156098};
-
 namespace DiceForge {
 
-  NaorReingold::NaorReingold(uint32_t seed)
-    : m_state(seed)
-  {
+uint32_t power(uint32_t a, uint32_t b, uint32_t mod) {
+  uint32_t result = 1;
+  uint32_t a_pwr = a % mod;
+  while (b) {
+    if (b % 2 == 1)
+      result *= a_pwr;
+    a_pwr *= a_pwr;
+    a_pwr %= mod; // Take modulo everywhere
+    result %= mod;
+    b /= 2;
+  }
+  return result;
+}
+
+NaorReingold::NaorReingold(uint32_t seed) : m_state(seed) {}
+
+void NaorReingold::reseed(uint32_t seed) { m_state = seed; }
+
+uint32_t NaorReingold::generate() {
+  uint32_t res = 1;
+  for (int i = 0; i < 32; i++) {
+    // Only multiply the remainder if the corresponding bit is 1
+    bool to_multiply = m_state & (1 << i);
+
+    if (to_multiply)
+      res = (res * power(g, a[i], p)) % p;
   }
 
-  void NaorReingold::reseed(uint32_t seed) { m_state = seed; }
-
-  uint32_t NaorReingold::generate() {
-      uint32_t res = remainders[0];
-      for (int i = 0; i < 32; i++)
-      {
-          // Only multiply the remainder if the corresponding bit is 1
-          bool to_multiply = m_state & (1 << i);
-
-          if (to_multiply)
-              res = (res * remainders[i + 1]) % p;
-    }
-
-    m_state = res;
-    return res;
-  }
+  m_state = res;
+  return res;
+}
 
 } // namespace DiceForge
