@@ -4,6 +4,7 @@
 #include <limits>
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 #include <vector>
 
 namespace DiceForge
