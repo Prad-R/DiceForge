@@ -40,6 +40,7 @@ namespace DiceForge{
     public:
         /// @brief Initializes the Mersenne Twister RNG with the specified seed
         /// @param seed seed to initialize the RNG with
+        /// @note if the seed provided is zero, then the current system time is taken as seed
         MT32(uint32_t seed);
         ~MT32() = default;
     };
@@ -73,6 +74,7 @@ namespace DiceForge{
     public:
         /// @brief Initializes the Mersenne Twister RNG with the specified seed
         /// @param seed seed to initialize the RNG with
+        /// @note if the seed provided is zero, then the current system time is taken as seed
         MT64(uint64_t seed);
         ~MT64() = default;
     };
