@@ -276,6 +276,18 @@ namespace DiceForge
     typedef NaorReingold NaorReingold32;
     typedef XORShift64 XORShift;
 
+    /// @brief The default random number generator of DiceForge
+    /// @return A singleton of XORShift
+    static XORShift* random()
+    {
+        static XORShift* rng;
+
+        if (rng == nullptr)
+            rng = new XORShift(time(NULL));
+
+        return rng;
+    };
+
 } // namespace DiceForge
 
 
