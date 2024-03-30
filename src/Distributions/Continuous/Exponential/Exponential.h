@@ -9,13 +9,15 @@ namespace DiceForge
     class Exponential : public Continuous
     {
     private:
-        real_t k; // Rate parameter
+        real_t k;  // Rate parameter
+        real_t x0; // Origin of the distribution
     public:
         /**
          * @brief Constructor for Exponential distribution.
          * @param k Rate parameter for the exponential distribution.
+         * @param x0 Origin of the distribution.
          */
-        Exponential(real_t k);
+        Exponential(real_t k, real_t x0 = 0);
         /**
          * @brief Generate a random number from the exponential distribution.
          * @param r Random number in the range [0,1).
@@ -55,9 +57,20 @@ namespace DiceForge
          */
         real_t cdf(real_t x) const override final;
 
-        /// @brief Returns the rate parameter of the distribution 
+        /// @brief Returns the rate parameter of the distribution
         real_t get_k() const;
+
+        /// @brief Returns the origin of the distribution
+        real_t get_x0() const;
     };
+    /// @brief Fits the given sample points (x, y=pdf(x)) to an Exponential distribution using non-linear least squares regression
+    /// using Linear Regression after taking log.
+    /// @param x list of x coordinates
+    /// @param y list of corresponding y coordinates where y = pdf(x)
+    /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
+    /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
+    /// @return An Exponential distribution fit to the given sample points
+    Exponential fitToExponential(const std::vector<real_t> &x, const std::vector<real_t> &y, int max_iter, real_t epsilon, real_t al);
 }
 
 #endif
