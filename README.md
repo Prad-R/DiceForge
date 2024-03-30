@@ -54,7 +54,7 @@ Using DiceForge's pseudo random number generators to create a uniformly distribu
 | MT32   | 0.499956 | 0.0833425 |
 | MT64   | 0.500034 | 0.0833241 |
 | LFSR32 | 0.500033 | 0.0833329 |
-| LFSR64 | 0.49994, | 0.0833352 |
+| LFSR64 | 0.49994  | 0.0833352 |
 | NR     | 0.341687 | 0.0498607 |
 
 The theoretical mean and variance for a uniformly distributed random variable in [0,1) are \
@@ -145,7 +145,7 @@ Feel free to explore the library and experiment with different algorithms!
 
 ## Contributing
 
-Currently, this is an IIT-M Math CLub exclusive project and we aren't accepting outside contributions.
+Currently, this is an IIT-M Math Club exclusive project and we aren't accepting outside contributions.
 
 ### For Project Members
 - View the [Tasks folder](Contributors_Only/Tasks) to view the tasks to be done.
@@ -153,8 +153,18 @@ Currently, this is an IIT-M Math CLub exclusive project and we aren't accepting 
 - Reference materials are provided in the [Contributers_Only](Contributors_Only) folder.
 
 Current TODO
-- [ ] Custom pdf
-- [ ] Exception handling
+
+Priority
+- [ ] Fix bug in Naor Reingold RNG, also decide what to do when seed is zero and mention it in code documentation
+- [ ] Geometric distribution
+- [ ] Custom pdf distribution
+- [ ] Documentation (Some distributions + Diehard Tests)
+- [x] Exception handling
 - [x] 2d rv
-- [ ] Documentation
 - [x] Testing the RNGs
+
+Good to haves
+- [ ] Get bigger primes for PRNGs
+- [ ] Non-linear transformation in LFSR
+- [ ] More examples on using DiceForge in Documentation
+- [x] A defualt random singleton for convenience
