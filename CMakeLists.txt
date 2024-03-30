@@ -5,7 +5,10 @@ cmake_minimum_required(VERSION 3.0.0)
 project(DiceForge VERSION 1.0
                   DESCRIPTION "A C++ library with the same functionality as the random library in python."
                   LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 17)
+
+# Change CMAKE_CXX_STANDARD to 20 if using 2D random variables
+
+set(CMAKE_CXX_STANDARD 17)          
 
 # Project structure
 

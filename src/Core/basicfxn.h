@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <functional>
+#include <limits>
 
 #include "types.h"
 
