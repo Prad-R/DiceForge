@@ -1,4 +1,5 @@
 #include "naor_reingold.h"
+#include <chrono>
 
 typedef unsigned int uint32_t;
 
@@ -29,9 +30,16 @@ uint32_t power(uint32_t a, uint32_t b, uint32_t mod) {
   return result;
 }
 
-NaorReingold::NaorReingold(uint32_t seed) : m_state(seed) {}
+NaorReingold::NaorReingold(uint32_t seed) {
+  reseed(seed);
+}
 
-void NaorReingold::reseed(uint32_t seed) { m_state = seed; }
+void NaorReingold::reseed(uint32_t seed) { 
+  if (seed == 0)
+    m_state = std::chrono::system_clock::now();
+  else
+    m_state = seed;
+}
 
 uint32_t NaorReingold::generate() {
   uint32_t res = 1;
