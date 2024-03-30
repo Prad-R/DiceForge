@@ -8,10 +8,9 @@ namespace DiceForge
         reseed(seed);
     }
 
-
-uint64_t DiceForge::LFSR64::generate() {
-    uint64_t rand_num = 0;
-    uint64_t new_bit;
+    uint64_t DiceForge::LFSR64::generate() {
+        uint64_t rand_num = 0;
+        uint64_t new_bit;
 
         // For each bit to generate in rand_num,
         for (int i = 0; i < 64; i++) {
@@ -26,35 +25,34 @@ uint64_t DiceForge::LFSR64::generate() {
         return rand_num;
     }
 
-
-void DiceForge::LFSR64::reseed(uint64_t seed) {
-    // If seed is zero, RNG will get stuck at zero. So set both parts of curr_seed to current times
-    if (seed == 0){
-        curr_seed1 = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-        curr_seed2 = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-    }
-    // If non-zero seed given, set both parts of curr_seed to that value
-    else {
-        curr_seed1 = seed;
-        curr_seed2 = seed;
-    }
-    // Important: First 128 bits generated will simply be curr_seed in reverse
-    // Get them out of the way while reseeding
-    generate();
-    generate();
-    for (int i = 0; i < 100; i++){
+    void DiceForge::LFSR64::reseed(uint64_t seed) {
+        // If seed is zero, RNG will get stuck at zero. So set both parts of curr_seed to current times
+        if (seed == 0){
+            curr_seed1 = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+            curr_seed2 = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        }
+        // If non-zero seed given, set both parts of curr_seed to that value
+        else {
+            curr_seed1 = seed;
+            curr_seed2 = seed;
+        }
+        // Important: First 128 bits generated will simply be curr_seed in reverse
+        // Get them out of the way while reseeding
         generate();
+        generate();
+        for (int i = 0; i < 100; i++){
+            generate();
+        }
     }
-}
 
     LFSR32::LFSR32(uint32_t seed)
     {
         reseed(seed);
     }
 
-uint32_t DiceForge::LFSR32::generate() {
-    uint32_t rand_num = 0;
-    uint64_t new_bit;
+    uint32_t DiceForge::LFSR32::generate() {
+        uint32_t rand_num = 0;
+        uint64_t new_bit;
 
         // For each bit to generate in rand_num,
         for (int i = 0; i < 32; i++) {
@@ -87,20 +85,9 @@ uint32_t DiceForge::LFSR32::generate() {
         generate();
         generate();
         generate();
-    }
-        // If non-zero seed given, set both parts of curr_seed to that value
-    else {
-        uint64_t s = seed;
-        curr_seed1 = (s << 32) | s;
-        curr_seed2 = (s << 32) | s;
-    }
-    // Important: First 128 bits generated will simply be curr_seed in reverse
-    // Get them out of the way while reseeding
-    generate();
-    generate();
-    generate();
-    generate();
-    for (int i = 0; i < 200; i++){
-        generate();
+            
+        for (int i = 0; i < 200; i++){
+            generate();
+        }
     }
 }

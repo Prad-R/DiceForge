@@ -7,10 +7,7 @@ namespace DiceForge
         n = len;
         // Display error if n is not at least 1
         if (n <= 0) {
-            std::cerr << "Error :"
-                        "\n\tDiceForge::Gibbs::Gibbs(real_t x_arr[], real_t func_arr[], int len, real_t beta) : "
-                        "\n\t\tlen must be positive.\n" << std::endl;
-            exit(EXIT_FAILURE);
+            throw std::invalid_argument("len must be positive!");
         }
         
         // Sort the pmf in increasing order of x (required for constructing cdf)
@@ -24,10 +21,7 @@ namespace DiceForge
         // Display error if x values are not unique
         for (int i = 1; i < n; i++) {
             if (xy_arr[i].first == xy_arr[i - 1].first) {
-                std::cerr << "Error :"
-                            "\n\tDiceForge::Gibbs::Gibbs(real_t x_arr[], real_t func_arr[], int len, real_t beta) : "
-                            "\n\t\tAll x values in x_arr must be unique.\n" << std::endl;
-                exit(EXIT_FAILURE);
+                throw std::invalid_argument("All x values in x_arr must be unique!");
             }
         }
         

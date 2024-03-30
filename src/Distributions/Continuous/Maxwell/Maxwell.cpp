@@ -8,7 +8,7 @@ namespace DiceForge
     {
         if (a<=0)
         {
-            throw std::runtime_error("Scaling factor a must be positive");
+            throw std::invalid_argument("Scaling factor a must be positive");
         }
     }
 
