@@ -136,6 +136,16 @@ namespace DiceForge {
             real_t get_mu() const;
             /// @brief Returns standard deviation of the distribution
             real_t get_sigma() const;
+
+            /// @brief Fits the given sample points (x, y=pdf(x)) to a Gaussian distribution using non-linear least squares regression
+            /// following Gauss-Newton methods
+            /// @param x list of x coordinates
+            /// @param y list of corresponding y coordinates where y = pdf(x)
+            /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
+            /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
+            /// @return A Gaussian distribution fit to the given sample points
+            Gaussian fitToGaussian(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter = 10000, real_t epsilon = 1e-6);
+
     };
 
     /// @brief DiceForge::Maxwell - A Continuous Probability Distribution (Maxwell) 

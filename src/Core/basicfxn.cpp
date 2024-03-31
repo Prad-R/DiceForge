@@ -1,4 +1,5 @@
 #include "basicfxn.h"
+#include <limits>
 
 namespace DiceForge
 {
