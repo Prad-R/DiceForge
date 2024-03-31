@@ -115,6 +115,7 @@ namespace DiceForge {
     /// @param y list of corresponding y coordinates where y = pdf(x)
     /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
     /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
+    /// @param al learning rate for gradient descent
     /// @returns An Exponential distribution fit to the given sample points
     Exponential fitToExponential(const std::vector<real_t> &x, const std::vector<real_t> &y, int max_iter, real_t epsilon, real_t al);
 
