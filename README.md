@@ -155,10 +155,10 @@ Currently, this is an IIT-M Math Club exclusive project and we aren't accepting 
 Current TODO
 
 Priority
-- [ ] Fix bug in Naor Reingold RNG, also decide what to do when seed is zero and mention it in code documentation
 - [ ] Geometric distribution
 - [ ] Custom pdf distribution
-- [ ] Documentation (Some distributions + Diehard Tests)
+- [ ] Documentation (Bernoulli, Binomial, Geometric + Diehard Tests)
+- [x] Fix bug in Naor Reingold RNG, also decide what to do when seed is zero and mention it in code documentation
 - [x] Exception handling
 - [x] 2d rv
 - [x] Testing the RNGs
