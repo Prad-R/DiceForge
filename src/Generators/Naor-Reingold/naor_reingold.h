@@ -5,6 +5,7 @@
 namespace DiceForge {
   
   /// @brief DiceForge::NaorReingold - An implementation of the Naor-Reingold PRF 
+  /// @note If the seed given is zero, then it is taken to be the current system time
   /// for generating 32-bit unsigned integers
   class NaorReingold : public Generator<uint32_t> {
     private:
