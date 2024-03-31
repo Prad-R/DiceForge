@@ -150,14 +150,14 @@ Currently, this is an IIT-M Math Club exclusive project and we aren't accepting 
 ### For Project Members
 - View the [Tasks folder](Contributors_Only/Tasks) to view the tasks to be done.
 
-- Reference materials are provided in the [Contributers_Only](Contributors_Only) folder.
+- Reference materials are provided in the [Contributors_Only](Contributors_Only) folder.
 
 Current TODO
 
 Priority
-- [ ] Geometric distribution
 - [ ] Custom pdf distribution
-- [ ] Documentation (Bernoulli, Geometric + Diehard Tests; Binomial has been done)
+- [ ] Documentation (Bernoulli, Diehard Tests; Geometric + Binomial has been done)
+- [x] Geometric distribution
 - [x] Fix bug in Naor Reingold RNG, also decide what to do when seed is zero and mention it in code documentation
 - [x] Exception handling
 - [x] 2d rv
@@ -165,6 +165,6 @@ Priority
 
 Good to haves
 - [ ] Get bigger primes for PRNGs
-- [ ] Non-linear transformation in LFSR
+- [x] Non-linear transformation in LFSR
 - [ ] More examples on using DiceForge in Documentation
 - [x] A defualt random singleton for convenience
