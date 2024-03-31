@@ -108,9 +108,9 @@ namespace DiceForge
             return *(first + next_in_range(0, last - first - 1));
         };
 
-        template <typename RandomAccessIterator>
-        auto choice(RandomAccessIterator first, RandomAccessIterator last,
-                    RandomAccessIterator weights_first, RandomAccessIterator weights_last)
+        template <typename RandomAccessIterator1, typename RandomAccessIterator2>
+        auto choice(RandomAccessIterator1 first, RandomAccessIterator1 last,
+                    RandomAccessIterator2 weights_first, RandomAccessIterator2 weights_last)
         {
             if (last - first != weights_last - weights_first){
                 std::cerr << "Error :"
