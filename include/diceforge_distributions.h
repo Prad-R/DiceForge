@@ -50,58 +50,74 @@ namespace DiceForge {
     /// @return A Cauchy distribution fit to the given sample points
     Cauchy fitToCauchy(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter = 10000, real_t epsilon = 1e-6);
 
-    /// @brief DiceForge::Exponential - A continuous exponential probability distribution
-    class Exponential : public Continuous
-    {
+
+    /// @brief DiceForge::Exponential - A Continuous Probability Distribution (Expontential)
+    class Exponential : public Continuous {
     private:
-        real_t k; // Rate parameter
+        real_t k;  // Rate parameter
+        real_t x0; // Origin of the distribution
     public:
         /**
          * @brief Constructor for Exponential distribution.
          * @param k Rate parameter for the exponential distribution.
+         * @param x0 Origin of the distribution.
+         * @note k > 0
          */
-        Exponential(real_t k);
+        Exponential(real_t k, real_t x0 = 0);
         /**
          * @brief Generate a random number from the exponential distribution.
          * @param r Random number in the range [0,1).
-         * @return Random number from the exponential distribution.
+         * @returns Random number from the exponential distribution.
          */
         real_t next(real_t r);
         /**
          * @brief Calculate the variance of the distribution.
-         * @return Variance of the exponential distribution.
+         * @returns Variance of the exponential distribution.
          */
         real_t variance() const override final;
         /**
          * @brief Calculate the expectation of the distribution.
-         * @return Expectation of the exponential distribution.
+         * @returns Expectation of the exponential distribution.
          */
         real_t expectation() const override final;
         /**
          * @brief Get the minimum possible value in the distribution.
-         * @return Minimum value of the exponential distribution.
+         * @returns Minimum value of the exponential distribution.
          */
         real_t minValue() const override final;
         /**
          * @brief Get the maximum possible value in the distribution.
-         * @return Maximum value of the exponential distribution.
+         * @returns Maximum value of the exponential distribution.
          */
         real_t maxValue() const override final;
         /**
          * @brief Calculate the probability density function (PDF) of the distribution at a given point x.
          * @param x Point at which to calculate the PDF.
-         * @return PDF value at point x.
+         * @returns PDF value at point x.
          */
         real_t pdf(real_t x) const override final;
         /**
          * @brief Calculate the cumulative distribution function (CDF) of the distribution at a given point x.
          * @param x Point at which to calculate the CDF.
-         * @return CDF value at point x.
+         * @returns CDF value at point x.
          */
         real_t cdf(real_t x) const override final;
-        /// @brief Returns the rate parameter of the distribution 
+
+        /// @brief Returns the rate parameter of the distribution
         real_t get_k() const;
+
+        /// @brief Returns the origin of the distribution
+        real_t get_x0() const;
     };
+    /// @brief Fits the given sample points (x, y=pdf(x)) to an Exponential distribution using linear regression.
+    /// using Linear Regression after taking log, Gradient Descent as Optimizer, Mean Squared Error as Loss Function
+    /// @param x list of x coordinates
+    /// @param y list of corresponding y coordinates where y = pdf(x)
+    /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
+    /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
+    /// @returns An Exponential distribution fit to the given sample points
+    Exponential fitToExponential(const std::vector<real_t> &x, const std::vector<real_t> &y, int max_iter, real_t epsilon, real_t al);
+
 
     /// @brief DiceForge::Gaussian - A Continuous Probability Distribution (Gaussian) 
     class Gaussian : public Continuous {
