@@ -69,7 +69,7 @@ public:
 /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
 /// @param alpha learning rate for the gradient descent optimizer
 /// @returns An Exponential distribution fit to the given sample points
-Exponential fitToExponential(const std::vector<real_t> &x, const std::vector<real_t> &y, int max_iter, real_t epsilon, real_t al);
+Exponential fitToExponential(const std::vector<real_t> &x, const std::vector<real_t> &y, int max_iter, real_t epsilon, real_t alpha);
 }
 
 #endif

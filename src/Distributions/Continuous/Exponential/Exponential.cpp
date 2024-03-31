@@ -60,7 +60,7 @@ real_t Exponential::get_x0() const {
 }
 
 // fit to exponential distribution using linear regression after taking log
-Exponential fitToExponential(const std::vector<real_t> &x, const std::vector<real_t> &y, int max_iter = 10000, real_t epsilon = 1e-6, real_t al = 0.1) {
+Exponential fitToExponential(const std::vector<real_t> &x, const std::vector<real_t> &y, int max_iter = 10000, real_t epsilon = 1e-6, real_t alpha = 0.1) {
     if (x.size() != y.size()) {
         throw "Number of x-coordinates and y-coordinates provided in the data do not match!";
     }
@@ -97,11 +97,11 @@ Exponential fitToExponential(const std::vector<real_t> &x, const std::vector<rea
 
         k_grad /= N;
         c_grad /= N;
-        k -= al * k_grad;
-        c -= al * c_grad;
+        k -= alpha * k_grad;
+        c -= alpha * c_grad;
 
-        if (std::abs(al * k_grad) < epsilon && abs(al * c_grad) < epsilon) {
-            // std::cout << al * k_grad << " " << al * c_grad << std::endl;
+        if (std::abs(alpha * k_grad) < epsilon && abs(alpha * c_grad) < epsilon) {
+            // std::cout << alpha * k_grad << " " << alpha * c_grad << std::endl;
             // std::cout << "Converged in " << i << " iterations" << std::endl;
             break;
         }
