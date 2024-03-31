@@ -157,7 +157,7 @@ Current TODO
 Priority
 - [ ] Geometric distribution
 - [ ] Custom pdf distribution
-- [ ] Documentation (Bernoulli, Binomial, Geometric + Diehard Tests)
+- [ ] Documentation (Bernoulli, Geometric + Diehard Tests; Binomial has been done)
 - [x] Fix bug in Naor Reingold RNG, also decide what to do when seed is zero and mention it in code documentation
 - [x] Exception handling
 - [x] 2d rv
