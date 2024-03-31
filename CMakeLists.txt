@@ -33,6 +33,7 @@ set(SRC
 "src/Distributions/Discrete/Hypergeometric/Hypergeometric.cpp"
 "src/Distributions/Discrete/Negative-Hypergeometric/NegHypergeometric.cpp"
 "src/Distributions/Discrete/Poisson/Poisson.cpp"
+"src/Distributions/Discrete/Geometric/Geometric.cpp"
 "src/Distributions/Continuous/Cauchy/Cauchy.cpp"
 "src/Distributions/Continuous/Exponential/Exponential.cpp"
 "src/Distributions/Continuous/Gaussian/Gaussian.cpp"
