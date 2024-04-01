@@ -61,7 +61,7 @@ namespace DiceForge
         {
             reseed(seed);
         }
-        /// @brief Returns a random element from the sequence
+        /// @brief Returns a uniformly chosen random element from the sequence
         /// @param first Iterator of first element (like .begin() of vectors)
         /// @param last Iterator after last element (like .end() of vectors)
         template <typename RandomAccessIterator>
@@ -70,9 +70,14 @@ namespace DiceForge
             return *(first + next_in_range(0, last - first - 1));
         };
 
-        template <typename RandomAccessIterator>
-        auto choice(RandomAccessIterator first, RandomAccessIterator last,
-                    RandomAccessIterator weights_first, RandomAccessIterator weights_last)
+        /// @brief Returns a uniformly chosen random element from the sequence
+        /// @param first Iterator of first element (like .begin() of vectors)
+        /// @param last Iterator after last element (like .end() of vectors)
+        /// @param first Iterator of weight of first element (like .begin() of vectors)
+        /// @param last Iterator after weight of last element (like .end() of vectors)
+        template <typename RandomAccessIterator1, typename RandomAccessIterator2>
+        auto choice(RandomAccessIterator1 first, RandomAccessIterator1 last,
+                    RandomAccessIterator2 weights_first, RandomAccessIterator2 weights_last)
         {
             if (last - first != weights_last - weights_first){
                 std::cerr << "Error :"
