@@ -156,15 +156,22 @@ Current TODO
 
 Priority
 - [ ] Custom pdf distribution
-- [ ] Documentation (Bernoulli, Diehard Tests; Geometric + Binomial has been done)
 - [x] Geometric distribution
 - [x] Fix bug in Naor Reingold RNG, also decide what to do when seed is zero and mention it in code documentation
 - [x] Exception handling
 - [x] 2d rv
 - [x] Testing the RNGs
 
+Documentation 
+- [ ] Curve fitting (all except Cauchy)
+- [ ] 2D RV
+- [ ] Bernoulli
+- [-] Diehard Tests
+- [x] Geometric
+- [x] Binomial
+
 Good to haves
 - [ ] Get bigger primes for PRNGs
+- [-] More examples on using DiceForge in Documentation
 - [x] Non-linear transformation in LFSR
-- [ ] More examples on using DiceForge in Documentation
 - [x] A defualt random singleton for convenience
