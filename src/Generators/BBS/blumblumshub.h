@@ -30,13 +30,6 @@ namespace DiceForge
             uint32_t generate() override;
 
             /**
-             * @brief check_seed - Checks if the seed is coprime with n (p*q)
-             * @note If it is not then a constant is added to the seed to make it coprime
-             * @param seed The seed value
-             */
-            void check_seed(uint32_t& seed);
-
-            /**
              * @brief reseed - Reseeds the generator with a new seed
              * @param seed The new seed value
              * @note if the seed is zero then a non-zero seed is adopted by default
@@ -80,13 +73,6 @@ namespace DiceForge
              * @return The generated random number
              */
             uint64_t generate() override;
-
-            /**
-             * @brief check_seed - Checks if the seed is coprime with n (p*q)
-             * @note If it is not then a constant is added to the seed to make it coprime
-             * @param seed The seed value
-             */
-            void check_seed(uint64_t& seed);
 
             /**
              * @brief reseed - Reseeds the generator with a new seed

@@ -13,14 +13,7 @@ namespace DiceForge
     }
 
     BlumBlumShub32::BlumBlumShub32(uint32_t seed){
-        check_seed(seed);
-    }
-
-    void BlumBlumShub32::check_seed(uint32_t& seed) {
-        if (std::gcd(seed, n) != 1)
-        {
-            seed += 4294967387ULL;
-        }
+        reseed(seed);
     }
 
     uint32_t BlumBlumShub32::generate() {
@@ -33,8 +26,10 @@ namespace DiceForge
     }
 
     void BlumBlumShub32::reseed(uint32_t seed) {
-        check_seed(seed);
-        state = seed;
+        if (std::gcd(seed, n) != 1){
+            seed += 429496737ULL;
+        }
+        state = seed % n;
     }
 
     inline void BlumBlumShub64::propagate(){
@@ -42,19 +37,12 @@ namespace DiceForge
 
         // Ensure the state is not 0 or 1
         if(state == 0 || state == 1){
-            state += 4294967387ULL; // A random constant to avoid getting stuck at 0 or 1
+            state += 429496737ULL; // A random constant to avoid getting stuck at 0 or 1
         }
     }
 
     BlumBlumShub64::BlumBlumShub64(uint64_t seed){
-        check_seed(seed);
-    }
-
-    void BlumBlumShub64::check_seed(uint64_t& seed) {
-        if (std::gcd(seed, n) != 1)
-        {
-            seed += 4294967387ULL;
-        }
+        reseed(seed);
     }
 
     uint64_t BlumBlumShub64::generate() {
@@ -67,7 +55,9 @@ namespace DiceForge
     }
 
     void BlumBlumShub64::reseed(uint64_t seed) {
-        check_seed(seed);
-        state = seed;
+        if (std::gcd(seed, n) != 1){
+            seed += 429496737ULL;
+        }
+        state = seed % n;
     }
 }
