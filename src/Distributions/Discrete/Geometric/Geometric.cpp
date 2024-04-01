@@ -35,7 +35,7 @@ namespace DiceForge
 
     int_t Geometric::maxValue() const  {
         // Largest value that can be generated in Geometric distribution: infinity
-        return std::numeric_limits<real_t>().infinity();
+        return std::numeric_limits<int_t>().infinity();
     }
 
     real_t Geometric::pmf(int_t x) const  {
