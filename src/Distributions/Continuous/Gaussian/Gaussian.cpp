@@ -8,10 +8,7 @@ namespace DiceForge
     {
         if (sigma < std::numeric_limits<real_t>().epsilon())
         {
-            std::cerr << "Error :"
-                        "\n\tDiceForge::Gaussian::Gaussian(real_t mu, real_t sigma) : "
-                        "\n\t\tValue of sigma must be positive\n" << std::endl;
-            exit(EXIT_FAILURE);
+            throw std::invalid_argument("sigma must be positive!");
         }
     }
 

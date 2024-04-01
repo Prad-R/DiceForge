@@ -8,10 +8,7 @@ namespace DiceForge
     {
         if (gamma < std::numeric_limits<real_t>().epsilon())
         {
-            std::cerr << "Error :"
-                        "\n\tDiceForge::Cauchy::Cauchy(real_t x0, real_t gamma) : "
-                        "\n\t\tValue of gamma must be positive\n" << std::endl;
-            exit(EXIT_FAILURE);
+            throw std::invalid_argument("gamma must be positive!");
         }
     }
 
@@ -64,7 +61,7 @@ namespace DiceForge
     {
         if (x.size() != y.size())
         {
-            throw "Number of x-coordinates and y-coordinates provided in the data do not match!";
+            throw std::invalid_argument("Number of x-coordinates and y-coordinates provided in the data do not match!");
         }
 
         const int N = x.size();
@@ -156,7 +153,7 @@ namespace DiceForge
 
         if (gamma < 0)
         {
-            throw "Could not fit data to Cauchy!";
+            throw std::runtime_error("Could not fit data to Cauchy! Data is probably too noisy or not Cauchy!");
         }
 
         return Cauchy(x0, gamma);

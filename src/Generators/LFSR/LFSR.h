@@ -17,6 +17,7 @@ namespace DiceForge {
     public:
         /// @brief Initializes the LFSR with the specified seed
         /// @param seed seed to initialize the RNG with
+        /// @note if the seed provided is zero, then the current system time is taken as seed
         LFSR64(uint64_t seed);
         /// @brief Default destructor
         ~LFSR64() = default;
@@ -30,11 +31,13 @@ namespace DiceForge {
         uint64_t curr_seed1 = 0, curr_seed2 = 0;
         // Function to generate a random 32-bit positive integer
         uint32_t generate() override;
-        // Function to reseed the RNG
+        /// @brief Function to reseed the RNG
+        /// @note if the seed provided is zero, then the current system time is taken as seed
         void reseed(uint32_t seed) override;
     public:    
         /// @brief Initializes the LFSR with the specified seed
         /// @param seed seed to initialize the RNG with
+        /// @note if the seed provided is zero, then the current system time is taken as seed
         LFSR32(uint32_t seed);
         /// @brief Default destructor
         ~LFSR32() = default;

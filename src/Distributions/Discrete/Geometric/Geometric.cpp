@@ -8,13 +8,12 @@ namespace DiceForge
     : p(p)
     {
         if (p < 0 || p > 1) {
-            std::cerr << "Error: Invalid probability value for Bernoulli distribution." << std::endl;
-            exit(EXIT_FAILURE);
+            throw std::invalid_argument("Invalid probability value for Bernoulli distribution!");
         }
     }
 
     int_t Geometric::next(real_t r) 
-    {  // Generate a random integer based on the Bernoulli distribution
+    {  // Generate a random integer based on the Geometric distribution
         if (r>p) { 
             return 0;
         }

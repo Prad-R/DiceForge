@@ -12,10 +12,7 @@ DiceForge::Poisson<T>::Poisson(DiceForge::real_t lambda, int32_t s): generator(s
     
     
     if (l < 0) {
-        std::cerr << "Error :"
-                     "\n\tDiceForge::Poisson::Poisson(real_t x_arr[], real_t func_arr[], int len, real_t beta) : "
-                     "\n\t\tLambda must not be negative.\n" << std::endl;
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument("Lambda must not be negative!");
     }
     
     

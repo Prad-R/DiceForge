@@ -4,8 +4,13 @@ namespace DiceForge
 {
     
     // Constructor for 32-bit random number.
-    MT32::MT32(uint32_t seed) : seed(seed)
+    MT32::MT32(uint32_t _seed)
     {
+        if (_seed == 0)
+            _seed = time(NULL);
+
+        seed = _seed;
+
         N = 624;
         M = 397;
         A = 2573724191;
@@ -24,6 +29,9 @@ namespace DiceForge
     // Reset seed
     void MT32::reseed(uint32_t seed)
     {
+        if (seed == 0)
+            seed = time(NULL);
+
         sgenrand(seed);
         mti=N+1;
     }
@@ -85,8 +93,13 @@ namespace DiceForge
 
 
     // Constructor for 64-bit random number.
-    MT64::MT64(uint64_t seed) : seed(seed)
+    MT64::MT64(uint64_t _seed)
     {
+        if (_seed == 0)
+            _seed = time(NULL);
+
+        seed = _seed;
+
         N = 312;
         M = 156;
         A = 0xB5026F5AA96619E9;
@@ -105,6 +118,9 @@ namespace DiceForge
     // Reset seed
     void MT64::reseed(uint64_t seed)
     {
+        if (seed == 0)
+            seed = time(NULL);
+
         sgenrand(seed);
         mti=N+1;
     }
