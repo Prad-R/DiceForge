@@ -154,6 +154,9 @@ Currently, this is an IIT-M Math Club exclusive project and we aren't accepting 
 
 Current TODO
 
+Do not forget to
+- [ ] Update header files in the end
+
 Priority
 - [ ] Custom pdf distribution
 - [x] Geometric distribution
@@ -166,9 +169,8 @@ Documentation
 - [ ] Curve fitting (all except Cauchy)
 - [ ] 2D RV
 - [ ] Bernoulli
+- [ ] Custom Distribution
 - [-] Diehard Tests
-- [x] Geometric
-- [x] Binomial
 
 Good to haves
 - [ ] Get bigger primes for PRNGs
