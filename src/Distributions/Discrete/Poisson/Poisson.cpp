@@ -2,80 +2,40 @@
 #include <algorithm>
 #include "basicfxn.h"
 
-
-
-//DiceForge::int_t n;
-template <typename T>
-DiceForge::Poisson<T>::Poisson(DiceForge::real_t lambda, int32_t s): generator(s)
+DiceForge::Poisson::Poisson(DiceForge::real_t lambda)
 {
-    // Display error if n is not at least 1
-    
-    
     if (l < 0) {
         throw std::invalid_argument("Lambda must not be negative!");
     }
-    
-    
     
     l=lambda;
     sq=sqrt(2);
     lnl=log(l);
     g=l*lnl-lgamma(l+1);
-
 }
 
-template <typename T>
-DiceForge::real_t DiceForge::Poisson<T>::getran(){
-
-    return (0);
-}
-
-
-template <typename T>
-DiceForge::int_t DiceForge::Poisson<T>::next(){
-
-
-    real_t t,x,c;
-    do{
-        do{
-            t=tan(M_PI*generator.next_unit());
-            x=sq*t+l;
-        } while (x<0);
-        x=floor(x);
-        c=0.9*(1+t*t)*exp(x*lnl-lgamma(x+1)-g);
-    } while(generator.next_unit()>c);
-
-
-    return int_t(x);
-}
-
-template <typename T>
-DiceForge::real_t DiceForge::Poisson<T>::variance() const{
+DiceForge::real_t DiceForge::Poisson::variance() const{
     return l;
 }
 
-template <typename T>
-DiceForge::real_t DiceForge::Poisson<T>::expectation() const{
+DiceForge::real_t DiceForge::Poisson::expectation() const{
     return l;
 }
 
-template <typename T>
-DiceForge::int_t DiceForge::Poisson<T>::minValue() const{
+DiceForge::int_t DiceForge::Poisson::minValue() const{
     return 0;
 }
 
-template <typename T>
-DiceForge::int_t DiceForge::Poisson<T>::maxValue() const{
-    return INT64_MAX;
+DiceForge::int_t DiceForge::Poisson::maxValue() const{
+    return std::numeric_limits<int_t>().infinity();
 }
 
-template <typename T>
-DiceForge::real_t DiceForge::Poisson<T>::pmf(DiceForge::int_t x) const{
+
+DiceForge::real_t DiceForge::Poisson::pmf(DiceForge::int_t x) const{
     return (pow(l,x)*exp(-l)/tgamma(x+1));
 }
 
-template <typename T>
-DiceForge::real_t DiceForge::Poisson<T>::cdf(DiceForge::int_t x) const{
+DiceForge::real_t DiceForge::Poisson::cdf(DiceForge::int_t x) const{
    DiceForge::real_t sum=0,a=exp(-l);
    for (int i=1; i<=x; i++){
     a = a*(l/i);
