@@ -36,7 +36,7 @@ NaorReingold::NaorReingold(uint32_t seed) {
 
 void NaorReingold::reseed(uint32_t seed) { 
   if (seed == 0)
-    m_state = std::chrono::system_clock::now();
+    m_state = std::chrono::high_resolution_clock::now().time_since_epoch().count();
   else
     m_state = seed;
 }
