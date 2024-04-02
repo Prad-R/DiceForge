@@ -32,7 +32,7 @@ namespace DiceForge {
             /// @brief Probabiliity mass function of the Negative hypergeometric distribution
             /// @note Here it is the probability of encountering exactly k "success" elements when the experiment is stopped
             real_t pmf(int_t k) const override final;
-            /// @brief Probabiliity distribution function of the Negative hypergeometric distribution
+            /// @brief Cumulative distribution function of the Negative hypergeometric distribution
             /// @note Here it is the probability of encountering at most k "success" elements when the experiment is stopped
             real_t cdf(int_t k) const override final;
     };

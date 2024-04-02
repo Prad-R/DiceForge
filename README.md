@@ -154,17 +154,26 @@ Currently, this is an IIT-M Math Club exclusive project and we aren't accepting 
 
 Current TODO
 
+Do not forget to
+- [ ] Update header files in the end
+
 Priority
 - [ ] Custom pdf distribution
-- [ ] Documentation (Bernoulli, Diehard Tests; Geometric + Binomial has been done)
 - [x] Geometric distribution
 - [x] Fix bug in Naor Reingold RNG, also decide what to do when seed is zero and mention it in code documentation
 - [x] Exception handling
 - [x] 2d rv
 - [x] Testing the RNGs
 
+Documentation 
+- [ ] Curve fitting (all except Cauchy)
+- [ ] 2D RV
+- [ ] Bernoulli
+- [ ] Custom Distribution
+- [-] Diehard Tests
+
 Good to haves
 - [ ] Get bigger primes for PRNGs
+- [-] More examples on using DiceForge in Documentation
 - [x] Non-linear transformation in LFSR
-- [ ] More examples on using DiceForge in Documentation
 - [x] A defualt random singleton for convenience

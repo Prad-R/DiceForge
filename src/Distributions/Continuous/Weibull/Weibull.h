@@ -5,7 +5,7 @@
 
 namespace DiceForge {
 
-    /// @brief DiceForge::WEIBULL - A Continuous Probability Distribution (WEIBULL) 
+    /// @brief DiceForge::Weibull - A Continuous Probability Distribution (Weibull) 
     class Weibull : public Continuous {
         private:
             real_t shift, k, lambda;
