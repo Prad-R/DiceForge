@@ -5,7 +5,10 @@ cmake_minimum_required(VERSION 3.0.0)
 project(DiceForge VERSION 1.0
                   DESCRIPTION "A C++ library with the same functionality as the random library in python."
                   LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 17)
+
+# Change CMAKE_CXX_STANDARD to 20 if using 2D random variables
+
+set(CMAKE_CXX_STANDARD 17)          
 
 # Project structure
 
@@ -30,11 +33,14 @@ set(SRC
 "src/Distributions/Discrete/Hypergeometric/Hypergeometric.cpp"
 "src/Distributions/Discrete/Negative-Hypergeometric/NegHypergeometric.cpp"
 "src/Distributions/Discrete/Poisson/Poisson.cpp"
+"src/Distributions/Discrete/Geometric/Geometric.cpp"
 "src/Distributions/Continuous/Cauchy/Cauchy.cpp"
 "src/Distributions/Continuous/Exponential/Exponential.cpp"
 "src/Distributions/Continuous/Gaussian/Gaussian.cpp"
 "src/Distributions/Continuous/Maxwell/Maxwell.cpp"
-"src/Distributions/Continuous/Weibull/Weibull.cpp")
+"src/Distributions/Continuous/Weibull/Weibull.cpp"
+"src/Distributions/Continuous/Custom/Custom.cpp")
+
 
 # Compile to objects
 

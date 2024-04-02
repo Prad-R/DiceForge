@@ -6,12 +6,11 @@ namespace DiceForge {
     NegHypergeometric::NegHypergeometric(uint_t N, uint_t K, uint_t r)
         : N(N), K(K), r(r)
     {
-        if (K > N || r > N - K)
+        if (K > N || r > N - K || N <= 0)
         {
-            std::cerr << "Error :"
-                        "\n\tDiceForge::NegHypergeometric::NegHypergeometric(uint_t N, uint_t K, uint_t r) : "
-                        "\n\t\tReceived invalid parameters (N, K, r)\n" << std::endl;
-            exit(EXIT_FAILURE);
+            throw std::invalid_argument("Received invalid parameters (N, K, r)!"\
+            "K, r must be positive, N must be non negative"\
+            "K must not be larger than N and r must not be larger than N - K");
         }
 
         // precalculate pmfs for faster random number generation

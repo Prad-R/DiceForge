@@ -1,6 +1,5 @@
 #include "Maxwell.h"
 #include <math.h>
-//#include "boost/math/special_functions/gamma.hpp"
 
 namespace DiceForge
 {            
@@ -8,7 +7,7 @@ namespace DiceForge
     {
         if (a<=0)
         {
-            throw std::runtime_error("Scaling factor a must be positive");
+            throw std::invalid_argument("Scaling factor 'a' must be positive!");
         }
     }
 
@@ -50,7 +49,6 @@ namespace DiceForge
     {        
         real_t beta = 1/(2*a*a);
         return beta * sqrt(beta)*sqrt(x)*exp(-x*beta)/tgamma(1.5);
-        //boost::math::gamma_p(1.5 , x * x/ 2 * a * a);
     } 
 
     real_t Maxwell::get_a() const

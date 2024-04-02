@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <functional>
+#include <limits>
 
 #include "types.h"
 
@@ -87,18 +88,18 @@ namespace DiceForge
         return inv;
     }
     
-    static real_t simpson(std::function<real_t(real_t)> f, real_t a, real_t b)
+    static real_t simpson(std::function<real_t(real_t)> f, real_t a, real_t b, size_t partitions = 1000000)
     {
         /*
         f = function we want to integrate
         a = start point on x axis
         b = end point on x axis
         h = step size, taken as a millionth of the diff btw a and b
-        n = number of partitions, taken as a million here
+        n = number of partitions, taken as a million here by default
         area = numerical area approximation using simpson's 1/3rd rule
         */
         real_t h, area, sum1, sum2, sum3, n;
-        n = 1000000;
+        n = partitions;
         h = (b - a) / n;
         sum1 = f(a) + f(b);
         sum2 = sum3 = 0;

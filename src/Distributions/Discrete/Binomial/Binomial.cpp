@@ -6,7 +6,7 @@ namespace DiceForge {
 Binomial::Binomial(uint_t n, real_t p)
     : n(n), p(p) {
     if (n < 0 || p < 0 || p > 1) {
-        throw "Expected n > 0 and 0 <= p <= 1";
+        throw std::invalid_argument("Expected n > 0 and 0 <= p <= 1");
     }
 
     pmfs = std::vector<real_t>(n+1);

@@ -8,8 +8,7 @@ namespace DiceForge{
     : p(p)
     {
         if (p < 0 || p > 1) {
-            std::cerr << "Error: Invalid probability value for Bernoulli distribution." << std::endl;
-            exit(EXIT_FAILURE);
+            throw std::invalid_argument("Error: Invalid probability value for Bernoulli distribution!");
         }
     }
     

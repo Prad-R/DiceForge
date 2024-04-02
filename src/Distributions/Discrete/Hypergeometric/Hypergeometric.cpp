@@ -9,11 +9,8 @@ namespace DiceForge
         // constraints handling
         if (n > N || K > N || n < 0 || K < 0)
         {
-            std::cerr << "Error :"
-                         "\n\tDiceForge::Hypergeometric::Hypergeometric(int32_t N, int32_t K, int32_t n) : "
-                         "\n\t\t invalid parameters (N, K, n)\n"
-                      << std::endl;
-            exit(EXIT_FAILURE);
+           throw std::invalid_argument("invalid parameters (N, K, n)!"\
+           "n and K must be positive, and n and K must not be larger than N");
         }
 
         pmfs.resize((std::min(n, K) + 1));       // pmf vector stores the probabilities

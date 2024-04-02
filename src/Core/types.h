@@ -20,9 +20,9 @@ namespace DiceForge
 
 #elif __APPLE__
     typedef int int32_t;                // A signed integer (32 bit)
-    typedef long int int64_t;           // A signed integer (64 bit)
+    typedef long long int int64_t;           // A signed integer (64 bit)
     typedef unsigned int uint32_t;      // An unsigned integer (32 bit)
-    typedef unsigned long int uint64_t; // An unsigned integer (64 bit)
+    typedef unsigned long long int uint64_t; // An unsigned integer (64 bit)
     typedef __int128_t int128_t;        // A signed integer (128 bit)
     typedef __uint128_t uint128_t;      // An unsigned integer (128 bit)
 

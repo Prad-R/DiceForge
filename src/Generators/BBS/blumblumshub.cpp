@@ -12,6 +12,10 @@ namespace DiceForge
         }
     }
 
+    BlumBlumShub32::BlumBlumShub32(uint32_t seed){
+        check_seed(seed);
+    }
+
     void BlumBlumShub32::check_seed(uint32_t& seed) {
         if (std::gcd(seed, n) != 1)
         {
@@ -40,6 +44,10 @@ namespace DiceForge
         if(state == 0 || state == 1){
             state += 4294967387ULL; // A random constant to avoid getting stuck at 0 or 1
         }
+    }
+
+    BlumBlumShub64::BlumBlumShub64(uint64_t seed){
+        check_seed(seed);
     }
 
     void BlumBlumShub64::check_seed(uint64_t& seed) {
