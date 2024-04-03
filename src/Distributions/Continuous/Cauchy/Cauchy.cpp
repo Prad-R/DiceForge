@@ -57,7 +57,7 @@ namespace DiceForge
         return gamma;
     }
 
-    Cauchy fitToCauchy(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter, real_t epsilon)
+    Cauchy fitToCauchy(std::vector<real_t> x, std::vector<real_t> y, int max_iter, real_t epsilon)
     {
         if (x.size() != y.size())
         {
@@ -65,6 +65,24 @@ namespace DiceForge
         }
 
         const int N = x.size();
+
+        // sort the arrays in increasing x
+        for (size_t i = 0; i < N-1; i++)
+        {
+            for (size_t j = 0; j < N-1-i; j++)
+            {
+                if (x[j] > x[j+1])
+                {
+                    real_t tx = x[j];
+                    x[j] = x[j+1];
+                    x[j+1] = tx;
+
+                    real_t ty = y[j];
+                    y[j] = y[j+1];
+                    y[j+1] = ty;
+                }
+            }
+        }     
 
         // initial guessing of x0, gamma
         real_t x0 = 0, gamma = 1;
@@ -93,11 +111,9 @@ namespace DiceForge
         }
 
         // guess works reasonably well for gamma
-        gamma = 2 * ymax / stdev;
-        
-        std::cout << mu << std::endl;
-        std::cout << stdev << std::endl;
-        std::cout << mu/stdev << std::endl;
+        gamma = (x[(int)round(3 * N/4.0)] - x[(int)round(N/4.0)]) * 0.4;
+
+        std::cout << gamma << " " << x0 << std::endl;
 
         // start iterative updation
         for (size_t i = 0; i < max_iter; i++)
@@ -134,7 +150,7 @@ namespace DiceForge
 
             // make finer refinements later on
             // c/sqrt(i) works as a reasonable good learning rate for a cauchy fit
-            real_t alpha = 0.001/sqrt(i+1); 
+            real_t alpha = 1/sqrt(i+1); 
             
             real_t pred_x0, pred_gamma;
             pred_x0 = x0 - alpha * d[0][0];
@@ -143,7 +159,7 @@ namespace DiceForge
             // prevent possible incorrect jumping
             if ((pred_x0 / x0 > 10 || pred_gamma / gamma > 10 || pred_x0 / x0 < 0.1 || pred_gamma / gamma < 0.1))
             {
-                alpha = alpha * 0.0001;
+                alpha = alpha * 0.01;
             }
 
             // Gauss-Newton method
@@ -151,7 +167,7 @@ namespace DiceForge
             gamma = gamma - alpha * d[1][0];
         }
 
-        if (gamma < 0)
+        if (gamma < 0 || isnanf(x0) || isnanf(gamma))
         {
             throw std::runtime_error("Could not fit data to Cauchy! Data is probably too noisy or not Cauchy!");
         }
