@@ -8,7 +8,7 @@ namespace DiceForge
 
         // Ensure the state is not 0 or 1
         if(state == 0 || state == 1){
-            state += 4294967387ULL; // A random constant to avoid getting stuck at 0 or 1
+            state += 429496737ULL; // A random constant to avoid getting stuck at 0 or 1
         }
     }
 
