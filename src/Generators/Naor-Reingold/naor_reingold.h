@@ -5,17 +5,17 @@
 namespace DiceForge {
   
   /// @brief DiceForge::NaorReingold - An implementation of the Naor-Reingold PRF 
-  /// @note If the seed given is zero, then it is taken to be the current system time
   /// for generating 32-bit unsigned integers
   class NaorReingold : public Generator<uint32_t> {
     private:
-      uint32_t m_state;   // Internal state
+      uint64_t m_state;   // Internal state
       uint32_t generate() override;
       void reseed(uint32_t seed) override;
       
     public:
       /// @brief Initializes the PRF with the given seed
       /// @param seed seed to initialize the PRF with
+      /// @note If the seed given is zero, then it is taken to be the current system time
       /// @note The key for the PRF is predetermined and fixed. The seed is not the key.
       NaorReingold(uint32_t seed);
       /// @brief Default destructor

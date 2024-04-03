@@ -38,7 +38,9 @@ set(SRC
 "src/Distributions/Continuous/Exponential/Exponential.cpp"
 "src/Distributions/Continuous/Gaussian/Gaussian.cpp"
 "src/Distributions/Continuous/Maxwell/Maxwell.cpp"
-"src/Distributions/Continuous/Weibull/Weibull.cpp")
+"src/Distributions/Continuous/Weibull/Weibull.cpp"
+"src/Distributions/Continuous/Custom/Custom.cpp")
+
 
 # Compile to objects
 
