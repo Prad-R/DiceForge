@@ -92,15 +92,6 @@ namespace DiceForge{
         yreg.reserve(N); xreg.reserve(N);
         int valid_N = 0;
 
-        //std::ofstream outfile1 = std::ofstream("cdf_weibull.dat");
-        //std::ofstream outfile2 = std::ofstream("cdf_weibull_reg.dat");
-        //std::ofstream outfile3 = std::ofstream("pdf_weibull.dat");
-        //for (size_t i = 1; i < N; i++)
-        //{
-        //    outfile3 << x[i] << "  " << y[i] << std::endl;
-        //}
-        //outfile3.close();
-
         for (size_t i = 1; i < N; i++)
         {
             real_t cdf = 0;
@@ -108,23 +99,18 @@ namespace DiceForge{
             {
                 cdf += 0.5 * (y[j] + y[j-1]) * (x[j] - x[j-1]);   
             }
-            //outfile1 << x[i] << "  " << cdf << std::endl;
 
             if (cdf > 1e-12 && cdf < 1)
             {
                 real_t yr = log(-log(1-cdf)), xr = log(x[i]);
                 yreg.emplace_back(yr);
                 xreg.emplace_back(xr);
-                //outfile2 << xr << "  " << yr << std::endl;
                 yr_mean += yr;
                 xr_mean += xr;
                 valid_N++;
             }
         }
 
-        //outfile1.close();
-        //outfile2.close();
-        
         yr_mean /= valid_N;
         xr_mean /= valid_N;
 
@@ -141,8 +127,6 @@ namespace DiceForge{
         real_t k = slope;
         real_t lambda = pow(exp(intercept / (-slope)), 0.7);
         real_t shift = 0;
-
-        //k = pow((50 * (xmax - xmin1 + 0.1)/(xmin2 - xmax + 0.1)), 0.95) ;
 
         std::cout << lambda << " " << k << std::endl;
 
