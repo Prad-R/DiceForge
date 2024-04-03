@@ -39,6 +39,7 @@ namespace DiceForge
             /**
              * @brief reseed - Reseeds the generator with a new seed
              * @param seed The new seed value
+             * @note if the seed is zero then a non-zero seed is adopted by default
              */
             void reseed(uint32_t seed) override;
 
@@ -46,10 +47,9 @@ namespace DiceForge
             /**
              * @brief Constructor for BlumBlumShub32
              * @param seed The initial seed value
+             * @note if the seed is zero then a non-zero seed is adopted by default
              */
-            BlumBlumShub32(uint32_t seed){
-                check_seed(seed);
-            }
+            BlumBlumShub32(uint32_t seed);
 
             /**
              * @brief Destructor for BlumBlumShub32
@@ -91,6 +91,7 @@ namespace DiceForge
             /**
              * @brief reseed - Reseeds the generator with a new seed
              * @param seed The new seed value
+             * @note if the seed is zero then a non-zero seed is adopted by default
              */
             void reseed(uint64_t seed) override;
 
@@ -98,10 +99,9 @@ namespace DiceForge
             /**
              * @brief Constructor for BlumBlumShub64
              * @param seed The initial seed value
+             * @note if the seed is zero then a non-zero seed is adopted by default
              */
-            BlumBlumShub64(uint64_t seed){
-                check_seed(seed);
-            }
+            BlumBlumShub64(uint64_t seed);
 
             /**
              * @brief Destructor for BlumBlumShub64

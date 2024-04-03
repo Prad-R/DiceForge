@@ -6,35 +6,53 @@
 
 namespace DiceForge {
     
-    template <typename T>
-    class Poisson : public DiceForge::Discrete {
+    /// @brief DiceForge::Poisson - A discrete probability distribution
+    class Poisson : public Discrete {
         private:
-            int64_t seed;
             real_t l,sq,lnl,g;
-            real_t getran();
-            T generator;
-
-
         public:
-            // Constructor to initialise the private attributes above
-            Poisson(real_t, int32_t);
+            /// @brief Constructor for the Poisson Distribution
+            /// @param lambda lambda (> 0)
+            Poisson(real_t lambda);
 
-            /* Returns next number */
-            int_t next();
-            /* variance() [Real] - Returns the variance of the distribution */
+            /// @brief Returns the next value of the random variable described by the distribution
+            /// @param rng A random number generator (derived from DiceForge::Generator) 
+            template <typename T>
+            int_t next(DiceForge::Generator<T>& rng)
+            {
+                real_t t,x,c;
+                do{
+                    do{
+                        t=tan(M_PI*rng.next_unit());
+                        x=sq*t+l;
+                    } while (x<0);
+                    x=floor(x);
+                    c=0.9*(1+t*t)*exp(x*lnl-lgamma(x+1)-g);
+                } while(rng.next_unit()>c);
+
+                return int_t(x);
+            }
+
+            /// @brief Returns the theoretical variance of the distribution
             real_t variance() const override;
-            /* expectation() [Real] - Returns the expectation value of the distribution */
+
+            /// @brief Returns the theoretical expectation value of the distribution
             real_t expectation() const override;
-            /* minValue() [Integer] - Smallest number that can be generated in the distribution  */
+
+            /// @brief Returns the minimum possible value of the random variable described by the distribution
+            /// @returns 0
             int_t minValue() const override;
-            /* maxValue() [Integer] - Largest number that can be generated in the distribution */
+
+            /// @brief Returns the maximum possible value of the random variable described by the distribution
+            /// @returns positive infinity
             int_t maxValue() const override;
-            /* pdf(x) [Real] - Probability mass function */
+            
+            /// @brief Probability mass function of the Poisson distribution
             real_t pmf(int_t x) const override;
-            /* cdf(x) [Real] - Cumulative distribution function */
+
+            /// @brief Cumulative distribution function of the Poisson distribution
             real_t cdf(int_t x) const override;
     };
 }
-
 
 #endif

@@ -5,17 +5,11 @@ namespace DiceForge{
     Weibull::Weibull(real_t lambda, real_t k, real_t shift)
             : lambda(lambda), k(k), shift(shift){
         if (lambda < std::numeric_limits<real_t>().epsilon()){
-            std::cerr << "Error :"
-                        "\n\tDiceForge::Weibull::Weibull(real_t lambda = 1, real_t k = 1, real_t shift = 0) : "
-                        "\n\t\tValue of lambda(scale factor) must be positive\n" << std::endl;
-            exit(EXIT_FAILURE);
+            throw std::invalid_argument("Value of lambda(scale factor) must be positive!");
         }
 
         if (k < std::numeric_limits<real_t>().epsilon()){
-            std::cerr << "Error :"
-                        "\n\tDiceForge::Weibull::Weibull(real_t lambda = 1, real_t k = 1, real_t shift = 0) : "
-                        "\n\t\tValue of k(shape factor) must be positive\n" << std::endl;
-            exit(EXIT_FAILURE);
+            throw std::invalid_argument("Value of k(shape factor) must be positive!");
         }
     }
 

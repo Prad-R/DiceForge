@@ -39,6 +39,7 @@ namespace DiceForge
             /**
              * @brief reseed - Reseeds the generator with a new seed
              * @param seed The new seed value
+             * @note if the seed is zero then a non-zero seed is adopted by default
              */
             void reseed(uint32_t seed) override;
 
@@ -46,10 +47,9 @@ namespace DiceForge
             /**
              * @brief Constructor for BlumBlumShub32
              * @param seed The initial seed value
+             * @note if the seed is zero then a non-zero seed is adopted by default
              */
-            BlumBlumShub32(uint32_t seed){
-                check_seed(seed);
-            }
+            BlumBlumShub32(uint32_t seed);
 
             /**
              * @brief Destructor for BlumBlumShub32
@@ -91,6 +91,7 @@ namespace DiceForge
             /**
              * @brief reseed - Reseeds the generator with a new seed
              * @param seed The new seed value
+             * @note if the seed is zero then a non-zero seed is adopted by default
              */
             void reseed(uint64_t seed) override;
 
@@ -98,10 +99,9 @@ namespace DiceForge
             /**
              * @brief Constructor for BlumBlumShub64
              * @param seed The initial seed value
+             * @note if the seed is zero then a non-zero seed is adopted by default
              */
-            BlumBlumShub64(uint64_t seed){
-                check_seed(seed);
-            }
+            BlumBlumShub64(uint64_t seed);
 
             /**
              * @brief Destructor for BlumBlumShub64
@@ -111,7 +111,7 @@ namespace DiceForge
 
     /// @brief DiceForge::LFSR64 - Linear Feedback Shift Register class (derived from Generator)
     /// for generating 64-bit unsigned integers
-    class LFSR64 : public Generator<uint64_t> {
+    class LFSR64 : public DiceForge::Generator<uint64_t> {
     private:
         // Two curr_seeds, together forming a 128-bit seed
         uint64_t curr_seed1 = 0, curr_seed2 = 0;
@@ -122,6 +122,7 @@ namespace DiceForge
     public:
         /// @brief Initializes the LFSR with the specified seed
         /// @param seed seed to initialize the RNG with
+        /// @note if the seed provided is zero, then the current system time is taken as seed
         LFSR64(uint64_t seed);
         /// @brief Default destructor
         ~LFSR64() = default;
@@ -129,17 +130,19 @@ namespace DiceForge
 
     /// @brief DiceForge::LFSR32 - Linear Feedback Shift Register class (derived from Generator)
     /// for generating 32-bit unsigned integers
-    class LFSR32 : public Generator<uint32_t> {
+    class LFSR32 : public DiceForge::Generator<uint32_t> {
     private:
         // Two curr_seeds, together forming a 128-bit seed
         uint64_t curr_seed1 = 0, curr_seed2 = 0;
         // Function to generate a random 32-bit positive integer
         uint32_t generate() override;
-        // Function to reseed the RNG
+        /// @brief Function to reseed the RNG
+        /// @note if the seed provided is zero, then the current system time is taken as seed
         void reseed(uint32_t seed) override;
     public:    
         /// @brief Initializes the LFSR with the specified seed
         /// @param seed seed to initialize the RNG with
+        /// @note if the seed provided is zero, then the current system time is taken as seed
         LFSR32(uint32_t seed);
         /// @brief Default destructor
         ~LFSR32() = default;
@@ -174,6 +177,7 @@ namespace DiceForge
     public:
         /// @brief Initializes the Mersenne Twister RNG with the specified seed
         /// @param seed seed to initialize the RNG with
+        /// @note if the seed provided is zero, then the current system time is taken as seed
         MT32(uint32_t seed);
         ~MT32() = default;
     };
@@ -207,6 +211,7 @@ namespace DiceForge
     public:
         /// @brief Initializes the Mersenne Twister RNG with the specified seed
         /// @param seed seed to initialize the RNG with
+        /// @note if the seed provided is zero, then the current system time is taken as seed
         MT64(uint64_t seed);
         ~MT64() = default;
     };
@@ -275,6 +280,18 @@ namespace DiceForge
     typedef MT64 MT;
     typedef NaorReingold NaorReingold32;
     typedef XORShift64 XORShift;
+
+    /// @brief The default random number generator of DiceForge
+    /// @return A singleton of XORShift
+    static XORShift* random()
+    {
+        static XORShift* rng;
+
+        if (rng == nullptr)
+            rng = new XORShift(time(NULL));
+
+        return rng;
+    };
 
 } // namespace DiceForge
 
