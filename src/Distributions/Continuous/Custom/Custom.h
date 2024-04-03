@@ -26,7 +26,7 @@ namespace DiceForge {
         /// @param upper upper bound for the random variable (finite)
         /// @param pdf probability density function describing the distribution
         /// @param n number of points where the pdf should be sampled for expectation, variance and cdf calculations (higher n provides better accuracy) 
-        CustomDistribution(real_t lower, real_t upper, PDF_Function pdf, int n);
+        CustomDistribution(real_t lower, real_t upper, PDF_Function pdf, int n = 1000);
 
         real_t next(real_t r);
         
