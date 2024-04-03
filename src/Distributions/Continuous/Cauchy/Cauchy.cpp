@@ -110,10 +110,8 @@ namespace DiceForge
             }
         }
 
-        // guess works reasonably well for gamma
+        // interquartile guess works reasonably well for gamma
         gamma = (x[(int)round(3 * N/4.0)] - x[(int)round(N/4.0)]) * 0.4;
-
-        std::cout << gamma << " " << x0 << std::endl;
 
         // start iterative updation
         for (size_t i = 0; i < max_iter; i++)
