@@ -8,11 +8,7 @@ namespace DiceForge
     {
         if (sigma < std::numeric_limits<real_t>().epsilon())
         {
-            std::cerr << "Error :"
-                         "\n\tDiceForge::Gaussian::Gaussian(real_t mu, real_t sigma) : "
-                         "\n\t\tValue of sigma must be positive\n"
-                      << std::endl;
-            exit(EXIT_FAILURE);
+            throw std::invalid_argument("Value of sigma must be positive!");
         }
     }
 
@@ -167,7 +163,7 @@ namespace DiceForge
 
         if (sigma < 0)
         {
-            throw "Could not fit data to Gaussian!";
+            throw std::runtime_error("Could not fit data to Gaussian!");
         }
 
         return Gaussian(mu, sigma);
