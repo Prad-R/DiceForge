@@ -5,7 +5,8 @@
 #include <algorithm>
 
 namespace DiceForge {
-    // Gibbs distribution class (derived from Discrete)
+
+    /// @brief DiceForge::Gibbs - Gibbs distribution class (derived from Discrete)
     class Gibbs : public Discrete {
     private:
         // Array to store cdf
@@ -17,7 +18,7 @@ namespace DiceForge {
         // Length of all 3 arrays
         int_t n = 0;
     public:
-        // Constructor to initialise the private attributes above
+        /// @brief Constructor to initialise private attributes of the distribution
         template <typename RandomAccessIterator1, typename RandomAccessIterator2>
         Gibbs(RandomAccessIterator1 sequence_first, RandomAccessIterator1 sequence_last,
               RandomAccessIterator2 function_first, RandomAccessIterator2 function_last,
@@ -71,20 +72,27 @@ namespace DiceForge {
         }
         // Destructor to free memory used by the 3 array attributes
         ~Gibbs();
-        /* next(r) [Integer] - Returns a random integer following the distribution given a 'r'
-         * r is a uniformly distributed unit random variable */
+        
+        /// @brief Returns a sample of the random variable following the distribution given a 'r'
+        /// @param r a uniformly distributed unit random variable
         int_t next(real_t r);
-        /* variance() [Real] - Returns the variance of the distribution */
+        
+        /// @brief Returns the theoretical variance of the distribution
         real_t variance() const override;
-        /* expectation() [Real] - Returns the expectation value of the distribution */
+        
+        /// @brief Returns the theoretical expectation value of the distribution
         real_t expectation() const override;
-        /* minValue() [Integer] - Smallest number that can be generated in the distribution */
+        
+        /// @brief Smallest number that can be generated in the distribution
         int_t minValue() const override;
-        /* maxValue() [Integer] - Largest number that can be generated in the distribution */
+        
+        /// @brief Largest number that can be generated in the distribution
         int_t maxValue() const override;
-        /* pdf(x) [Real] - Probability mass function */
+        
+        /// @brief Probability mass function for the Gibbs distribution
         real_t pmf(int_t x) const override;
-        /* cdf(x) [Real] - Cumulative distribution function */
+        
+        /// @brief Cumulative distribution function for the Gibbs distribution
         real_t cdf(int_t x) const override;
     };
 }
