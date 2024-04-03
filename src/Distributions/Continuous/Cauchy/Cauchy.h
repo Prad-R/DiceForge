@@ -41,14 +41,14 @@ namespace DiceForge {
             real_t get_gamma() const;
     };
 
-    /// @brief Fits the given sample points (x, y=pdf(x)) to a Cauchy distribution using non-linear least squares regression
-    /// following Gauss-Newton methods
+    /// @brief Fits the given sample points (x, y=pdf(x)) to a Cauchy distribution using interquartile estimations followed by
+    /// non-linear least squares regression using modified Gauss-Newton
     /// @param x list of x coordinates
     /// @param y list of corresponding y coordinates where y = pdf(x)
     /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
     /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
     /// @return A Cauchy distribution fit to the given sample points
-    Cauchy fitToCauchy(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter = 10000, real_t epsilon = 1e-6);
+    Cauchy fitToCauchy(std::vector<real_t> x, std::vector<real_t> y, int max_iter = 10000, real_t epsilon = 1e-6);
 }
 
 
