@@ -5,6 +5,7 @@
 #include <functional>
 
 namespace DiceForge {
+    
     /// @brief DiceForge::Cauchy - A Continuous Probability Distribution (Cauchy) 
     class Cauchy : public Continuous {
         private:
@@ -41,67 +42,106 @@ namespace DiceForge {
             /// @brief Returns gamma (scale factor of the distribution) 
             real_t get_gamma() const;
     };
-    
-    /// @brief Fits the given sample points (x, y=pdf(x)) to a Cauchy distribution using non-linear least squares regression
-    /// following Gauss-Newton methods
+
+    /// @brief Fits the given sample points (x, y=pdf(x)) to a Cauchy distribution using interquartile estimations followed by
+    /// non-linear least squares regression using modified Gauss-Newton
     /// @param x list of x coordinates
     /// @param y list of corresponding y coordinates where y = pdf(x)
     /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
     /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
     /// @return A Cauchy distribution fit to the given sample points
-    Cauchy fitToCauchy(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter = 10000, real_t epsilon = 1e-6);
+    Cauchy fitToCauchy(std::vector<real_t> x, std::vector<real_t> y, int max_iter = 10000, real_t epsilon = 1e-6);
 
+    using PDF_Function = std::function<real_t(real_t)>;
 
-    /// @brief DiceForge::Exponential - A Continuous Probability Distribution (Expontential)
+    /// @brief DiceForge::CustomDistribution - Samples a continuous pdf, cutomised by the user 
+    /// @note The CustomDistribution class assumes that the inputted probability density function (PDF) is a valid PDF over the specified range.
+    /// @note Users are responsible for ensuring that the provided PDF satisfies the necessary conditions, such as non-negativity and integrability over the defined domain 
+    class CustomDistribution : public Continuous {
+    private:
+        real_t lower_limit;
+        real_t upper_limit;
+        real_t m_expectation, m_variance;
+        std::vector<std::pair<real_t, real_t>> cdf_values; // (input, cdf)
+        PDF_Function pdf_function; // Declare pdf_function as a member variable
+
+    public:
+        /// @brief Constructor for Custom Distribution
+        /// @param lower lower bound for the random variable (finite)
+        /// @param upper upper bound for the random variable (finite)
+        /// @param pdf probability density function describing the distribution
+        /// @param n number of points where the pdf should be sampled for expectation, variance and cdf calculations (higher n provides better accuracy) 
+        CustomDistribution(real_t lower, real_t upper, PDF_Function pdf, int n);
+
+        /// @brief Returns the next value of the random variable described by the distribution
+        /// @param r A random real number uniformly distributed between 0 and 1
+        real_t next(real_t r);
+        
+        /// @brief Returns the expected value of the distribution
+        /// @note The expectation value is approximate
+        real_t expectation() const override final;
+        
+        /// @brief Returns the variance of the distribution
+        /// @note The variance is an approximatation 
+        real_t variance() const override final;
+
+        /// @brief Returns the minimum possible value of the random variable described by the distribution
+        real_t minValue() const override final;
+
+        /// @brief Returns the maximum possible value of the random variable described by the distribution
+        real_t maxValue() const override final;
+
+        /// @brief Probabiliity density function (pdf) of the distribution
+        /// @param x location where the pdf is to be evaluated
+        real_t pdf(real_t x) const override final;
+
+        /// @brief Cummalative density function (cdf) of the distribution
+        /// @param x location where the pdf is to be evaluated
+        /// @note Numerical methods of inegration are emplyed to find the cdf value. This does not ensure that the function itself is integrable over the given range.
+        real_t cdf(real_t x) const override final;
+    };
+    
+    /// @brief DiceForge::Exponential - A continuous exponential probability distribution
     class Exponential : public Continuous {
     private:
         real_t k;  // Rate parameter
         real_t x0; // Origin of the distribution
-    public:
-        /**
-         * @brief Constructor for Exponential distribution.
-         * @param k Rate parameter for the exponential distribution.
-         * @param x0 Origin of the distribution.
-         * @note k > 0
-         */
+    public:        
+        /// @brief Constructor for Exponential distribution.
+        /// @param k Rate parameter for the exponential distribution.
+        /// @param x0 Origin of the distribution.
+        /// @note k > 0
         Exponential(real_t k, real_t x0 = 0);
-        /**
-         * @brief Generate a random number from the exponential distribution.
-         * @param r Random number in the range [0,1).
-         * @returns Random number from the exponential distribution.
-         */
+
+        /// @brief Generate a random number from the exponential distribution.
+        /// @param r Uniformly distributed random number in the range [0,1).
+        /// @returns Random number from the exponential distribution.
         real_t next(real_t r);
-        /**
-         * @brief Calculate the variance of the distribution.
-         * @returns Variance of the exponential distribution.
-         */
+
+        ///@brief Calculate the variance of the distribution.
+        /// @returns Variance of the exponential distribution.
         real_t variance() const override final;
-        /**
-         * @brief Calculate the expectation of the distribution.
-         * @returns Expectation of the exponential distribution.
-         */
+        
+        /// @brief Calculate the expectation of the distribution.
+        /// @returns Expectation of the exponential distribution.
         real_t expectation() const override final;
-        /**
-         * @brief Get the minimum possible value in the distribution.
-         * @returns Minimum value of the exponential distribution.
-         */
+        
+        /// @brief Get the minimum possible value in the distribution.
+        /// @returns Minimum value of the exponential distribution.
         real_t minValue() const override final;
-        /**
-         * @brief Get the maximum possible value in the distribution.
-         * @returns Maximum value of the exponential distribution.
-         */
+
+        /// @brief Get the maximum possible value in the distribution.
+        /// @returns Maximum value of the exponential distribution.
         real_t maxValue() const override final;
-        /**
-         * @brief Calculate the probability density function (PDF) of the distribution at a given point x.
-         * @param x Point at which to calculate the PDF.
-         * @returns PDF value at point x.
-         */
+        
+        /// @brief Calculate the probability density function (PDF) of the distribution at a given point x.
+        /// @param x Point at which to calculate the PDF.
+        /// @returns PDF value at point x.
         real_t pdf(real_t x) const override final;
-        /**
-         * @brief Calculate the cumulative distribution function (CDF) of the distribution at a given point x.
-         * @param x Point at which to calculate the CDF.
-         * @returns CDF value at point x.
-         */
+        
+        /// @brief Calculate the cumulative distribution function (CDF) of the distribution at a given point x.
+        /// @param x Point at which to calculate the CDF.
+        /// @returns CDF value at point x.
         real_t cdf(real_t x) const override final;
 
         /// @brief Returns the rate parameter of the distribution
@@ -110,16 +150,15 @@ namespace DiceForge {
         /// @brief Returns the origin of the distribution
         real_t get_x0() const;
     };
+    
     /// @brief Fits the given sample points (x, y=pdf(x)) to an Exponential distribution using linear regression.
     /// using Linear Regression after taking log, Gradient Descent as Optimizer, Mean Squared Error as Loss Function
     /// @param x list of x coordinates
     /// @param y list of corresponding y coordinates where y = pdf(x)
     /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
     /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
-    /// @param alpha learning rate for gradient descent
     /// @returns An Exponential distribution fit to the given sample points
-    Exponential fitToExponential(const std::vector<real_t> &x, const std::vector<real_t> &y, int max_iter, real_t epsilon, real_t alpha);
-
+    Exponential fitToExponential(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter, real_t epsilon);
 
     /// @brief DiceForge::Gaussian - A Continuous Probability Distribution (Gaussian) 
     class Gaussian : public Continuous {
@@ -154,17 +193,16 @@ namespace DiceForge {
             real_t get_mu() const;
             /// @brief Returns standard deviation of the distribution
             real_t get_sigma() const;
-
-            /// @brief Fits the given sample points (x, y=pdf(x)) to a Gaussian distribution using non-linear least squares regression
-            /// following Gauss-Newton methods
-            /// @param x list of x coordinates
-            /// @param y list of corresponding y coordinates where y = pdf(x)
-            /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
-            /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
-            /// @return A Gaussian distribution fit to the given sample points
-            Gaussian fitToGaussian(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter = 10000, real_t epsilon = 1e-6);
-
     };
+
+    /// @brief Fits the given sample points (x, y=pdf(x)) to a Gaussian distribution using non-linear least squares regression
+    /// following Gauss-Newton methods
+    /// @param x list of x coordinates
+    /// @param y list of corresponding y coordinates where y = pdf(x)
+    /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
+    /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
+    /// @return A Gaussian distribution fit to the given sample points
+    Gaussian fitToGaussian(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter = 10000, real_t epsilon = 1e-6);
 
     /// @brief DiceForge::Maxwell - A Continuous Probability Distribution (Maxwell) 
     class Maxwell : public Continuous
@@ -198,18 +236,26 @@ namespace DiceForge {
             /// @brief Returns the scale factor of the distribution 
             real_t get_a() const;
     };
+    
+    /// @brief Fits the given sample points (x, y=pdf(x)) to a Maxwell distribution by non-linear least squares regression 
+    /// using modified Gauss-Newton
+    /// @param x list of x coordinates
+    /// @param y list of corresponding y coordinates where y = pdf(x)
+    /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
+    /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
+    /// @return A Maxwell distribution fit to the given sample points
+    Maxwell fitToMaxwell(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter, real_t epsilon);
 
     /// @brief DiceForge::Weibull - A Continuous Probability Distribution (Weibull) 
     class Weibull : public Continuous {
         private:
-            real_t shift, k, lambda;
+            real_t k, lambda;
         public:
-            /// @brief Initializes the Weibull distribution about location x = x0 with scale gamma
-            /// @param shift shift parameter of distribution
+            /// @brief Initializes the Weibull distribution with scale gamma
             /// @param lambda scale factor of the distribution
             /// @param k shape factor of the distribution
             /// @note k > 0, lambda > 0
-            Weibull(real_t lambda = 1, real_t k = 1, real_t shift = 0);
+            Weibull(real_t lambda = 1, real_t k = 1);
         
             /// @brief Returns the next value of the random variable described by the distribution
             /// @param r A random real number uniformly distributed between 0 and 1
@@ -239,28 +285,48 @@ namespace DiceForge {
             /// @brief Cumulative distribution function of the Weibull distribution
             real_t cdf(real_t x) const override final;
 
-            /// @brief Returns shift parameter of distribution
-            real_t get_shift() const;
-
             /// @brief Returns scale factor of the distribution
             real_t get_lambda() const;
 
             /// @brief Returns shape factor of the distribution
             real_t get_k() const;
-    };
+    };    
+    
+    /// @brief Fits the given sample points (x, y=pdf(x)) to a Cauchy distribution using a two phase process - firstly a robust
+    /// cdf based linear regression to calculate an estimate within 10% of the parameters followed secondly by Gauss-Newton method
+    /// @param x list of x coordinates
+    /// @param y list of corresponding y coordinates where y = pdf(x)
+    /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
+    /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
+    /// @return A Weibull distribution fit to the given sample points
+    Weibull fitToWeibull(std::vector<real_t> x, std::vector<real_t> y, int max_iter, real_t epsilon);
 
     /// @brief DiceForge::Bernoulli - A Discrete Probability Distribution (Bernoulli) 
     class Bernoulli : public Discrete {
         private:
             float p;
         public:
+            /// @brief Constructor for the Bernoulli Distribution
+            /// @param p 
             Bernoulli(real_t p);
+            /// @brief Returns the next value of the random variable described by the distribution
+            /// @param r A random real number uniformly distributed between 0 and 1
             int_t next(real_t r);
+            /// @brief Returns the theoretical variance of the distribution
+            /// @returns p(1-p)
             real_t variance() const override final;
+            /// @brief Returns the theoretical expectation value of the distribution
+            /// @returns p
             real_t expectation() const override final;
+            /// @brief Returns the minimum possible value of the random variable described by the distribution
+            /// @returns 0
             int_t minValue() const override final;
+            /// @brief Returns the maximum possible value of the random variable described by the distribution
+            /// @returns 1
             int_t maxValue() const override final;
-            real_t pmf(int_t k) const override final;
+            /// @brief Probability mass function of the Bernoulli distribution
+            real_t pmf(int_t k) const override final;            
+            /// @brief Cumulative distribution function of the Bernoulli distribution
             real_t cdf(int_t k) const override final;
     };
 
@@ -293,8 +359,8 @@ namespace DiceForge {
             /// @brief Cumulative distribution function of the Binomial distribution
             real_t cdf(int_t k) const override final;
     };
-
-    // Gibbs distribution class (derived from Discrete)
+    
+    /// @brief DiceForge::Gibbs - Gibbs distribution class (derived from Discrete)
     class Gibbs : public Discrete {
     private:
         // Array to store cdf
@@ -306,7 +372,7 @@ namespace DiceForge {
         // Length of all 3 arrays
         int_t n = 0;
     public:
-        // Constructor to initialise the private attributes above
+        /// @brief Constructor to initialise private attributes of the distribution
         template <typename RandomAccessIterator1, typename RandomAccessIterator2>
         Gibbs(RandomAccessIterator1 sequence_first, RandomAccessIterator1 sequence_last,
               RandomAccessIterator2 function_first, RandomAccessIterator2 function_last,
@@ -360,34 +426,37 @@ namespace DiceForge {
         }
         // Destructor to free memory used by the 3 array attributes
         ~Gibbs();
-        /* next(r) [Integer] - Returns a random integer following the distribution given a 'r'
-         * r is a uniformly distributed unit random variable */
+        
+        /// @brief Returns a sample of the random variable following the distribution given a 'r'
+        /// @param r a uniformly distributed unit random variable
         int_t next(real_t r);
-        /* variance() [Real] - Returns the variance of the distribution */
+        
+        /// @brief Returns the theoretical variance of the distribution
         real_t variance() const override;
-        /* expectation() [Real] - Returns the expectation value of the distribution */
+        
+        /// @brief Returns the theoretical expectation value of the distribution
         real_t expectation() const override;
-        /* minValue() [Integer] - Smallest number that can be generated in the distribution */
+        
+        /// @brief Smallest number that can be generated in the distribution
         int_t minValue() const override;
-        /* maxValue() [Integer] - Largest number that can be generated in the distribution */
+        
+        /// @brief Largest number that can be generated in the distribution
         int_t maxValue() const override;
-        /* pdf(x) [Real] - Probability mass function */
+        
+        /// @brief Probability mass function for the Gibbs distribution
         real_t pmf(int_t x) const override;
-        /* cdf(x) [Real] - Cumulative distribution function */
+        
+        /// @brief Cumulative distribution function for the Gibbs distribution
         real_t cdf(int_t x) const override;
     };
-
-    // hypergeometric distribution class- a discrete random number generator
-    /*
-    This function generates a random variate with the hypergeometric
-    distribution. This is the distribution you get when drawing balls without
-    replacement from an urn with two colors. n is the number of balls you take,
-    K is the number of red balls in the urn, N is the total number of balls in
-    the urn, and the return value is the number of red balls you get.
-
-    This function uses inversion by chop-down search from start when
-    parameters are small
-    */
+    
+    /// @brief DiceForge::Discrete - A discrete probability distribution
+    /// @details This is the distribution you get when drawing balls without
+    /// replacement from an urn with two colors. n is the number of balls you take,
+    /// K is the number of red balls in the urn, N is the total number of balls in
+    /// the urn, and the return value is the number of red balls you get.
+    /// To regenerate samples of the variation this class uses inversion by chop-down
+    /// search from start when parameters are small
     class Hypergeometric : public Discrete
     {
     private:
@@ -395,17 +464,30 @@ namespace DiceForge {
         std::vector<real_t> pmfs;
         std::vector<real_t> cumulative;
         // N - total size of the population
-        // K- occurence in the population (successes)
-        // n- sample numbers
+        // K - occurence in the population (successes)
+        // n - sample numbers
         // constraints-(n<=N and k<=N and n>=0 and k>=0)
     public:
-        Hypergeometric(int32_t N, int32_t K, int32_t n); // constructor for hypergeometric class
-        int_t next(real_t r);
+        /// @brief Constructor for the Hypergeometric distribution
+        /// @param N total size of the population
+        /// @param K occurence in the population (successes)
+        /// @param n sample numbers
+        /// @note n<=N, k<=N, n>=0, k>=0
+        Hypergeometric(int32_t N, int32_t K, int32_t n); 
+        /// @brief Returns the next value of the random variable described by the distribution
+        /// @param r A random real number uniformly distributed between 0 and 1
+        int_t next(real_t r);        
+        /// @brief Returns the theoretical variance of the distribution
         real_t variance() const override;
+        /// @brief Returns the theoretical expectation value of the distribution
         real_t expectation() const override;
+        /// @brief Returns the minimum possible value of the random variable described by the distribution
         int_t minValue() const override;
+        /// @brief Returns the maximum possible value of the random variable described by the distribution
         int_t maxValue() const override;
-        real_t pmf(int_t k) const override;
+        /// @brief Probability mass function of the Hypergeometric distribution
+        real_t pmf(int_t k) const override;       
+        /// @brief Cumulative distribution function of the Hypergeometric distribution 
         real_t cdf(int_t k) const override;
     };
 
@@ -437,98 +519,87 @@ namespace DiceForge {
             /// @brief Probabiliity mass function of the Negative hypergeometric distribution
             /// @note Here it is the probability of encountering exactly k "success" elements when the experiment is stopped
             real_t pmf(int_t k) const override final;
-            /// @brief Probabiliity distribution function of the Negative hypergeometric distribution
+            /// @brief Cumulative distribution function of the Negative hypergeometric distribution
             /// @note Here it is the probability of encountering at most k "success" elements when the experiment is stopped
             real_t cdf(int_t k) const override final;
     };
-
-    template <typename T>
+    
+    /// @brief DiceForge::Poisson - A discrete probability distribution
     class Poisson : public Discrete {
         private:
-            int64_t seed;
             real_t l,sq,lnl,g;
-            real_t getran();
-            T generator;
         public:
-            // Constructor to initialise the private attributes above
-            Poisson(real_t, int32_t);
+            /// @brief Constructor for the Poisson Distribution
+            /// @param lambda lambda (> 0)
+            Poisson(real_t lambda);
 
-            /* Returns next number */
-            int_t next();
-            /* variance() [Real] - Returns the variance of the distribution */
+            /// @brief Returns the next value of the random variable described by the distribution
+            /// @param rng A random number generator (derived from DiceForge::Generator) 
+            template <typename T>
+            int_t next(DiceForge::Generator<T>& rng)
+            {
+                real_t t,x,c;
+                do{
+                    do{
+                        t=tan(M_PI*rng.next_unit());
+                        x=sq*t+l;
+                    } while (x<0);
+                    x=floor(x);
+                    c=0.9*(1+t*t)*exp(x*lnl-lgamma(x+1)-g);
+                } while(rng.next_unit()>c);
+
+                return int_t(x);
+            }
+
+            /// @brief Returns the theoretical variance of the distribution
             real_t variance() const override;
-            /* expectation() [Real] - Returns the expectation value of the distribution */
+
+            /// @brief Returns the theoretical expectation value of the distribution
             real_t expectation() const override;
-            /* minValue() [Integer] - Smallest number that can be generated in the distribution  */
+
+            /// @brief Returns the minimum possible value of the random variable described by the distribution
+            /// @returns 0
             int_t minValue() const override;
-            /* maxValue() [Integer] - Largest number that can be generated in the distribution */
+
+            /// @brief Returns the maximum possible value of the random variable described by the distribution
+            /// @returns positive infinity
             int_t maxValue() const override;
-            /* pdf(x) [Real] - Probability mass function */
+            
+            /// @brief Probability mass function of the Poisson distribution
             real_t pmf(int_t x) const override;
-            /* cdf(x) [Real] - Cumulative distribution function */
+
+            /// @brief Cumulative distribution function of the Poisson distribution
             real_t cdf(int_t x) const override;
     };
-
+    
     /// @brief DiceForge::Geometric - A Discrete Probability Distribution (Geometric) 
     class Geometric : public Discrete {
         private:
             float p;
         public:
+            /// @brief Constructor for the Geometric distribution
+            /// @param p probability of "success"
             Geometric(real_t p);
-	    
-	    
-            int_t next(real_t r);
-            real_t variance() const override final;
-            real_t expectation() const override final;
-            int_t minValue() const override final;
-            int_t maxValue() const override final;
-            real_t pmf(int_t k) const override final;
-            real_t cdf(int_t k) const override final;
+            /// @brief Returns the next value of the random variable described by the distribution
+            /// @param r A random real number uniformly distributed between 0 and 1
+            int_t next(real_t r);            
+            /// @brief Returns the theoretical variance of the distribution
+            /// @returns (1-p)/(p^2)
+            real_t variance() const override;
+            /// @brief Returns the theoretical expectation value of the distribution
+            /// @return 1/p
+            real_t expectation() const override;
+            /// @brief Returns the minimum possible value of the random variable described by the distribution
+            /// @return 0
+            int_t minValue() const override;
+            /// @brief Returns the maximum possible value of the random variable described by the distribution
+            /// @return positive infinity
+            int_t maxValue() const override;
+            /// @brief Probability mass function of the Geometric distribution
+            real_t pmf(int_t k) const override;        
+            /// @brief Cumulative distribution function of the Geometric distribution 
+            real_t cdf(int_t k) const override;
     };
-
-
-    /// @brief DiceForge::CustomDistribution - Samples a continuous pdf, cutomised by the user 
-    /// @note The CustomDistribution class assumes that the inputted probability density function (PDF) is a valid PDF over the specified range.
-    /// @note Users are responsible for ensuring that the provided PDF satisfies the necessary conditions, such as non-negativity and integrability over the defined domain 
-    using PDF_Function = std::function<real_t(real_t)>;
-
-    class CustomDistribution : public Continuous {
-    private:
-        real_t lower_limit;
-        real_t upper_limit;
-        std::vector<std::pair<real_t, real_t>> cdf_values; // (input, cdf)
-        PDF_Function pdf_function; // Declare pdf_function as a member variable
-
-    public:
-        CustomDistribution(real_t lower, real_t upper, PDF_Function pdf);
-
-        real_t next(real_t r);
-        
-        /// @brief Returns the expected value of the distribution
-        /// @note The expectation value is approximate
-        real_t expectation() const override final;
-        
-        /// @brief Returns the variance of the distribution
-        /// @note The variance is an approximatation 
-        real_t variance() const override final;
-
-        /// @brief Returns the minimum possible value of the random variable described by the distribution
-        real_t minValue() const override final;
-
-        /// @brief Returns the maximum possible value of the random variable described by the distribution
-        real_t maxValue() const override final;
-
-        /// @brief Probabiliity density function (pdf) of the distribution
-        /// @param x location where the pdf is to be evaluated
-        real_t pdf(real_t x) const override final;
-
-        /// @brief Cummalative density function (cdf) of the distribution
-        /// @param x location where the pdf is to be evaluated
-        /// @note Nymerical methods of inegration are emplyed to find the cdf value. This does not ensure that the function itslef is integrable over the given range.
-        real_t cdf(real_t x) const override final;
-    };
-    
-
 }
 
 
