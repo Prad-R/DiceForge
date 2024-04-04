@@ -36,6 +36,15 @@ namespace DiceForge {
             /// @brief Returns the scale factor of the distribution 
             real_t get_a() const;
     };
+
+    /// @brief Fits the given sample points (x, y=pdf(x)) to a Maxwell distribution by non-linear least squares regression 
+    /// using modified Gauss-Newton
+    /// @param x list of x coordinates
+    /// @param y list of corresponding y coordinates where y = pdf(x)
+    /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
+    /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
+    /// @return A Cauchy distribution fit to the given sample points
+    Maxwell fitToMaxwell(std::vector<real_t> x, std::vector<real_t> y, int max_iter = 10000, real_t epsilon = 1e-6);
 }
 
 
