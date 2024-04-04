@@ -128,8 +128,6 @@ namespace DiceForge{
         real_t lambda = pow(exp(intercept / (-slope)), 0.7);
         real_t shift = 0;
 
-        std::cout << lambda << " " << k << std::endl;
-
         // start iterative updation
         for (size_t i = 0; i < max_iter; i++)
         {
