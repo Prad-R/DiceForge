@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <functional>
+#include <vector>
 #include <limits>
 
 #include "types.h"
@@ -13,12 +14,13 @@ namespace DiceForge
 
     /* It is assumed that you are aware of contraints on the number of rows 
     * and columns while performing binary operations on two matrices and 
-    * you will not abuse this poor struct*/
+    * you will not abuse this poor struct */
 
     struct matrix_t
     {
         matrix_t(int r, int c);
         matrix_t(matrix_t& other);
+        matrix_t(const matrix_t& other);
         ~matrix_t();
 
         const real_t* operator[](int i) const;
@@ -46,16 +48,9 @@ namespace DiceForge
         return p;
     }
 
-    /*
-        uint_t returns a 'long' value which is around 32-bits...
-        uint128_t returns a 128-bit value
-    */
-    /*
-    /* 
-        uint128_t returns a 128-bit value
-        Moreover, this reduces the chance of overflow by applying division at each step
-        instead of at the last.
-    */
+    /* uint128_t returns a 128-bit value
+    * Moreover, this reduces the chance of overflow by applying division at each step
+    * instead of performing it once at the last. */
 
     /* k-combinations of n */
     static inline uint128_t nCr(uint128_t n, uint128_t r)
@@ -205,6 +200,7 @@ namespace DiceForge
         I *= a;
         return I;
     }
+    
     template <typename T1 = double, typename T2 = double (&)(double)>
     T1 adaptive_gaussian_quadrature(T2 &&f, T1 a, T1 b)
     {
@@ -226,11 +222,6 @@ namespace DiceForge
         {
             return adaptive_gaussian_quadrature(f, a, c) + adaptive_gaussian_quadrature(f, c, b);
         }
-    }
-    template <typename FuncType, typename BoundType>
-    BoundType integrals(FuncType &&f, std::tuple<BoundType, BoundType> bound)
-    {
-        return gaussian_quadrature(f, std::get<0>(bound), std::get<1>(bound));
     }
 }
 
