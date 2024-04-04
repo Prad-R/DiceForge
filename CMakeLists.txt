@@ -6,7 +6,7 @@ project(DiceForge VERSION 1.0
                   DESCRIPTION "A C++ library with the same functionality as the random library in python."
                   LANGUAGES CXX)
 
-# Change CMAKE_CXX_STANDARD to 20 if using 2D random variables
+# Change CMAKE_CXX_STANDARD to 20 if using 2D random variables, otherwise set it to 17
 
 set(CMAKE_CXX_STANDARD 17)          
 
