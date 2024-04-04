@@ -8,7 +8,7 @@ namespace DiceForge
     {
         if (a<=0)
         {
-            throw std::runtime_error("Scaling factor a must be positive");
+            throw std::invalid_argument("Scaling factor a must be positive!");
         }
     }
 
@@ -57,106 +57,71 @@ namespace DiceForge
         return a;
     }
 
-    real_t fitToMaxwell(std::vector<real_t> x, std::vector<real_t> y, int max_iter, real_t epsilon)
+    Maxwell fitToMaxwell(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter, real_t epsilon)
     {
         if (x.size() != y.size())
         {
-            throw std::runtime_error("Number of x-coordinates and y-coordinates provided in the data do no match!");
+            throw std::invalid_argument("Number of x-coordinates and y-coordinates provided in the data do no match!");
         }
 
         const int N=x.size();
 
-        // sort the arrays in increasing x
-        for (size_t i = 0; i < N-1; i++)
-        {
-            for (size_t j = 0; j < N-1-i; j++)
-            {
-                if (x[j] > x[j+1])
-                {
-                    real_t tx = x[j];
-                    x[j] = x[j+1];
-                    x[j+1] = tx;
-
-                    real_t ty = y[j];
-                    y[j] = y[j+1];
-                    y[j+1] = ty;
-                }
-            }
-        }     
-
-        //initial guess of a;
-        real_t a=1, mean=2*sqrt(2/M_PI);
-
-        real_t ysum = 0;
-        real_t y2sum = 0;
-        for (size_t i = 0; i < N; i++)
-        {
-            ysum += y[i];
-            y2sum += y[i] * y[i];
-        }
-        real_t mu = ysum / N;
-        real_t stdev = sqrt((y2sum / N) - mu*mu);
-
+        //initial guess of a using the fact that mode of the distribution is sqrt2 * a;
+        real_t a = 1;
         real_t ymax = -INFINITY;
         for (size_t i = 0; i < N; i++)
         {
-            // check for outliers
-            if (y[i] > ymax && y[i] - mu < 3 * stdev) 
+            if (y[i] > ymax) 
             {
                 ymax = y[i];
-
-                // guessing the mean of the maxwell distribution
-                mean = M_2_SQRTPI * x[i];
+                a = x[i] * M_SQRT1_2;
             }
         }
-
-        // an approximation of a
-        a = sqrt(M_PI/2) * (mean / 2);
 
         // starting iterative updation 
         for (size_t i=0; i < max_iter; i++)
         {
-            matrix_t J = matrix_t(N, 1);    // Jacobian matrix 
-            matrix_t R = matrix_t(N, 1);    // Error vector R = (r_0, r_1, ..., r_N)
+            real_t J[N];                    // Jacobian matrix 
+            real_t R[N];                    // Error vector R = (r_0, r_1, ..., r_N)
+            real_t JTJ = 0, JTR = 0;
 
             for (size_t j = 0; j < N; j++)
             {
                 real_t f = sqrt(2 / M_PI) * x[j] * x[j] * exp(-1 * x[j] * x[j] / (2 * a * a)) / (a * a * a);
                 real_t dpdf_da = f * ((-3 / a) + (x[j] * x[j]) / (a * a * a));
 
-                J[j][0] = -dpdf_da;
-
-                R[j][0] = y[j] - f;
+                J[j] = -dpdf_da;
+                R[j] = y[j] - f;
+                JTJ += J[j] * J[j];
+                JTR += J[j] * R[j];
             }
 
-            matrix_t JT = J.transpose();
-
             // move direction 
-            matrix_t d = (JT * J) * (JT * R);
+            real_t d = JTR / JTJ;
 
             // stop when error minimization is too little 
-            if (fabs(d[0][0]) < epsilon){
+            if (fabs(d) < epsilon){
                 break;
             }
 
-            real_t alpha = 0.001; 
+            real_t alpha = 1; 
             
             real_t pred_a;
-            pred_a = a - alpha * d[0][0];
+            pred_a = a - alpha * d;
 
             // prevent possible incorrect jumping
-            if ((pred_a / a > 10 || pred_a / a < 0.1 ))
+            if ((pred_a / a > 100 || pred_a / a < 0.01))
             {
-                alpha = alpha * 0.0001;
+                alpha = alpha * 0.01;
             }
 
             // Gauss-Newton method
-            a = a - alpha * d[0][0];
+            a = a - alpha * d;
         }
 
-        if (a < 0)
+        if (a < 0 || std::isnan(a))
         {
-            throw std::runtime_error("Could not fit data to Maxwell distribution!");
+            throw std::runtime_error("Could not fit data to Maxwell distribution! Data is probably too noisy or not Maxwell!");
         }
 
         return Maxwell(a);
