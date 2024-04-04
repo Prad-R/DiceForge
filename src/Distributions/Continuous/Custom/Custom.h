@@ -17,7 +17,7 @@ namespace DiceForge {
         real_t lower_limit;
         real_t upper_limit;
         real_t m_expectation, m_variance;
-        std::vector<std::pair<real_t, real_t>> cdf_values; // (input, cdf)
+        std::vector<std::pair<real_t, real_t> > cdf_values; // (input, cdf)
         PDF_Function pdf_function; // Declare pdf_function as a member variable
 
     public:

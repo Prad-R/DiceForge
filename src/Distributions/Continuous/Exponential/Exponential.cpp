@@ -151,7 +151,7 @@ namespace DiceForge {
 
         real_t x0 = fmin(c / k, x0_est);
 
-        if (k < 0 || isnanf(k) || isnanf(x0))
+        if (k < 0 || std::isnan(k) || std::isnan(x0))
         {
             throw std::runtime_error("Could not fit data to Exponential! Data is probably too noisy or not Exponential!");
         }
