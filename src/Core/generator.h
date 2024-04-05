@@ -61,6 +61,7 @@ namespace DiceForge
         {
             reseed(seed);
         }
+        
         /// @brief Returns a uniformly chosen random element from the sequence
         /// @param first Iterator of first element (like .begin() of vectors)
         /// @param last Iterator after last element (like .end() of vectors)

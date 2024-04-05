@@ -165,7 +165,7 @@ namespace DiceForge
             gamma = gamma - alpha * d[1][0];
         }
 
-        if (gamma < 0 || isnanf(x0) || isnanf(gamma))
+        if (gamma < 0 || std::isnan(x0) || std::isnan(gamma))
         {
             throw std::runtime_error("Could not fit data to Cauchy! Data is probably too noisy or not Cauchy!");
         }

@@ -5,10 +5,8 @@
 
 namespace DiceForge
 {
-    /**
-     * @brief DiceForge::BlumBlumShub32 - A RNG utilizing the Blum-Blum-Shub algorithm
-     * for generating 32-bit unsigned random integers
-     */
+    /// @brief DiceForge::BlumBlumShub32 - A RNG utilizing the Blum-Blum-Shub algorithm
+    /// for generating 32-bit unsigned random integers
     class BlumBlumShub32 : public Generator<uint32_t>
     {
         private:
@@ -17,43 +15,31 @@ namespace DiceForge
             static const uint64_t n = p * q;
 
             uint64_t state; // Internal state
-
-            /**
-             * @brief propagate - Advances the internal state using the Blum-Blum-Shub algorithm
-             */
+            
+            /// @brief propagate - Advances the internal state using the Blum-Blum-Shub algorithm
             inline void propagate();
 
-            /**
-             * @brief generate - Generates a random number using the Blum-Blum-Shub algorithm
-             * @return The generated random number
-             */
+            /// @brief generate - Generates a random number using the Blum-Blum-Shub algorithm
+            /// @return The generated random number
             uint32_t generate() override;
 
-            /**
-             * @brief reseed - Reseeds the generator with a new seed
-             * @param seed The new seed value
-             * @note if the seed is zero then a non-zero seed is adopted by default
-             */
+            /// @brief reseed - Reseeds the generator with a new seed
+            /// @param seed The new seed value
+            /// @note if the seed is zero then a non-zero seed is adopted by default
             void reseed(uint32_t seed) override;
 
         public:
-            /**
-             * @brief Constructor for BlumBlumShub32
-             * @param seed The initial seed value
-             * @note if the seed is zero then a non-zero seed is adopted by default
-             */
+            /// @brief Constructor for BlumBlumShub32
+            /// @param seed The initial seed value
+            /// @note if the seed is zero then a non-zero seed is adopted by default
             BlumBlumShub32(uint32_t seed);
 
-            /**
-             * @brief Destructor for BlumBlumShub32
-             */
+            /// @brief Destructor for BlumBlumShub32
             ~BlumBlumShub32() = default;
     };
 
-    /**
-     * @brief DiceForge::BlumBlumShub64 - A RNG utilizing the Blum-Blum-Shub algorithm
-     * for generating 64-bit unsigned random integers
-     */
+    /// @brief DiceForge::BlumBlumShub64 - A RNG utilizing the Blum-Blum-Shub algorithm
+    /// for generating 64-bit unsigned random integers
     class BlumBlumShub64 : public Generator<uint64_t>
     {
         private:
@@ -62,36 +48,26 @@ namespace DiceForge
             static const uint64_t n = p * q;
 
             uint64_t state; // Internal state
-
-            /**
-             * @brief propagate - Advances the internal state using the Blum-Blum-Shub algorithm
-             */
+            
+            /// @brief propagate - Advances the internal state using the Blum-Blum-Shub algorithm
             inline void propagate();
 
-            /**
-             * @brief generate - Generates a random number using the Blum-Blum-Shub algorithm
-             * @return The generated random number
-             */
+            /// @brief generate - Generates a random number using the Blum-Blum-Shub algorithm
+            /// @return The generated random number
             uint64_t generate() override;
 
-            /**
-             * @brief reseed - Reseeds the generator with a new seed
-             * @param seed The new seed value
-             * @note if the seed is zero then a non-zero seed is adopted by default
-             */
+            /// @brief reseed - Reseeds the generator with a new seed
+            /// @param seed The new seed value
+            /// @note if the seed is zero then a non-zero seed is adopted by default
             void reseed(uint64_t seed) override;
 
         public:
-            /**
-             * @brief Constructor for BlumBlumShub64
-             * @param seed The initial seed value
-             * @note if the seed is zero then a non-zero seed is adopted by default
-             */
+            /// @brief Constructor for BlumBlumShub64
+            /// @param seed The initial seed value
+            /// @note if the seed is zero then a non-zero seed is adopted by default
             BlumBlumShub64(uint64_t seed);
 
-            /**
-             * @brief Destructor for BlumBlumShub64
-             */
+            /// @brief Destructor for BlumBlumShub64            
             ~BlumBlumShub64() = default;
     };
 
@@ -204,22 +180,21 @@ namespace DiceForge
             
     /// @brief DiceForge::NaorReingold - An implementation of the Naor-Reingold PRF 
     /// for generating 32-bit unsigned integers
-    class NaorReingold : public Generator<uint32_t> {
-        private:
-            uint32_t m_state;   // Internal state
-            uint32_t generate() override;
-            void reseed(uint32_t seed) override;        
-        public:
-            /// @brief Initializes the PRF with the given seed
-            /// @param seed seed to initialize the PRF with
-            /// @note The key for the PRF is predetermined and fixed. The seed is not the key.
-            NaorReingold(uint32_t seed);
-            /// @brief Default destructor
-            ~NaorReingold() = default;
+    class NaorReingold : public Generator<uint32_t> 
+    {
+    private:
+        uint64_t m_state;   // Internal state
+        uint32_t generate() override;
+        void reseed(uint32_t seed) override;        
+    public:
+        /// @brief Initializes the PRF with the given seed
+        /// @param seed seed to initialize the PRF with
+        /// @note If the seed given is zero, then it is taken to be the current system time
+        /// @note The key for the PRF is predetermined and fixed. The seed is not the key.
+        NaorReingold(uint32_t seed);
+        /// @brief Default destructor
+        ~NaorReingold() = default;
     };
-
-    typedef NaorReingold NaorReingold32;
-
 
     /// @brief DiceForge::XORShift32 - A PRNG following the XORShift* algorithm
     /// A naive implementation of the original XORShift algorithm proposed by Marsaglia
@@ -267,17 +242,8 @@ namespace DiceForge
     typedef NaorReingold NaorReingold32;
     typedef XORShift64 XORShift;
 
-    /// @brief The default random number generator of DiceForge
-    /// @return A singleton of XORShift
-    static XORShift* random()
-    {
-        static XORShift* rng;
-
-        if (rng == nullptr)
-            rng = new XORShift(time(NULL));
-
-        return rng;
-    };
+    /// @brief The default random number generator of DiceForge; can be used as it is
+    static LFSR Random(0);
 
 } // namespace DiceForge
 

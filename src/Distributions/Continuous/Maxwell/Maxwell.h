@@ -43,8 +43,8 @@ namespace DiceForge {
     /// @param y list of corresponding y coordinates where y = pdf(x)
     /// @param max_iter maximum iterations to attempt to fit the data (higher to try for better fits)
     /// @param epsilon minimum acceptable error tolerance while attempting to fit the data (smaller to try for better fits)
-    /// @return A Cauchy distribution fit to the given sample points
-    Maxwell fitToMaxwell(std::vector<real_t> x, std::vector<real_t> y, int max_iter = 10000, real_t epsilon = 1e-6);
+    /// @return A Maxwell distribution fit to the given sample points
+    Maxwell fitToMaxwell(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter, real_t epsilon);
 }
 
 

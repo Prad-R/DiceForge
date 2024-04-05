@@ -38,6 +38,7 @@ namespace DiceForge {
             /// @brief Returns standard deviation of the distribution
             real_t get_sigma() const;
     };
+    
     /// @brief Fits the given sample points (x, y=pdf(x)) to a Gaussian distribution using non-linear least squares regression
     /// following Gauss-Newton methods
     /// @param x list of x coordinates
