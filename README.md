@@ -37,18 +37,20 @@ This is a simple C++ library for *Pseudo Random Number Generation*. It provides 
 
 ## Benchmarks
 
+### Performance
+
 Time taken for generating *100000000* random numbers by DiceForge's PRNGs:
 
 | Generator | Time Taken |
 | --------- | ---------- |
-| BBS32 | 15210.2 ms |
-| BBS64 | 24677.3 ms |
-| XORShift32 | 484.018 ms |
-| XORShift64 | 441.947 ms |
 | MT32 | 1742.37 ms |
 | MT64 | 1751.81 ms |
+| XORShift32 | 484.018 ms |
+| XORShift64 | 441.947 ms |
 | LFSR32 | 10000.9 ms |
 | LFSR64 | 18665.6 ms |
+| BBS32 | 15210.2 ms |
+| BBS64 | 24677.3 ms |
 | NaorReingold | 195678 ms  |
 
 For comparison, benchmarking other existing standard libraries for the same test.
@@ -59,6 +61,22 @@ For comparison, benchmarking other existing standard libraries for the same test
 | C rand() function| 1388.03 ms |
 | python's random | 175175.89 ms (~ 3min) |
 | numpy's randint | 165600.48 ms (~ 3min) |
+
+### Dieharder Tests
+
+The various PRNGs in DiceForge are robust and pass various Dieharder tests:
+
+| Generator | Tests Passed | Tests Failed |
+| --------- | ------------ | ------------ |
+| MT32 | 29 (4 weak) | 1 |
+| MT64 | 29 (1 weak) | 1 |
+| XORShift32 | 29 | 1 |
+| XORShift64 | 29 (1 weak) | 1 |
+| BBS32 | 4 (2 weak) | 26 |
+| BBS64 | 4 (1 weak) | 26 |
+| LFSR32 | 29 (2 weak) | 1 |
+| LFSR64 | 29 | 1 |
+| Naor Reingold | 20 | 10 |
 
 ## Documentation
 
