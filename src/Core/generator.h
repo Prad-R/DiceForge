@@ -2,10 +2,12 @@
 #define DF_GENERATOR_H
 
 #include <limits>
-#include <cmath>
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 #include "types.h"
 
