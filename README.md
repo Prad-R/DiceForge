@@ -154,7 +154,7 @@ Feel free to explore the library and experiment with different algorithms!
 
 ## Contributing
 
-Currently, this is an IIT-M Math Club exclusive project and we aren't accepting outside contributions.
+Currently, this is an IIT-M (Indian Institute of Technology Madras) Math Club exclusive project and we aren't accepting outside contributions.
 
 ### For Project Members
 - View the [Tasks folder](Contributors_Only/Tasks) to view the tasks to be done.
