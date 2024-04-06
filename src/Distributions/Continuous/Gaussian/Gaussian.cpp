@@ -121,7 +121,7 @@ namespace DiceForge
             for (size_t i = 0; i < N; i++)
             {
                 real_t pdf = exp(-(x[i] - mu) * (x[i] - mu) / (2 * sigma * sigma)) / (sqrt(2 * M_PI) * sigma);
-                // std::cout << sigma << std::endl;
+
                 //  Partial derivatives of the Gaussian function with respect to mu and sigma
                 real_t dpdf_dmu = (x[i] - mu) / (sigma * sigma) * pdf;
                 real_t dpdf_dsigma = ((x[i] - mu) * (x[i] - mu) / (sigma * sigma * sigma) - 1 / sigma) * pdf;
@@ -161,9 +161,9 @@ namespace DiceForge
             sigma = sigma - alpha * d[1][0];
         }
 
-        if (sigma < 0)
+        if (sigma < 0 || std::isnan(sigma))
         {
-            throw std::runtime_error("Could not fit data to Gaussian!");
+            throw std::runtime_error("Could not fit data to Gaussian! Data is probably too noisy or not Gaussian!");
         }
 
         return Gaussian(mu, sigma);

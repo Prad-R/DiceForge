@@ -10,7 +10,7 @@ This is a simple C++ library for *Pseudo Random Number Generation*. It provides 
 - **Convenience**: Provides various standard distributions used in scientific computation and also has rudimentary support for custom probability distributions. 
 
 ### Upcoming Features
-- Detailed documentation on distrbutions
+- To be decided
 
 ## Available PRNGs and Distributions
 
@@ -37,54 +37,48 @@ This is a simple C++ library for *Pseudo Random Number Generation*. It provides 
 
 ## Benchmarks
 
-### Diehard Tests
-
-Add results here
-
-### Uniformity Analysis
-
-Using DiceForge's pseudo random number generators to create a uniformly distributed random variable in [0,1), the statistical analysis for 100000000 random samples is:
-
-| Generator | Mean | Variance |
-| --------- | ---- | -------- |
-| BBS32  | 0.500189 | 0.0834384 |
-| BBS64  | 0.499066 | 0.0834061 |
-| XOR32  | 0.499978 | 0.08334 |
-| XOR64  | 0.499931 | 0.0833327 |
-| MT32   | 0.499956 | 0.0833425 |
-| MT64   | 0.500034 | 0.0833241 |
-| LFSR32 | 0.500033 | 0.0833329 |
-| LFSR64 | 0.49994  | 0.0833352 |
-| NR     | 0.341687 | 0.0498607 |
-
-The theoretical mean and variance for a uniformly distributed random variable in [0,1) are \
-mean = 1/2 (0.5) \
-variance = 1/12 (0.08333...)
-
 ### Performance
-Time taken for generating *100000000* random numbers:
 
-#### DiceForge:
+Time taken for generating *100000000* random numbers by DiceForge's PRNGs:
+
 | Generator | Time Taken |
 | --------- | ---------- |
-| XorShift32 | 435.497ms |
-| XorShift64 | 410.498ms |
-| BBS32 | 14780ms |
-| BBS64 | 24568.6ms |
-| MT32 | 1738.91ms |
-| MT64 | 1811.27ms |
-| LFSR | 18540.7ms |
-| Naor Reingold | 7143ms |
+| MT32 | 1742.37 ms |
+| MT64 | 1751.81 ms |
+| XORShift32 | 484.018 ms |
+| XORShift64 | 441.947 ms |
+| LFSR32 | 10000.9 ms |
+| LFSR64 | 18665.6 ms |
+| BBS32 | 15210.2 ms |
+| BBS64 | 24677.3 ms |
+| NaorReingold | 195678 ms  |
 
 For comparison, benchmarking other existing standard libraries for the same test.
 
 | Generator | Time Taken |
 | --------- | ---------- |
-| C++'s Mersenne Twister | 4032.7ms |
-| C rand() function| 1388.03ms |
-| python's random | 51171.51 ms |
-| numpy's randint | 194015.44 ms |
+| C++'s Mersenne Twister | 4032.7 ms |
+| C rand() function| 1388.03 ms |
+| python's random | 175175.89 ms (~ 3min) |
+| numpy's randint | 165600.48 ms (~ 3min) |
 
+### Dieharder Tests
+
+The various PRNGs in DiceForge are robust and pass various Dieharder tests:
+
+| Generator | Tests Passed | Tests Failed |
+| --------- | ------------ | ------------ |
+| MT32 | 29 (4 weak) | 1 |
+| MT64 | 29 (1 weak) | 1 |
+| XORShift32 | 29 | 1 |
+| XORShift64 | 29 (1 weak) | 1 |
+| BBS32 | 4 (2 weak) | 26 |
+| BBS64 | 4 (1 weak) | 26 |
+| LFSR32 | 29 (2 weak) | 1 |
+| LFSR64 | 29 | 1 |
+| Naor Reingold | 20 | 10 |
+
+For more information about the Dieharder tests, check out DiceForge's Documentation.
 
 ## Documentation
 
@@ -101,14 +95,18 @@ Check out the [Documentation](https://www.overleaf.com/project/65d9eea60dbb4690f
 
 #### Using a prebuilt library
 1. Download the compiled binaries from [out](out) folder along with the include files [include](include)
-2. If you want compact compilation commands later on, add the path to *include/* and *out/* to the system environment variable PATH
+2. If you want compact compilation commands later on, add the path to *include/* to the environment variable PATH
 3. Start generating pseudo-random numbers!
 
 #### Building it yourself
 1. Clone the repository: `git clone https://github.com/yourusername/diceforge-library-clone.git`
 2. Create the build folder by using the CMakeLists.txt
-2. Build library using the given CMake configurations (```cmake --build <build-folder>```)
-3. After the build is sucessful, follow the steps mentioned in [Using a prebuilt library](#using-a-prebuilt-library)
+3. Build library using the given CMake configurations (```cmake --build <build-folder>```)
+4. Currently DiceForge supports g++, clang, mingw and their variants but does not support msvc
+
+#### After successfully building you can
+* Install the library to *usr/local/* (```cmake --install <build-folder>```) 
+* Use it without installation by following the steps mentioned in [Using a prebuilt library](#using-a-prebuilt-library)
 
 ## Usage
 
@@ -120,26 +118,37 @@ Here's a quick example to get you started:
 
 int main() {
     // Create a PRNG object
-    DiceForge::XORShift32 prng = DiceForge::XORShift32(123);
+    int seed = 123;
+    DiceForge::XORShift32 prng = DiceForge::XORShift32(seed);
 
-    // Generate and print a random number
-    std::cout << "Random Number: " << prng.next() << std::endl;
+    // Generate and print a random number using the prng
+    std::cout << "Random number: " << prng.next() << std::endl;
+
+    // Generate and print a random number using DiceForge's default prng
+    std::cout << "One more random number: " << DiceForge::Random.next() << std::endl;
 
     return 0;
 }
 ```
 
-Now to compile it with a compiler of your choice (we use g++ in the following example), enter the following command in your terminal
+Now to compile it with a compiler of your choice (we use g++ in the following example, also it is assumed that g++ has access toand searches usr/local for installed libraries), enter the following command in your terminal
 
-1. If you added diceforge to PATH
+1. If you installed diceforge
 ```bash
-g++ example.cpp libdiceforge_s.a -o example.out
+g++ example.cpp -ldiceforge -o example.out
 ```
 
-2. If you do not with to include diceforge to PATH
+2. If you did not install diceforge and you included diceforge to PATH
 ```bash
-g++ example.cpp "out/libdiceforge_s.a" -I "include" -o example.out
+g++ example.cpp libdiceforge.a -o example.out
 ```
+where *libdiceforge.a* is the built static library
+
+3. If you did not install diceforge and you did not include diceforge to PATH 
+```bash
+g++ example.cpp libdiceforge.a -I "<include>" -o example.out
+```
+where *\<include\>* is the path to the folder corresponding to [include](include) and *libdiceforge.a* is the built static library
 
 Feel free to explore the library and experiment with different algorithms!
 
@@ -151,34 +160,3 @@ Currently, this is an IIT-M Math Club exclusive project and we aren't accepting 
 - View the [Tasks folder](Contributors_Only/Tasks) to view the tasks to be done.
 
 - Reference materials are provided in the [Contributors_Only](Contributors_Only) folder.
-
-Current TODO
-
-Final pending tasks
-- [ ] BBS robustness
-- [ ] Maxwell curve fitting code
-- [ ] Packing 2D RV code into the diceforge header files
-- [ ] Update header files after all of the code is available
-- [ ] Proofreading and finalizing documentation
-- [ ] Update README with latest results
-
-Documentation 
-- [ ] Curve fitting
-- [ ] Custom Distribution
-- [ ] Diehard Tests
-- [x] 2D RV
-
-Good to haves
-- [ ] Get bigger primes for PRNGs
-- [x] More examples on using DiceForge in Documentation
-- [x] Non-linear transformation in LFSR
-- [x] A defualt random singleton for convenience
-
-Completed
-- [x] Bernoulli docuumentation
-- [x] Custom pdf distribution
-- [x] Geometric distribution
-- [x] Fix bug in Naor Reingold RNG, also decide what to do when seed is zero and mention it in code documentation
-- [x] Exception handling
-- [x] 2d rv
-- [x] Testing the RNGs

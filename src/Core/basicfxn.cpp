@@ -31,6 +31,20 @@ namespace DiceForge
         }
     }
 
+    matrix_t::matrix_t(const matrix_t& other)
+        : r(other.r), c(other.c)
+    {
+        m = new real_t*[r];
+        for (size_t i = 0; i < r; i++)
+        {
+            m[i] = new real_t[c];
+            for (size_t j = 0; j < c; j++)
+            {
+                m[i][j] = other.m[i][j];
+            }
+        }
+    }
+
     matrix_t::~matrix_t()
     {
         for (size_t i = 0; i < r; i++)

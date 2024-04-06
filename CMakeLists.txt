@@ -6,7 +6,7 @@ project(DiceForge VERSION 1.0
                   DESCRIPTION "A C++ library with the same functionality as the random library in python."
                   LANGUAGES CXX)
 
-# Change CMAKE_CXX_STANDARD to 20 if using 2D random variables
+# Change CMAKE_CXX_STANDARD to 20 if using 2D random variables, otherwise set it to 17
 
 set(CMAKE_CXX_STANDARD 17)          
 
@@ -49,5 +49,10 @@ set_property(TARGET objlib PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 # Build library
 
-add_library(diceforge_s STATIC $<TARGET_OBJECTS:objlib>)
-add_library(diceforge SHARED $<TARGET_OBJECTS:objlib>)
+add_library(diceforge STATIC $<TARGET_OBJECTS:objlib>)
+add_library(diceforge_s SHARED $<TARGET_OBJECTS:objlib>)
+
+# Installing library
+
+set_target_properties(diceforge PROPERTIES PUBLIC_HEADER "include/diceforge.h;include/diceforge_core.h;include/diceforge_distributions.h;include/diceforge_generators.h")
+install(TARGETS diceforge LIBRARY DESTINATION "lib" PUBLIC_HEADER DESTINATION "include")

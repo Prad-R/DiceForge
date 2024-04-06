@@ -2,10 +2,12 @@
 #define DF_GENERATOR_H
 
 #include <limits>
-#include <cmath>
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 #include "types.h"
 
@@ -61,6 +63,7 @@ namespace DiceForge
         {
             reseed(seed);
         }
+        
         /// @brief Returns a uniformly chosen random element from the sequence
         /// @param first Iterator of first element (like .begin() of vectors)
         /// @param last Iterator after last element (like .end() of vectors)

@@ -1,6 +1,5 @@
 #include "Binomial.h"
 #include "basicfxn.h"
-#include <cmath>
 
 namespace DiceForge {
 Binomial::Binomial(uint_t n, real_t p)
