@@ -12,9 +12,9 @@ namespace DiceForge
     class BlumBlumShub32 : public Generator<uint32_t>
     {
         private:
-            static const BigInt128 p;
-            static const BigInt128 q;
-            static const BigInt128 n;
+            static const uint64_t p;
+            static const uint64_t q;
+            static const uint64_t n;
 
             BigInt128 state; // Internal state
 
@@ -57,9 +57,9 @@ namespace DiceForge
     class BlumBlumShub64 : public Generator<uint64_t>
     {
         private:
-            static const BigInt128 p;
-            static const BigInt128 q;
-            static const BigInt128 n;
+            static const uint64_t p;
+            static const uint64_t q;
+            static const uint64_t n;
 
             BigInt128 state; // Internal state
 

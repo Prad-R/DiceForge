@@ -3,23 +3,20 @@
 
 namespace DiceForge
 {
-    const BigInt128 BlumBlumShub32::p = BigInt128(4294967107, 4294967295, 0, 0);
-    const BigInt128 BlumBlumShub32::q = BigInt128(4294967039, 4294967295, 0, 0);
-    const BigInt128 BlumBlumShub32::n = BlumBlumShub32::p.multiply(BlumBlumShub32::q);
+    const uint64_t BlumBlumShub32::p = 4294967291;
+    const uint64_t BlumBlumShub32::q = 4294967279;
+    const uint64_t BlumBlumShub32::n = BlumBlumShub32::p*BlumBlumShub32::q;
 
-    const BigInt128 BlumBlumShub64::p = BigInt128(4294967107, 4294967295, 0, 0);
-    const BigInt128 BlumBlumShub64::q = BigInt128(4294967039, 4294967295, 0, 0);
-    const BigInt128 BlumBlumShub64::n = BlumBlumShub64::p.multiply(BlumBlumShub64::q);
+    const uint64_t BlumBlumShub64::p = 4294967291;
+    const uint64_t BlumBlumShub64::q = 4294967279;
+    const uint64_t BlumBlumShub64::n = BlumBlumShub64::p*BlumBlumShub64::q;
 
     inline void BlumBlumShub32::propagate(){
         state.square();
-        // Mod operation
-        if(state.data[3] >= n.data[3] && state.data[2] >= n.data[2] && state.data[1] >= n.data[1] && state.data[0] >= n.data[0])
-            for(int i = 0; i < 4; i++)
-                state.data[i] -= n.data[i];
+        state.mod(n);
 
         // Ensure the state is not 0 or 1
-        if(state.data[3] == 0 && state.data[2] == 0 && state.data[1] == 0 && (state.data[0] == 0 || state.data[0] == 1)){
+        if((state.data[0] == 0 || state.data[0] == 1)&& state.data[1] != 0){
             state.data[0] += 429496737ULL; // A random constant to avoid getting stuck at 0 or 1
             state.data[1] += state.data[0] >> 32;
             state.data[0] &= 0xFFFFFFFF;
@@ -40,10 +37,6 @@ namespace DiceForge
     }
 
     void BlumBlumShub32::reseed(uint32_t seed) {
-        // for(int i = 0; i < 4; i++){
-        //     state.data[i] = seed & 0xFFFFFFFF;
-        //     seed >>= 32;
-        // }
         for(int i = 1; i < 4; i++)
             state.data[i] = 0;
         state.data[0] = seed;
@@ -51,12 +44,10 @@ namespace DiceForge
 
     inline void BlumBlumShub64::propagate(){
         state.square();
-        if(state.data[3] >= n.data[3] && state.data[2] >= n.data[2] && state.data[1] >= n.data[1] && state.data[0] >= n.data[0])
-            for(int i = 0; i < 4; i++)
-                state.data[i] -= n.data[i];
+        state.mod(n);
 
         // Ensure the state is not 0 or 1
-        if(state.data[3] == 0 && state.data[2] == 0 && state.data[1] == 0 && (state.data[0] == 0 || state.data[0] == 1)){
+        if((state.data[0] == 0 || state.data[0] == 1)&& state.data[1] != 0){
             state.data[0] += 429496737ULL; // A random constant to avoid getting stuck at 0 or 1
             state.data[1] += state.data[0] >> 32;
             state.data[0] &= 0xFFFFFFFF;
@@ -77,13 +68,10 @@ namespace DiceForge
     }
 
     void BlumBlumShub64::reseed(uint64_t seed) {
-        // for(int i = 0; i < 4; i++){
-        //     state.data[i] = seed & 0xFFFFFFFF;
-        //     seed >>= 32;
-        // }
         for(int i = 2; i < 4; i++)
             state.data[i] = 0;
-        state.data[0] = seed & 0xFFFFFFFF;
         state.data[1] = seed >> 32;
+        state.data[0] = seed & 0xFFFFFFFF;
     }
+
 }
