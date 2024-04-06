@@ -43,15 +43,15 @@ Time taken for generating *100000000* random numbers by DiceForge's PRNGs:
 
 | Generator | Time Taken |
 | --------- | ---------- |
-| MT32 | 1742.37 ms |
-| MT64 | 1751.81 ms |
-| XORShift32 | 484.018 ms |
-| XORShift64 | 441.947 ms |
-| LFSR32 | 10000.9 ms |
-| LFSR64 | 18665.6 ms |
-| BBS32 | 15210.2 ms |
-| BBS64 | 24677.3 ms |
-| NaorReingold | 195678 ms  |
+| MT32 | 1780.44 ms |
+| MT64 | 1779.17 ms |
+| XORShift32 | 445.931 ms |
+| XORShift64 | 476.061 ms |
+| LFSR32 | 10777.7 ms |
+| LFSR64 | 19091.7 ms |
+| BBS32 | 50130.6 ms |
+| BBS64 | 97033.5 ms |
+| NaorReingold | 210082 ms  |
 
 For comparison, benchmarking other existing standard libraries for the same test.
 
@@ -72,17 +72,17 @@ The various PRNGs in DiceForge are robust and pass various Dieharder tests:
 | MT64 | 29 (1 weak) | 1 |
 | XORShift32 | 29 | 1 |
 | XORShift64 | 29 (1 weak) | 1 |
-| BBS32 | 4 (2 weak) | 26 |
-| BBS64 | 4 (1 weak) | 26 |
+| BBS32 | 29 (2 weak) | 1 |
+| BBS64 | 29 (2 weak) | 1 |
 | LFSR32 | 29 (2 weak) | 1 |
 | LFSR64 | 29 | 1 |
-| Naor Reingold | 20 | 10 |
+| Naor Reingold | 19 | 11 |
 
 For more information about the Dieharder tests, check out DiceForge's Documentation.
 
 ## Documentation
 
-Check out the [Documentation](https://www.overleaf.com/project/65d9eea60dbb4690fe6ff8be) for detailed information on library usage, supported algorithms, and more!
+Check out the [Documentation](docs/DiceForge_Documentation.pdf) for detailed information on library usage, supported algorithms, and more!
 
 ## Getting Started
 
