@@ -82,7 +82,7 @@ For more information about the Dieharder tests, check out DiceForge's Documentat
 
 ## Documentation
 
-Check out the [Documentation](docs/DiceForge_Documentation.pdf) for detailed information on library usage, supported algorithms, and more!
+Check out the [Documentation](https://www.overleaf.com/project/65d9eea60dbb4690fe6ff8be) for detailed information on library usage, supported algorithms, and more!
 
 ## Getting Started
 
