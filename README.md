@@ -37,35 +37,8 @@ This is a simple C++ library for *Pseudo Random Number Generation*. It provides 
 
 ## Benchmarks
 
-### Diehard Tests
+Time taken for generating *100000000* random numbers by DiceForge's PRNGs:
 
-Add results here
-
-### Uniformity Analysis
-
-Using DiceForge's pseudo random number generators to create a uniformly distributed random variable in [0,1), the statistical analysis for *100000000* random samples is:
-
-| Generator | Mean | Variance |
-| --------- | ---- | -------- |
-| BBS32  | 0.501565 | 0.0830039 |
-| BBS64  | 0.501565 | 0.0830038 |
-| XORShift32  | 0.499978 | 0.08334   |
-| XORShift64  | 0.499931 | 0.0833327 |
-| MT32   | 0.499956 | 0.0833425 |
-| MT64   | 0.500034 | 0.0833241 |
-| LFSR32 | 0.500006 | 0.0833379 |
-| LFSR64 | 0.499971 | 0.0833363 |
-| NaorReingold | 0.49824  | 0.0827696 |
-
-The theoretical mean and variance for a uniformly distributed random variable in [0,1) are \
-mean = 1/2 (0.5) \
-variance = 1/12 (0.08333...)
-
-### Time performance
-
-Time taken for generating *100000000* random numbers:
-
-#### DiceForge:
 | Generator | Time Taken |
 | --------- | ---------- |
 | BBS32 | 15210.2 ms |
@@ -86,7 +59,6 @@ For comparison, benchmarking other existing standard libraries for the same test
 | C rand() function| 1388.03 ms |
 | python's random | 175175.89 ms (~ 3min) |
 | numpy's randint | 165600.48 ms (~ 3min) |
-
 
 ## Documentation
 
@@ -163,24 +135,3 @@ Currently, this is an IIT-M Math Club exclusive project and we aren't accepting 
 - View the [Tasks folder](Contributors_Only/Tasks) to view the tasks to be done.
 
 - Reference materials are provided in the [Contributors_Only](Contributors_Only) folder.
-
-Current TODO
-
-Final pending tasks
-- [ ] Proofreading and finalizing documentation
-- [ ] Update README with latest results
-
-Good to haves
-- [ ] Get bigger primes for BBS
-
-Completed
-- [x] Bernoulli docuumentation
-- [x] Custom pdf distribution
-- [x] Geometric distribution
-- [x] Fix bug in Naor Reingold RNG, also decide what to do when seed is zero and mention it in code documentation
-- [x] Exception handling
-- [x] 2d rv
-- [x] Testing the RNGs
-- [x] More examples on using DiceForge in Documentation
-- [x] Non-linear transformation in LFSR
-- [x] A defualt random singleton for convenience
