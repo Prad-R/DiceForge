@@ -247,7 +247,7 @@ namespace DiceForge
     typedef XORShift64 XORShift;
 
     /// @brief The default random number generator of DiceForge; can be used as it is
-    static LFSR Random(0);
+    static XORShift64 Random(0);
 
 } // namespace DiceForge
 
