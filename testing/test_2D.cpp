@@ -1,4 +1,4 @@
-#include "../src/Core/2D.h"
+#include "diceforge.h"
 #include <iomanip>
 
 template <typename Type>
