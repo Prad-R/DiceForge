@@ -6,8 +6,6 @@ project(DiceForge VERSION 1.0
                   DESCRIPTION "A C++ library with the same functionality as the random library in python."
                   LANGUAGES CXX)
 
-# Change CMAKE_CXX_STANDARD to 20 if using 2D random variables, otherwise set it to 17
-
 set(CMAKE_CXX_STANDARD 17)          
 
 # Project structure
@@ -49,7 +47,6 @@ set(SRC
 "src/Distributions/Continuous/Maxwell/Maxwell.cpp"
 "src/Distributions/Continuous/Weibull/Weibull.cpp"
 "src/Distributions/Continuous/Custom/Custom.cpp")
-
 
 # Compile to objects
 
