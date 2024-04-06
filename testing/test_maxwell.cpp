@@ -14,6 +14,11 @@ int main(int argc, char const *argv[])
     std::vector<int> b = {0};
     b.reserve(bins+1);
 
+    for (size_t i = 0; i < bins; i++)
+    {
+        b[i] = 0;
+    }
+
     for (size_t i = 0; i < N; i++)
     {
         double n = m.next(rng.next_unit(), rng.next_unit(), rng.next_unit());

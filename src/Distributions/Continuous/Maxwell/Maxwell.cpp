@@ -1,6 +1,6 @@
 #include "Maxwell.h"
-#include <math.h>
 #include "basicfxn.h"
+#include <math.h>
 
 namespace DiceForge
 {            
