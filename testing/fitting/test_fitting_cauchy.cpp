@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
     DiceForge::XORShift32 rng = DiceForge::XORShift32(time(NULL));
 
     DiceForge::Gaussian noise_gen = DiceForge::Gaussian(1);
-    DiceForge::Cauchy cauchy = DiceForge::Cauchy(23, 7);
+    DiceForge::Cauchy cauchy = DiceForge::Cauchy(rng.next_in_crange(20, 50), rng.next_in_crange(0, 10));
 
     std::cout << "original: x0 = " << cauchy.get_x0() << ", gamma = " << cauchy.get_gamma() << std::endl;
 

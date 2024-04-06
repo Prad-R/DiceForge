@@ -7,20 +7,26 @@
 #include <functional>
 
 namespace DiceForge {
+    using PDF_Function = std::function<real_t(real_t)>;
+
     /// @brief DiceForge::CustomDistribution - Samples a continuous pdf, cutomised by the user 
     /// @note The CustomDistribution class assumes that the inputted probability density function (PDF) is a valid PDF over the specified range.
     /// @note Users are responsible for ensuring that the provided PDF satisfies the necessary conditions, such as non-negativity and integrability over the defined domain 
-    using PDF_Function = std::function<real_t(real_t)>;
-
     class CustomDistribution : public Continuous {
     private:
         real_t lower_limit;
         real_t upper_limit;
-        std::vector<std::pair<real_t, real_t>> cdf_values; // (input, cdf)
+        real_t m_expectation, m_variance;
+        std::vector<std::pair<real_t, real_t> > cdf_values; // (input, cdf)
         PDF_Function pdf_function; // Declare pdf_function as a member variable
 
     public:
-        CustomDistribution(real_t lower, real_t upper, PDF_Function pdf);
+        /// @brief Constructor for Custom Distribution
+        /// @param lower lower bound for the random variable (finite)
+        /// @param upper upper bound for the random variable (finite)
+        /// @param pdf probability density function describing the distribution
+        /// @param n number of points where the pdf should be sampled for expectation, variance and cdf calculations (higher n provides better accuracy) 
+        CustomDistribution(real_t lower, real_t upper, PDF_Function pdf, int n = 1000);
 
         real_t next(real_t r);
         
@@ -44,7 +50,7 @@ namespace DiceForge {
 
         /// @brief Cummalative density function (cdf) of the distribution
         /// @param x location where the pdf is to be evaluated
-        /// @note Nymerical methods of inegration are emplyed to find the cdf value. This does not ensure that the function itslef is integrable over the given range.
+        /// @note Numerical methods of inegration are emplyed to find the cdf value. This does not ensure that the function itself is integrable over the given range.
         real_t cdf(real_t x) const override final;
     };
 } // namespace DiceForge

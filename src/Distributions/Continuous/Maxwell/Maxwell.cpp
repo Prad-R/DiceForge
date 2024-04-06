@@ -1,5 +1,6 @@
 #include "Maxwell.h"
 #include <math.h>
+#include "basicfxn.h"
 
 namespace DiceForge
 {            
@@ -7,7 +8,7 @@ namespace DiceForge
     {
         if (a<=0)
         {
-            throw std::invalid_argument("Scaling factor 'a' must be positive!");
+            throw std::invalid_argument("Scaling factor a must be positive!");
         }
     }
 
@@ -42,7 +43,7 @@ namespace DiceForge
 
     real_t Maxwell::pdf(real_t x) const 
     {
-        return sqrt(2 / M_PI) * x * x * exp(-1 * x * x / 2 * a * a) / a * a * a;
+        return sqrt(2 / M_PI) * x * x * exp(-1 * x * x / (2 * a * a)) / (a * a * a);
     }
 
     real_t Maxwell::cdf(real_t x) const 
@@ -55,4 +56,74 @@ namespace DiceForge
     {
         return a;
     }
-} 
+
+    Maxwell fitToMaxwell(const std::vector<real_t>& x, const std::vector<real_t>& y, int max_iter, real_t epsilon)
+    {
+        if (x.size() != y.size())
+        {
+            throw std::invalid_argument("Number of x-coordinates and y-coordinates provided in the data do no match!");
+        }
+
+        const int N=x.size();
+
+        //initial guess of a using the fact that mode of the distribution is sqrt2 * a;
+        real_t a = 1;
+        real_t ymax = -INFINITY;
+        for (size_t i = 0; i < N; i++)
+        {
+            if (y[i] > ymax) 
+            {
+                ymax = y[i];
+                a = x[i] * M_SQRT1_2;
+            }
+        }
+
+        // starting iterative updation 
+        for (size_t i=0; i < max_iter; i++)
+        {
+            real_t J[N];                    // Jacobian matrix 
+            real_t R[N];                    // Error vector R = (r_0, r_1, ..., r_N)
+            real_t JTJ = 0, JTR = 0;
+
+            for (size_t j = 0; j < N; j++)
+            {
+                real_t f = sqrt(2 / M_PI) * x[j] * x[j] * exp(-1 * x[j] * x[j] / (2 * a * a)) / (a * a * a);
+                real_t dpdf_da = f * ((-3 / a) + (x[j] * x[j]) / (a * a * a));
+
+                J[j] = -dpdf_da;
+                R[j] = y[j] - f;
+                JTJ += J[j] * J[j];
+                JTR += J[j] * R[j];
+            }
+
+            // move direction 
+            real_t d = JTR / JTJ;
+
+            // stop when error minimization is too little 
+            if (fabs(d) < epsilon){
+                break;
+            }
+
+            real_t alpha = 1; 
+            
+            real_t pred_a;
+            pred_a = a - alpha * d;
+
+            // prevent possible incorrect jumping
+            if ((pred_a / a > 100 || pred_a / a < 0.01))
+            {
+                alpha = alpha * 0.01;
+            }
+
+            // Gauss-Newton method
+            a = a - alpha * d;
+        }
+
+        if (a < 0 || std::isnan(a))
+        {
+            throw std::runtime_error("Could not fit data to Maxwell distribution! Data is probably too noisy or not Maxwell!");
+        }
+
+        return Maxwell(a);
+    }
+}

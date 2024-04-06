@@ -1,7 +1,8 @@
 #include "../src/Core/2D.h"
 #include <iomanip>
+
 template <typename Type>
-void test_double_integral_one()
+void test_double_integral_1()
 {
     auto f = [](auto x, auto y)
     {
@@ -13,8 +14,8 @@ void test_double_integral_one()
     auto bound_x = std::tuple<Type, Type>{0.0, pi / 2};
     auto bound_y = std::tuple<Type, Type>{0.0, pi / 2};
 
-    auto int_x_y = DiceForge::integral(f, bound_x, bound_y, DiceForge::dy_dx);
-    auto int_y_x = DiceForge::integral(f, bound_y, bound_x, DiceForge::dx_dy);
+    auto int_x_y = DiceForge::integrate(f, bound_x, bound_y, DiceForge::dy_dx);
+    auto int_y_x = DiceForge::integrate(f, bound_y, bound_x, DiceForge::dx_dy);
 
     std::cout << std::setprecision(17) << "int_x_y = " << int_x_y << std::endl;
     std::cout << std::setprecision(17) << "int_y_x = " << int_y_x << std::endl;
@@ -37,7 +38,7 @@ void test_double_integral_2()
 
     auto bound_x = std::make_tuple(lower, upper);
 
-    auto calculated_answer = DiceForge::integral(z, bound_y, bound_x, DiceForge::dx_dy);
+    auto calculated_answer = DiceForge::integrate(z, bound_y, bound_x, DiceForge::dx_dy);
 
     auto actual_answer = 20803.0 / 1680.0;
 
@@ -48,7 +49,7 @@ void test_double_integral_2()
 int main()
 {
     std::cout<<"for test case one :"<<std::endl;
-    test_double_integral_one<double>();
+    test_double_integral_1<double>();
     std::cout<<"for test case two :"<<std::endl;
     test_double_integral_2<double>();
 }
