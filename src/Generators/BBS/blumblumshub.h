@@ -2,6 +2,7 @@
 #define DF_BLUMBLUMSHUB_H
 
 #include "generator.h"
+#include "bigint.h"
 
 namespace DiceForge
 {
@@ -12,11 +13,11 @@ namespace DiceForge
     class BlumBlumShub32 : public Generator<uint32_t>
     {
         private:
-            static const uint64_t p = 60539;
-            static const uint64_t q = 50147;
-            static const uint64_t n = p * q;
+            static const uint64_t p;
+            static const uint64_t q;
+            static const uint64_t n;
 
-            uint64_t state; // Internal state
+            BigInt128 state; // Internal state
 
             /**
              * @brief propagate - Advances the internal state using the Blum-Blum-Shub algorithm
@@ -57,11 +58,11 @@ namespace DiceForge
     class BlumBlumShub64 : public Generator<uint64_t>
     {
         private:
-            static const uint64_t p = 60539;
-            static const uint64_t q = 50147;
-            static const uint64_t n = p * q;
+            static const uint64_t p;
+            static const uint64_t q;
+            static const uint64_t n;
 
-            uint64_t state; // Internal state
+            BigInt128 state; // Internal state
 
             /**
              * @brief propagate - Advances the internal state using the Blum-Blum-Shub algorithm

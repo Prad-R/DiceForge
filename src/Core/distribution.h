@@ -2,9 +2,11 @@
 #define DF_DISTRIBUTION_H
 
 #include <limits>
-#include <cmath>
 #include <iostream>
 #include <vector>
+
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 #include "types.h"
 

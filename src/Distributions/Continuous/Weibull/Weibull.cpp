@@ -1,7 +1,5 @@
-#include <cmath>
 #include "Weibull.h"
 #include "basicfxn.h"
-#include <fstream>
 
 namespace DiceForge{            
     Weibull::Weibull(real_t lambda, real_t k)
@@ -178,7 +176,7 @@ namespace DiceForge{
             k = k - alpha * d[1][0];
         }
 
-        if (lambda <= 0 || k <= 0 || isnanf(lambda) || isnanf(k))
+        if (lambda <= 0 || k <= 0 || std::isnan(lambda) || std::isnan(k))
         {
             throw std::runtime_error("Could not fit data to Weibull! Data is probably too noisy or not Weibull!");
         }
