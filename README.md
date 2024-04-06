@@ -37,45 +37,20 @@ This is a simple C++ library for *Pseudo Random Number Generation*. It provides 
 
 ## Benchmarks
 
-### Diehard Tests
+### Performance
 
-Add results here
+Time taken for generating *100000000* random numbers by DiceForge's PRNGs:
 
-### Uniformity Analysis
-
-Using DiceForge's pseudo random number generators to create a uniformly distributed random variable in [0,1), the statistical analysis for *100000000* random samples is:
-
-| Generator | Mean | Variance |
-| --------- | ---- | -------- |
-| BBS32  | 0.501565 | 0.0830039 |
-| BBS64  | 0.501565 | 0.0830038 |
-| XORShift32  | 0.499978 | 0.08334   |
-| XORShift64  | 0.499931 | 0.0833327 |
-| MT32   | 0.499956 | 0.0833425 |
-| MT64   | 0.500034 | 0.0833241 |
-| LFSR32 | 0.500006 | 0.0833379 |
-| LFSR64 | 0.499971 | 0.0833363 |
-| NaorReingold | 0.49824  | 0.0827696 |
-
-The theoretical mean and variance for a uniformly distributed random variable in [0,1) are \
-mean = 1/2 (0.5) \
-variance = 1/12 (0.08333...)
-
-### Time performance
-
-Time taken for generating *100000000* random numbers:
-
-#### DiceForge:
 | Generator | Time Taken |
 | --------- | ---------- |
-| BBS32 | 15210.2 ms |
-| BBS64 | 24677.3 ms |
-| XORShift32 | 484.018 ms |
-| XORShift64 | 441.947 ms |
 | MT32 | 1742.37 ms |
 | MT64 | 1751.81 ms |
+| XORShift32 | 484.018 ms |
+| XORShift64 | 441.947 ms |
 | LFSR32 | 10000.9 ms |
 | LFSR64 | 18665.6 ms |
+| BBS32 | 15210.2 ms |
+| BBS64 | 24677.3 ms |
 | NaorReingold | 195678 ms  |
 
 For comparison, benchmarking other existing standard libraries for the same test.
@@ -87,6 +62,21 @@ For comparison, benchmarking other existing standard libraries for the same test
 | python's random | 175175.89 ms (~ 3min) |
 | numpy's randint | 165600.48 ms (~ 3min) |
 
+### Dieharder Tests
+
+The various PRNGs in DiceForge are robust and pass various Dieharder tests:
+
+| Generator | Tests Passed | Tests Failed |
+| --------- | ------------ | ------------ |
+| MT32 | 29 (4 weak) | 1 |
+| MT64 | 29 (1 weak) | 1 |
+| XORShift32 | 29 | 1 |
+| XORShift64 | 29 (1 weak) | 1 |
+| BBS32 | 4 (2 weak) | 26 |
+| BBS64 | 4 (1 weak) | 26 |
+| LFSR32 | 29 (2 weak) | 1 |
+| LFSR64 | 29 | 1 |
+| Naor Reingold | 20 | 10 |
 
 ## Documentation
 
@@ -109,7 +99,8 @@ Check out the [Documentation](https://www.overleaf.com/project/65d9eea60dbb4690f
 #### Building it yourself
 1. Clone the repository: `git clone https://github.com/yourusername/diceforge-library-clone.git`
 2. Create the build folder by using the CMakeLists.txt
-2. Build library using the given CMake configurations (```cmake --build <build-folder>```)
+3. Build library using the given CMake configurations (```cmake --build <build-folder>```)
+4. Currently DiceForge supports g++, clang, mingw and their variants but does not support msvc
 
 #### After successfully building you can
 * Install the library to *usr/local/* (```cmake --install <build-folder>```) 
@@ -125,10 +116,14 @@ Here's a quick example to get you started:
 
 int main() {
     // Create a PRNG object
-    DiceForge::XORShift32 prng = DiceForge::XORShift32(123);
+    int seed = 123;
+    DiceForge::XORShift32 prng = DiceForge::XORShift32(seed);
 
-    // Generate and print a random number
-    std::cout << "Random Number: " << prng.next() << std::endl;
+    // Generate and print a random number using the prng
+    std::cout << "Random number: " << prng.next() << std::endl;
+
+    // Generate and print a random number using DiceForge's default prng
+    std::cout << "One more random number: " << DiceForge::Random.next() << std::endl;
 
     return 0;
 }
@@ -163,24 +158,3 @@ Currently, this is an IIT-M Math Club exclusive project and we aren't accepting 
 - View the [Tasks folder](Contributors_Only/Tasks) to view the tasks to be done.
 
 - Reference materials are provided in the [Contributors_Only](Contributors_Only) folder.
-
-Current TODO
-
-Final pending tasks
-- [ ] Proofreading and finalizing documentation
-- [ ] Update README with latest results
-
-Good to haves
-- [ ] Get bigger primes for BBS
-
-Completed
-- [x] Bernoulli docuumentation
-- [x] Custom pdf distribution
-- [x] Geometric distribution
-- [x] Fix bug in Naor Reingold RNG, also decide what to do when seed is zero and mention it in code documentation
-- [x] Exception handling
-- [x] 2d rv
-- [x] Testing the RNGs
-- [x] More examples on using DiceForge in Documentation
-- [x] Non-linear transformation in LFSR
-- [x] A defualt random singleton for convenience
