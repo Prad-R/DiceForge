@@ -81,7 +81,8 @@ Check out the [Documentation](https://www.overleaf.com/project/65d9eea60dbb4690f
 #### Building it yourself
 1. Clone the repository: `git clone https://github.com/yourusername/diceforge-library-clone.git`
 2. Create the build folder by using the CMakeLists.txt
-2. Build library using the given CMake configurations (```cmake --build <build-folder>```)
+3. Build library using the given CMake configurations (```cmake --build <build-folder>```)
+4. Currently DiceForge supports g++, clang, mingw and their variants but does not support msvc
 
 #### After successfully building you can
 * Install the library to *usr/local/* (```cmake --install <build-folder>```) 
@@ -97,10 +98,14 @@ Here's a quick example to get you started:
 
 int main() {
     // Create a PRNG object
-    DiceForge::XORShift32 prng = DiceForge::XORShift32(123);
+    int seed = 123;
+    DiceForge::XORShift32 prng = DiceForge::XORShift32(seed);
 
-    // Generate and print a random number
-    std::cout << "Random Number: " << prng.next() << std::endl;
+    // Generate and print a random number using the prng
+    std::cout << "Random number: " << prng.next() << std::endl;
+
+    // Generate and print a random number using DiceForge's default prng
+    std::cout << "One more random number: " << DiceForge::Random.next() << std::endl;
 
     return 0;
 }
