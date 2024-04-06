@@ -3,9 +3,11 @@
 
 #include <limits>
 #include <iostream>
-#include <cmath>
 #include <algorithm>
 #include <vector>
+
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 namespace DiceForge
 {

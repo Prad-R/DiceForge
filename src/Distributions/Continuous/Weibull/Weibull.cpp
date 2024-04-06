@@ -1,7 +1,5 @@
-#include <cmath>
 #include "Weibull.h"
 #include "basicfxn.h"
-#include <fstream>
 
 namespace DiceForge{            
     Weibull::Weibull(real_t lambda, real_t k)

@@ -1,9 +1,6 @@
-#include <iostream>
-#include <cmath>
-#include <vector>
-#include <functional>
 #include "Custom.h"
 #include "basicfxn.h"
+#include <functional>
 
 namespace DiceForge {
 

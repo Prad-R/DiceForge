@@ -5,9 +5,12 @@
 
 #include <iostream>
 #include <vector>
-#include <cmath>
 #include <type_traits>
 #include <concepts>
+
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "basicfxn.h"
 
 namespace DiceForge
