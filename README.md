@@ -78,9 +78,11 @@ The various PRNGs in DiceForge are robust and pass various Dieharder tests:
 | LFSR64 | 29 | 1 |
 | Naor Reingold | 20 | 10 |
 
+For more information about the Dieharder tests, check out DiceForge's Documentation.
+
 ## Documentation
 
-Check out the [Documentation](https://www.overleaf.com/project/65d9eea60dbb4690fe6ff8be) for detailed information on library usage, supported algorithms, and more!
+Check out the [Documentation](docs/DiceForge_Documentation.pdf) for detailed information on library usage, supported algorithms, and more!
 
 ## Getting Started
 
