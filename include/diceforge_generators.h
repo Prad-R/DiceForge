@@ -10,13 +10,15 @@ namespace DiceForge
     class BlumBlumShub32 : public Generator<uint32_t>
     {
         private:
-            static const uint64_t p = 60539;
-            static const uint64_t q = 50147;
-            static const uint64_t n = p * q;
+            static const uint64_t p;
+            static const uint64_t q;
+            static const uint64_t n;
 
-            uint64_t state; // Internal state
-            
-            /// @brief propagate - Advances the internal state using the Blum-Blum-Shub algorithm
+            BigInt128 state; // Internal state
+
+            /**
+             * @brief propagate - Advances the internal state using the Blum-Blum-Shub algorithm
+             */
             inline void propagate();
 
             /// @brief generate - Generates a random number using the Blum-Blum-Shub algorithm
@@ -43,13 +45,15 @@ namespace DiceForge
     class BlumBlumShub64 : public Generator<uint64_t>
     {
         private:
-            static const uint64_t p = 60539;
-            static const uint64_t q = 50147;
-            static const uint64_t n = p * q;
+            static const uint64_t p;
+            static const uint64_t q;
+            static const uint64_t n;
 
-            uint64_t state; // Internal state
-            
-            /// @brief propagate - Advances the internal state using the Blum-Blum-Shub algorithm
+            BigInt128 state; // Internal state
+
+            /**
+             * @brief propagate - Advances the internal state using the Blum-Blum-Shub algorithm
+             */
             inline void propagate();
 
             /// @brief generate - Generates a random number using the Blum-Blum-Shub algorithm
@@ -128,7 +132,7 @@ namespace DiceForge
         uint32_t tempering_shift_L;
         // Other Parameters:
         std::vector<uint32_t> mt;       // State Vector
-        int mti = N + 1;                // Used as index for the array MT.
+        int mti;                // Used as index for the array MT.
         uint32_t seed;                  // Seed given from main
         // Functions to generate first N pseudo-random numbers as a seed for the algorithm.
         void sgenrand(uint32_t);
@@ -162,7 +166,7 @@ namespace DiceForge
         uint64_t tempering_shift_L;
         // Other Parameters:
         std::vector<uint64_t> mt;       // State Vector
-        int mti = N + 1;                // Used as index for the array MT.
+        int mti;                // Used as index for the array MT.
         uint64_t seed;                  // Seed given from main
         // Functions to generate first N pseudo-random numbers as a seed for the algorithm.
         void sgenrand(uint64_t);

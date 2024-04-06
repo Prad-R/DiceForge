@@ -22,14 +22,14 @@ namespace DiceForge {
 
         sum = 0.0;
         for (real_t x = lower_limit; x < upper_limit; x += h) {
-            sum += x * pdf_function(x);
+            sum += h * x * pdf_function(x);
         }
         m_expectation = (sum/n);
 
         sum = 0.0;        
         for (real_t x = lower_limit; x < upper_limit; x += h) {
             real_t diff = x - m_expectation;
-            sum += diff * diff * pdf_function(x); // Integrate (x - mean)^2 * f(x)
+            sum += h * diff * diff * pdf_function(x); // Integrate (x - mean)^2 * f(x)
         }
         m_variance = (sum/n);
     }
