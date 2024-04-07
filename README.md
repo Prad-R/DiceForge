@@ -43,15 +43,15 @@ Time taken for generating *100000000* random numbers by DiceForge's PRNGs:
 
 | Generator | Time Taken |
 | --------- | ---------- |
-| MT32 | 1742.37 ms |
-| MT64 | 1751.81 ms |
-| XORShift32 | 484.018 ms |
-| XORShift64 | 441.947 ms |
-| LFSR32 | 10000.9 ms |
-| LFSR64 | 18665.6 ms |
-| BBS32 | 15210.2 ms |
-| BBS64 | 24677.3 ms |
-| NaorReingold | 195678 ms  |
+| MT32 | 1780.44 ms |
+| MT64 | 1779.17 ms |
+| XORShift32 | 445.931 ms |
+| XORShift64 | 476.061 ms |
+| LFSR32 | 10777.7 ms |
+| LFSR64 | 19091.7 ms |
+| BBS32 | 50130.6 ms |
+| BBS64 | 97033.5 ms |
+| NaorReingold | 210082 ms  |
 
 For comparison, benchmarking other existing standard libraries for the same test.
 
@@ -72,17 +72,17 @@ The various PRNGs in DiceForge are robust and pass various Dieharder tests:
 | MT64 | 29 (1 weak) | 1 |
 | XORShift32 | 29 | 1 |
 | XORShift64 | 29 (1 weak) | 1 |
-| BBS32 | 4 (2 weak) | 26 |
-| BBS64 | 4 (1 weak) | 26 |
+| BBS32 | 29 (2 weak) | 1 |
+| BBS64 | 29 (2 weak) | 1 |
 | LFSR32 | 29 (2 weak) | 1 |
 | LFSR64 | 29 | 1 |
-| Naor Reingold | 20 | 10 |
+| Naor Reingold | 19 | 11 |
 
 For more information about the Dieharder tests, check out DiceForge's Documentation.
 
 ## Documentation
 
-Check out the [Documentation](https://www.overleaf.com/project/65d9eea60dbb4690fe6ff8be) for detailed information on library usage, supported algorithms, and more!
+Check out the [Documentation](docs/DiceForge_Documentation.pdf) for detailed information on library usage, supported algorithms, and more!
 
 ## Getting Started
 
@@ -102,7 +102,7 @@ Check out the [Documentation](https://www.overleaf.com/project/65d9eea60dbb4690f
 1. Clone the repository: `git clone https://github.com/yourusername/diceforge-library-clone.git`
 2. Create the build folder by using the CMakeLists.txt
 3. Build library using the given CMake configurations (```cmake --build <build-folder>```)
-4. Currently DiceForge supports g++, clang, mingw and their variants but does not support msvc
+4. Currently DiceForge supports g++, clang, mingw and their variants. It does not support msvc.
 
 #### After successfully building you can
 * Install the library to *usr/local/* (```cmake --install <build-folder>```) 
@@ -131,20 +131,20 @@ int main() {
 }
 ```
 
-Now to compile it with a compiler of your choice (we use g++ in the following example, also it is assumed that g++ has access toand searches usr/local for installed libraries), enter the following command in your terminal
+Now to compile it with a compiler of your choice (g++ has been used in the following examples), enter one of the following commands in your terminal:
 
-1. If you installed diceforge
+1. If DiceForge has been installed (It is assumed that g++ has been configured to have access and to search usr/local for the installed libraries):
 ```bash
 g++ example.cpp -ldiceforge -o example.out
 ```
 
-2. If you did not install diceforge and you included diceforge to PATH
+2. If DiceForge has not been installed but the library has been included in PATH :
 ```bash
 g++ example.cpp libdiceforge.a -o example.out
 ```
 where *libdiceforge.a* is the built static library
 
-3. If you did not install diceforge and you did not include diceforge to PATH 
+3. If DiceForge has not been installed and the library has not been included in PATH :
 ```bash
 g++ example.cpp libdiceforge.a -I "<include>" -o example.out
 ```
@@ -154,7 +154,7 @@ Feel free to explore the library and experiment with different algorithms!
 
 ## Contributing
 
-Currently, this is an IIT-M Math Club exclusive project and we aren't accepting outside contributions.
+Currently, this is an IIT-M (Indian Institute of Technology Madras) Math Club exclusive project and we are not accepting outside contributions.
 
 ### For Project Members
 - View the [Tasks folder](Contributors_Only/Tasks) to view the tasks to be done.
