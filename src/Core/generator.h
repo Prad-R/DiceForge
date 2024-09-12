@@ -134,7 +134,7 @@ namespace DiceForge
             for (int i = 0; i < len; i++) {
                 ind = next_in_range(0, len - i - 1);
                 arr[i] = v[ind];
-                v.erase(v.begin() + ind);
+                swap(v[ind], v[len - i - 1]);
             }
         };
     };
