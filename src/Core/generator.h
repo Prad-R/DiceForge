@@ -114,6 +114,7 @@ namespace DiceForge
             for (auto it = first; it!= last; it++){
                 *it = temp[it - first];
             }
+            free(temp);
         };
         /*** Note: These are the only functions to be implemented by the implementation RNG ***/
     private:
