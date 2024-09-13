@@ -114,6 +114,7 @@ namespace DiceForge
             for (auto it = first; it!= last; it++){
                 *it = temp[it - first];
             }
+            free(temp);
         };
         /*** Note: These are the only functions to be implemented by the implementation RNG ***/
     private:
@@ -134,7 +135,7 @@ namespace DiceForge
             for (int i = 0; i < len; i++) {
                 ind = next_in_range(0, len - i - 1);
                 arr[i] = v[ind];
-                v.erase(v.begin() + ind);
+                swap(v[ind], v[len - i - 1]);
             }
         };
     };
